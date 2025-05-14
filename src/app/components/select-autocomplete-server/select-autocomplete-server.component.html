@@ -1,0 +1,70 @@
+<!-- <div>
+  <input
+    type="text"
+    placeholder="ابحث..."
+    [(ngModel)]="searchTerm"
+    (input)="filterOptions()"
+  />
+  <select>
+    <option *ngFor="let option of filteredOptions" [value]="option.id">
+      {{ option.name }}
+    </option>
+  </select>
+</div> -->
+
+<ion-row style="border-bottom: solid 1px #dedede;
+padding-bottom: 1px;
+margin-top: 3px;">
+  <ion-col size="auto" style="padding-top: 10px;">
+    <ion-text style="font-size: 15px;
+    color: #404246;">{{txtInputLabel}}</ion-text>
+  </ion-col>
+  <ion-col>
+
+    <div class="custom-select">
+      <input #myInput type="text" placeholder="{{placeholder}}" [(ngModel)]="searchTerm" (input)="filterOptions()"
+        (focus)="toggleDropdown(true)" (blur)="closeDropdown()" (keydown)="handleKeyDown($event)"
+        style="border: none;" />
+
+      <div class="custom-dropdown" #dropdownContent *ngIf="dropdownOpen" (clickOutside)="dropdownOpen = false">
+        <div class="option" *ngFor="let option of filteredOptions; let i = index"
+          [class.highlighted2]="i === highlightedIndex" (click)="selectOption(option)">
+          <ion-row>
+            <ion-col style="padding: 0;" size="3.5">
+              <div [ngSwitch]="all.SelectedLang">
+                <div *ngSwitchCase="'en'">{{option.NameE}}</div>
+                <div *ngSwitchDefault>{{option.NameA}}</div>
+              </div>
+            </ion-col>
+            <ion-col style="padding: 0;" size="3.5">
+              <div [ngSwitch]="all.SelectedLang">
+                <div *ngSwitchCase="'en'">{{option.NameA}}</div>
+                <div *ngSwitchDefault>{{option.NameE}}</div>
+              </div>
+            </ion-col>
+            <ion-col style="padding: 0;" size="1">{{ option.IDBranch }}</ion-col>
+            <ion-col style="padding: 0;" size="2">{{ option.FileNo }}</ion-col>
+            <ion-col style="padding: 0;" size="2">{{ option.Phon1 }}
+              <span *ngIf="option.Phon2.length>3">,{{ option.Phon2 }}</span>
+              <span *ngIf="option.Phon2.length>3">,{{ option.Phon3 }}</span>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div *ngIf="Loading" class="ion-text-center">
+          <ion-spinner name="dots"></ion-spinner>
+          <div>{{'Loading' | translate}}..</div> 
+        </div>
+        <div class="no-results" *ngIf="!Loading && filteredOptions.length === 0">
+          {{'No results' | translate}}..
+        </div>
+      </div>
+
+      <ion-icon name="chevron-down" style="position: absolute;  top: 10px;"
+        [ngStyle]="{'right': all.SelectedLang === 'en' ? '0' : 'auto', 'left': all.SelectedLang === 'en' ? 'auto' : '0'}"
+        (click)="toggleDropdown(true)"></ion-icon>
+    </div>
+
+
+  </ion-col>
+
+</ion-row>

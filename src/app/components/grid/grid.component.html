@@ -1,0 +1,176 @@
+<!-- table.component.html -->
+<div class="table-container">
+  <!-- <div class="print-controls">
+    <button (click)="printTable()">🖨️ </button>
+  </div> -->
+  <div style="height: 55px;">
+    <ion-row>
+      <ion-col style="padding: 0;">
+        <ion-searchbar placeholder="{{'Filter' | translate}}" (ionInput)="fitlerTable($event)" [debounce]="250"
+          *ngIf="IsFilter" mode="ios" style="padding: 8px; padding-inline-end: 0;"
+          [clearInput]="true" 
+          [(ngModel)]="SearchStr" (keydown.enter)="startSearch.emit(SearchStr)"></ion-searchbar>
+      </ion-col>
+      <ion-col size="auto">
+        <ion-button (click)="startSearch.emit(SearchStr)">
+          <ion-icon slot="icon-only" name="search"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="auto" *ngIf="IsPrint || IsExcel">
+        <ion-button id="menu-trigger" size="small" color="light">
+          <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+
+        <ion-popover trigger="menu-trigger" triggerAction="click">
+          <ng-template>
+            <ion-content>
+              <ion-list>
+                <ion-item (click)="printTable()" *ngIf="IsPrint" button>
+                  <ion-label>{{'Print' | translate}}</ion-label>
+                  <ion-icon slot="end" name="print" color="primary"></ion-icon>
+                </ion-item>
+                <ion-item (click)="exportToCSV()" *ngIf="IsExcel" button>
+                  <ion-label>{{'export' | translate}}</ion-label>
+                  <ion-icon slot="end" src="./assets/icons/excel5.svg" color="success"></ion-icon>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+
+          </ng-template>
+        </ion-popover>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div id="table-wrapper" class="table-wrapper">
+    <table class="table-class">
+      <thead>
+        <tr class="table-header">
+          <th *ngFor="let col of colData" [style.width.px]="columnWidths[col]">
+            <div class="th-content" (click)="sortBy(col)">
+              <!-- {{ getColName(col) | translate }} -->
+              {{ col.name | translate }}
+              <span *ngIf="sortColumn === col">{{ sortAsc ? '▲' : '▼' }}</span>
+            </div>
+            <div class="resizer" (mousedown)="startResize($event, col)"></div>
+          </th>
+          <th *ngIf="IsBtnEdit" class="col-ctrl">
+            <ion-button size="small" color="warning" fill="clear">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+          </th>
+          <th *ngIf="IsBtnDel" class="col-ctrl">
+            <ion-button size="small" color="danger" fill="clear">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </th>
+          <th *ngIf="itemOptions.length>0" class="col-ctrl">
+            <ion-button size="small" fill="clear" color="light">
+              <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of paginatedData" class="table-row" [ngClass]="{'selected-row': row===SelectedRow}">
+          <!-- <td *ngFor="let col of columns" [style.width.px]="columnWidths[col]" (click)="selectRow(row)"
+          [ngStyle]="{ 'font-size.px': calculateFontSize(row[col]) }">
+            {{ row[col] }}
+          </td> -->
+          <td *ngFor="let col of colData" [style.width.px]="columnWidths[col]" (click)="selectRow(row)"
+            [ngStyle]="getCellStyle(row[col.prop])">
+            {{ row[col.prop] }}
+          </td>
+          <th *ngIf="IsBtnEdit" class="col-ctrl">
+            <ion-button size="small" color="warning" fill="clear">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+          </th>
+          <td *ngIf="IsBtnDel">
+            <ion-button (click)="executeAction(row)" size="small" color="danger" fill="clear">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </td>
+          <td *ngIf="itemOptions.length>0">
+            <ion-button (click)="presentPopover($event, row)" size="small" fill="clear"
+              [color]="row===SelectedRow?'warning':'primary'" class="btn-row-menu">
+              <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-controls" *ngIf="IsPager">
+    <!-- <button [disabled]="currentPage === 1" (click)="prevPage()">⬅️ {{'Previous' | translate}}</button> -->
+
+    <ion-button [disabled]="currentPage === 1" (click)="prevPage()" size="small" shape="round">
+      ⬅️ {{'Previous' | translate}}
+    </ion-button>
+
+    <span>{{'Page' | translate }} {{ currentPage }} {{'From' | translate}} {{ totalPages }}</span>
+    <!-- <button [disabled]="currentPage === totalPages" (click)="nextPage()">{{'Next' | translate }} ➡️</button> -->
+    <ion-button [disabled]="currentPage === totalPages" (click)="nextPage()" size="small" shape="round">
+      {{'Next' | translate }} ➡️
+    </ion-button>
+
+    <label>
+      {{'Show' | translate}}:
+      <select [(ngModel)]="itemsPerPage" (change)="currentPage = 1">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+      </select>
+      {{'Items' | translate}}
+    </label>
+  </div>
+</div>
+
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+  <ng-template>
+    <ion-content>
+      <ion-item button *ngFor="let item of itemOptions" (click)="setOption(item)">
+        <ion-label>{{item.Label | translate }} <small *ngIf="item.ExtraText">{{item.ExtraText}}</small> </ion-label>
+        <ion-icon *ngIf="item.Icon" slot="end" [name]="item.Icon" [color]="item.Color"></ion-icon>
+        <ion-icon *ngIf="item.Src" slot="end" [src]="'./assets/icons/'+item.Src" [color]="item.Color"></ion-icon>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+
+
+
+
+
+
+
+
+<div style="display: none;">
+  <table id="printableTable" class="table-class">
+    <thead>
+      <tr class="table-header">
+        <th *ngFor="let col of colData" [style.width.px]="columnWidths[col]">
+          <div class="th-content" (click)="sortBy(col)">
+            <!-- {{ col | uppercase }} -->
+            <!-- {{ getColName(col) | translate }} -->
+            {{ col.name | translate }}
+            <span *ngIf="sortColumn === col">{{ sortAsc ? '▲' : '▼' }}</span>
+          </div>
+          <div class="resizer" (mousedown)="startResize($event, col)"></div>
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of filteredData" class="table-row">
+        <td *ngFor="let col of colData" [style.width.px]="columnWidths[col]" (click)="selectRow(row)">
+          {{ row[col.prop] }}
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

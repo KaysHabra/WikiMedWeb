@@ -1,0 +1,22 @@
+.table-header {
+  // height: 38px !important;
+  ion-col {
+    font-size: 11px;
+
+    padding-top: 0 !important;
+  }
+}
+
+.table-row {
+  font-size: 13px;
+  padding: 2px;
+}
+
+.header{
+  ion-col{
+    padding-bottom: 0;
+  }
+  ion-text{
+    font-weight: bold !important;
+  }
+}

@@ -1,0 +1,27 @@
+restall
+-- _____________________
+
+
+ update appointments  set
+ AttendTime = '0:0:0',
+ AttendEnter = '0:0:0',
+ AttendOut = '0:0:0',
+ Attend = '0',
+ Enter = '0',
+ AOut = '0',
+ AttendUser = '0',
+ EnterUser = '0',
+ OutUser = '0'
+where
+ ID = '1377341';
+-- _____________________
+
+
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=153140 and Transfered=1 and (Debit>0 or Credit>0); -- ,0,51 ; -- [172]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125565 and (0=0 or IDDoctor in (0,0) ); -- ,0,51 ; -- [172]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=153140 and DoneUser<=0; -- ,0,51 ; -- [172]
+-- _____________________
+select IfNull(Count(u.ID),0) NewMessages from patientcommunicationusers u inner join patientcommunication c on u.IDMessage=c.ID where u.IDUser=17 and u.IsSeen<=0 and (u.Done<=0 and c.Doneuser<=0); -- ,0,51 ; -- [156]

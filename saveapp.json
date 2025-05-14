@@ -1,0 +1,173 @@
+Function ErrorSavedResult(Lang:TSmartLang;k:Integer):TStringList;
+var i:integer;
+    B:TIntArray;
+    se,sa:string;
+begin
+     result:=TStringList.Create;
+     if k<0 then
+     begin
+          GetMySet(Abs(k),B);
+          for I := 0 to high(B) do
+          case B[I] of
+          {0:begin se.Add('Saveing has been successfully');
+                  sA.Add('تم الحفظ بنجاح');
+            End;}
+          0:begin se:=('The Time Attendance for doctor does not allow');
+                  sa:=('جدول دوام الطبيب لا يسمح');
+            End;
+          1:begin se:=('Schedule operating room time does not allow');
+                  sa:=('جدول دوام غرفة العمليات لا يسمح');
+            End;
+          2:begin se:=('Appointment within the period of blocked part of the agenda doctor');
+                  sa:=('الموعد ضمن فترة محجوبة من جدول دوام الطبيب');
+            End;
+          3:begin se:=('Appointment within the period of blocked part of the agenda oprating room');
+                  sa:=('الموعد ضمن فترة محجوبة من جدول دوام غرفة العمليات');
+            End;
+          4:begin se:=('Appointment Table does not allow');
+                  sa:=('جدول المواعيد لا يسمح');
+            End;
+          5:begin se:=('The Appointment time less than Now time');
+                  sa:=('وقت الموعد يسبق الوقت الحالي');
+            End;
+          6:begin se:=('Appointment Table of oprating room does not allow');
+                  sa:=('جدول المواعيد لغرفة العمليات لا يسمح');
+            End;
+          7:begin se:=('Waiting List Schedule does not allow');
+                  sa:=('جدول الإنتظار لا يسمح');
+            End;
+          8:begin se:=('This patient has an appointment on the same day');
+                  sa:=('هذا المريض لديه موعد في نفس اليوم');
+            End;
+          9:begin se:=('The waiting schedule has reached the maximum allowed');
+                  sa:=('جدول مواعيد الانتظار وصل الحد الأقصى المسموح به');
+            End;
+          end;
+
+          if Lang=sArabic
+          then result.Add(sa)
+          Else result.Add(sE);
+     end;
+end;
+
+
+
+
+
+
+
+
+
+procedure TForm_NewAppointment.ActionSendSMSExecute(Sender: TObject);
+var SMSText,MobileNo1,MobileNo2,MobileNo3,PatientName:String;
+    FileNo:Integer;
+begin
+     with OpenQuery('Select if(p.IDAcc<=0,p.IDP,a.Ac_Num) FileNo,p.NameE,p.NameA,p.Phon1,p.Phon2,p.Phon3 '+
+                    'From Patients p Left join Acc a on (p.IDC,p.IDAcc)=(a.IDC,a.IDP) '+
+                    'Where (p.IDC,p.IDP)=(%d,%d)'
+                   ,[PR.DefaultCompany,CdAppointmentDetail['IDPatient'].AsInteger]) do
+     begin
+          Try
+             Open;
+             SMSText  :=adm.GetTextTemplates('SMS_Appointments',CdAppointmentDetail,Me);
+             MobileNo1:=MakeMobileForSMS(Me['Phon1'].AsString);
+             MobileNo2:=MakeMobileForSMS(Me['Phon2'].AsString);
+             MobileNo3:=MakeMobileForSMS(Me['Phon3'].AsString);
+             FileNo     :=Me['FileNo'].AsInteger;
+             PatientName:=Me['NameA'].AsString;
+             close;
+          finally
+                 free;
+          End;
+     end;
+
+     if ShowSendSMS(MakeStr([FileNo,PatientName],#9),SMSText,MobileNo1,MobileNo2,MobileNo3,OnShowSMSTemp) then
+     begin
+          if (Trim(SMSText)<>'') then
+          begin
+               SMSText:=Replace(SMSText,'  ',' ');
+               SMSText:=Replace(SMSText,#13,' ');
+               SMSText:=Replace(SMSText,#10,'');
+               if (Trim(SMSText)<>'') then
+                  Adm.SendSMS(FileNo,0,PatientName,MobileNo1,SMSText);
+          end;
+     end;
+end;
+
+Function ShowSendSMS(ReceiveName:String;Var SMSText,MobileNo1:String;MobileNo2,MobileNo3:String;aOnClick:TNotifyEvent=nil):Boolean;
+
+var ControlList  :TControlList;
+    //i:integer;
+    ts:TstringList;
+begin
+     setLength(ControlList,2);
+     if (MobileNo1<>'') and (MobileNo2='') and (MobileNo3='')  then
+     begin
+          DefaultControlDialog(ControlList[0],ctEdit);
+          ControlList[0].CaptionE:='MobileNo';
+          ControlList[0].CaptionA:='MobileNo';
+          ControlList[0].Text:=MobileNo1;
+          ControlList[0].DefaultWidth:=100;
+          ControlList[0].ControlAutoPosition:= coAloneCenter; //coLast  ;  coLast;
+     end else
+     begin
+          DefaultControlDialog(ControlList[0],ctCombo);
+          ControlList[0].CaptionE:='MobileNo';
+          ControlList[0].CaptionA:='MobileNo';
+          ControlList[0].DefaultWidth:=120;
+          if MobileNo1<>'' then
+             ControlList[0].Items.add(MobileNo1);
+          if MobileNo2<>'' then
+             ControlList[0].Items.add(MobileNo2);
+          if MobileNo3<>'' then
+             ControlList[0].Items.add(MobileNo3);
+          if ControlList[0].Items.count>0 then
+             ControlList[0].Text:=ControlList[0].Items[0];
+
+          ControlList[0].ControlAutoPosition:= coAloneCenter; //coLast  ;  coLast;
+     end;
+
+     if Pos('|',SMSText)>0
+     then begin
+               DefaultControlDialog(ControlList[1],ctCombo);
+               ts:=GetTheFields(SMSText,'|');
+               ControlList[1].Items.Assign(ts);
+               ControlList[1].Text:=ts[0];
+               ControlList[1].FixedItems:=True;
+               FreeAndNil(ts);
+          end
+     Else begin
+               DefaultControlDialog(ControlList[1],ctMemo);
+               ControlList[1].Text:=SMSText;
+          end;
+     ControlList[1].CaptionE:='';
+     ControlList[1].CaptionA:='';
+
+     ControlList[1].DefaultWidth:=2*(Screen.Width div 3);
+     ControlList[1].ControlAutoPosition:= coFirstCenter; //coLast  ;  coLast;
+     if Assigned(aOnClick) then
+     begin
+          setLength(ControlList,3);
+          DefaultControlDialog(ControlList[2],ctButton);
+          ControlList[2].CaptionE:='...';
+          ControlList[2].CaptionA:='...';
+          ControlList[2].ControlAutoPosition:= coLast;
+          ControlList[2].OnClick:=aOnClick;
+     end;
+
+
+     result:=InputDlgPosHelp('',ReceiveName,ReceiveName,mtCustom,mbOkCancel,
+                         '',-1,-1,'','Send SMS Message','إرسال رسالة نصية SMS',
+
+                         ControlList  )=IDOK;
+     if Result then
+     begin
+          MobileNo1:=ControlList[0].Text;
+          SMSText:=ControlList[1].Text;
+     End;
+
+     setLength(ControlList,0);
+
+
+end;
+

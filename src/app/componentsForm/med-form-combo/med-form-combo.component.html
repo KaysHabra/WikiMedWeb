@@ -1,0 +1,36 @@
+<!-- <div>
+  <div class="combo-box">
+    <div class="combo-row">
+      <div class="form-group-horizontal">
+      <label for="myCombo">{{ Item['Name' + Lang] }}:</label>
+      <input
+        id="myCombo"
+        type="text"
+        [(ngModel)]="selectedItem"
+        (focus)="showOptions = true"
+        (input)="filterOptions()"
+        (blur)="hideOptionsDelayed()"
+      />
+    </div>
+      <ul *ngIf="showOptions" class="combo-options">
+        <li
+          *ngFor="let option of filteredOptions"
+          (mousedown)="selectOption(option)"
+        >
+          {{ option }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+
+<div *ngIf="!IsPrinting" style="margin: 5px;">
+  <ion-select [(ngModel)]="Item.Report" (ionChange)="export();" interface="popover" label="{{Item['Name'+Lang]}}:" fill="outline">
+    <ion-select-option *ngFor="let item of tblVals;" [value]="item.Val">{{ item.Label }}</ion-select-option>
+  </ion-select>
+</div>
+
+
+<div *ngIf="IsPrinting" style="margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+  {{Item['Name'+Lang]}}: &nbsp; {{tblVals[Item.Report]}}
+</div>

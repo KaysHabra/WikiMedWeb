@@ -1,0 +1,30 @@
+<!-- <ion-modal [isOpen]="isTimePickerOpen">
+  <ng-template>
+    <ion-content>
+      <ion-datetime
+        presentation="time"
+        [(ngModel)]="selectedTime"
+        (ionChange)="handleTimeChange($event)">
+        <ion-buttons slot="buttons">
+          <ion-button (click)="cancelTime()">إلغاء</ion-button>
+          <ion-button (click)="handleTimeChange($event)">تم</ion-button>
+        </ion-buttons>
+      </ion-datetime>
+    </ion-content>
+  </ng-template>
+</ion-modal> -->
+
+<!-- time-input.component.html -->
+<div class="time-input">
+  <!-- حقل الإدخال مع Directive لقناع الإدخال -->
+  <input type="text" appTimeInputMask [(ngModel)]="time" placeholder="HH:mm" />
+
+  <!-- زر لفتح الـ time-picker -->
+  <!-- <button type="button" (click)="openTimePicker()">اختر الوقت</button> -->
+
+  <ion-button fill="clear" size="small">
+    AM
+  </ion-button>
+  <!-- عنصر time-picker مخفي لاستخدامه كـ UI مساعد -->
+  <!-- <input type="time" #hiddenTimeInput style="display: none;" (change)="onTimePickerChange($event)" /> -->
+</div>

@@ -1,0 +1,123 @@
+<div class="slider-container">
+  <div *ngFor="let item of images; let i = index" (click)="openModal(i)" class="image-contianer">
+
+    <img [src]="item" class="archives-img">
+  </div>
+
+  <!-- أضف المزيد من العناصر حسب الحاجة -->
+</div>
+
+<ion-modal [isOpen]="isModalOpen" class="img-preview" (didDismiss)="isModalOpen = false">
+
+  <ng-template>
+    <ion-header mode="ios">
+      <ion-toolbar [color]="!CompaireMode? 'primary': 'warning'">
+        <ion-buttons slot="start" *ngIf="!CompaireMode">
+          <ion-button (click)="slidesPerView=1" fill="outline">
+            1
+          </ion-button>
+          <ion-button (click)="slidesPerView=2" fill="outline">
+            2
+          </ion-button>
+          <ion-button (click)="slidesPerView=3" fill="outline">
+            3
+          </ion-button>
+        </ion-buttons>
+        <ion-title>
+          <span *ngIf="!CompaireMode">Archive Review</span>
+          <span *ngIf="CompaireMode">Compaire</span>
+        </ion-title>
+
+        <ion-buttons slot="end">
+          
+
+          <ion-button *ngIf="!CompaireMode" (click)="CompaireMode=true;">
+            <ion-icon slot="end" name="git-compare"></ion-icon>
+            {{'Compaire' | translate }}
+            <ion-badge slot="end" color="danger" style="margin-top: -10px; margin-inline-start:-5px">{{ tblCompaire.length }}</ion-badge>
+          </ion-button>
+          <ion-button *ngIf="CompaireMode" (click)="CompaireMode=false;">
+            <ion-icon slot="end" name="close"></ion-icon>
+            {{'End Compaire' | translate }}
+          </ion-button>
+
+
+          <ion-button *ngIf="!CompaireMode" (click)="isModalOpen=false;">
+            <ion-icon slot="end" name="close"></ion-icon>
+            {{'Close' | translate }}
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content fullscreen color="light">
+      <ion-card *ngIf="CompaireMode==false;">
+        <swiper-container #swiper id="mySwiper" thumbs-swiper=".my-thumbs" [slidesPerView]="slidesPerView" [loop]="true"
+          [zoom]="true" pagination="true" navigation="true" pagination-type="bullets">
+          <swiper-slide *ngFor="let img of images">
+            <div class="swiper-zoom-container">
+              <img [src]="img" class="img-size" />
+
+              <ion-button (click)="addToReview(img);" 
+                [fill]="isInCompair(img)? 'solid' :'outline'"
+                style="position: absolute; top: 5px; left: 5px;">
+                <ion-icon slot="icon-only" name="git-compare"></ion-icon>
+              </ion-button>
+              <!-- <ion-checkbox [checked]="isInCompair(img)" (ionChange)="addToReview($event, img);" labelPlacement="end"
+                style="position: absolute; top: 5px; left: 5px;">
+                <ion-icon slot="start" name="git-compare"></ion-icon>
+              </ion-checkbox> -->
+              <!-- <ion-button (click)="toggleZoom()" style="position: absolute; top: 5px; left: 30px;">
+                <ion-icon slot="icon-only" name="zoom-in"></ion-icon>
+              </ion-button> -->
+            </div>
+          </swiper-slide>
+          <div class="swiper-pagination"></div>
+        </swiper-container>
+
+        
+
+      </ion-card>
+      <ion-card *ngIf="CompaireMode;">
+        <ion-row>
+          <ion-col *ngFor="let img of tblCompaire" [size]="tblCompaire.length<4 ? (12/tblCompaire.length):6">
+            <img [src]="img" />
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-content>
+    <ion-footer>
+      <swiper-container class="my-thumbs" [spaceBetween]="10" [slidesPerView]="4" [watchSlidesProgress]="true">
+        <swiper-slide *ngFor="let img of images">
+          <span style="position: relative;">
+            <img [src]="img" style="height: 80px; cursor: pointer;" />
+            <ion-checkbox [checked]="isInCompair(img)" (ionChange)="chkAddToReview($event, img);" labelPlacement="end"
+              style="position: absolute; top: 2px; left: 2px;">
+              <ion-icon slot="start" name="git-compare"></ion-icon>
+            </ion-checkbox>
+          </span>
+
+        </swiper-slide>
+      </swiper-container>
+    </ion-footer>
+    <!-- <ion-footer *ngIf="tblCompaire.length>0 && !CompaireMode" color="light"
+      style="border-top: solid var(--ion-color-primary);">
+      <ion-row>
+        <ion-col style="padding: 0;">
+          <div class="slider-container" style="height: 80px;">
+            <div *ngFor="let img of tblCompaire; let i = index;" style="position: relative;">
+              <ion-icon (click)="removeImg(img)" name="trash" color="danger"
+                style="position:absolute; top:2px; left:2px"></ion-icon>
+              <img [src]="img" class="archives-img compaire-img">
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="auto">
+          <ion-button size="large" style="height: 60px;" color="warning" (click)="CompaireMode=true;">
+            Compaire
+            <ion-icon slot="end" name="chevron-forward"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer> -->
+  </ng-template>
+</ion-modal>

@@ -1,0 +1,58 @@
+<!-- <div style="padding-inline-end: 15px;">
+  <div class="range-container">
+    <ion-range [disabled]="!Active" aria-label="Dual Knobs Range" [(ngModel)]="Value" mode="ios"  [dualKnobs]="true" [min]="min"
+      [max]="max" [snaps]="true" [ticks]="true" step="1" (ionInput)="updateMarkerPosition()"></ion-range>
+    <div class="marker" [style.left.%]="markerPosition">{{'Day End' | translate}}</div>
+    <div class="marker-line" [style.left.%]="markerPosition"></div>
+  
+    <div class="marker-pin" [style.left.%]="lowerMarkerPosition" [innerHTML]="lowerValue" style="background: #e8edff;" *ngIf="Active"></div>
+    <div class="marker-pin" [style.left.%]="upperMarkerPosition" [innerHTML]="upperValue" style="background: #c0cdf7;" *ngIf="Active"></div>    
+  </div>
+</div> -->
+<div *ngIf="language.selected !='ar'" style="padding-inline-end: 15px;">
+  <div class="range-container">
+    <ion-range [disabled]="!Active" aria-label="Dual Knobs Range" [(ngModel)]="Value" mode="ios"  [dualKnobs]="true" [min]="min"
+      [max]="max" [snaps]="true" [ticks]="true" step="1" (ionInput)="updateMarkerPosition()" ></ion-range>
+    <div class="marker" [style.left.%]="markerPosition" [style.transform]="'translateX(-50%)'">{{'Day End' | translate}}</div>
+    <div class="marker-line" [style.left.%]="markerPosition" [style.transform]="'translateX(-50%)'"></div>
+  
+    <div class="marker-pin" [style.left.%]="lowerMarkerPosition" [style.transform]="'translateX(-50%)'" [innerHTML]="lowerValue" style="background: #e8edff;" *ngIf="Active"></div>
+    <div class="marker-pin" [style.left.%]="upperMarkerPosition" [style.transform]="'translateX(-50%)'" [innerHTML]="upperValue" style="background: #c0cdf7;" *ngIf="Active"></div>    
+  </div>
+</div>
+
+ <!-- اللغة العربية في حال كان يعمل من اليمين إلى اليسار-->
+<div *ngIf="language.selected =='ar'" style="padding-inline-end: 15px;">
+  <div class="range-container">
+    <ion-range [disabled]="!Active" aria-label="Dual Knobs Range" [(ngModel)]="Value" mode="ios"  [dualKnobs]="true" [min]="min"
+      [max]="max" [snaps]="true" [ticks]="true" step="1" (ionInput)="updateMarkerPosition()" (ionChange)="updateMarkerPosition()"></ion-range>
+    <div class="marker" [style.right.%]="markerPosition" [style.transform]="'translateX(50%)'">{{'Day End' | translate}}</div>
+    <div class="marker-line" [style.right.%]="markerPosition" [style.transform]="'translateX(50%)'"></div>
+  
+    <div class="marker-pin" [style.right.%]="lowerMarkerPosition" [style.transform]="'translateX(50%)'" [innerHTML]="lowerValue" style="background: #e8edff;" *ngIf="Active"></div>
+    <div class="marker-pin" [style.right.%]="upperMarkerPosition" [style.transform]="'translateX(50%)'" [innerHTML]="upperValue" style="background: #c0cdf7;" *ngIf="Active"></div>    
+  </div>
+</div>
+
+<!-- <div style="padding-inline-end: 15px;">
+  <div class="range-container">
+    <ion-range [disabled]="!Active" aria-label="Dual Knobs Range" [(ngModel)]="Value" mode="ios"  [dualKnobs]="true" [min]="min"
+      [max]="max" [snaps]="true" [ticks]="true" step="1" (ionInput)="updateMarkerPosition()"></ion-range>
+    <div class="marker" [style.left.%]="lang === 'ar' ? markerPosition : null" [style.right.%]="lang !== 'ar' ? markerPosition : null"
+    [style.transform]="lang === 'ar' ? 'translateX(-50%)' : 'translateX(50%)'"
+    >{{'Day End' | translate}}</div>
+
+    <div class="marker-line" [style.left.%]="lang === 'ar' ? markerPosition : null" [style.right.%]="lang !== 'ar' ? markerPosition : null"
+    [style.transform]="lang === 'ar' ? 'translateX(-50%)' : 'translateX(50%)'"></div>
+  
+    <div class="marker-pin" 
+    [style.left.%]="lang === 'ar' ? lowerMarkerPosition : null" [style.right.%]="lang !== 'ar' ? lowerMarkerPosition : null"
+    [style.transform]="lang === 'ar' ? 'translateX(-50%)' : 'translateX(50%)'"
+    [innerHTML]="lowerValue" style="background: #e8edff;" *ngIf="Active"></div>
+
+    <div class="marker-pin" 
+    [style.left.%]="lang === 'ar' ? upperMarkerPosition : null" [style.right.%]="lang !== 'ar' ? upperMarkerPosition : null"
+    [style.transform]="lang === 'ar' ? 'translateX(-50%)' : 'translateX(50%)'"
+    [innerHTML]="upperValue" style="background: #c0cdf7;" *ngIf="Active"></div>    
+  </div>
+</div> -->

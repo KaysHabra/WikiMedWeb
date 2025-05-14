@@ -1,0 +1,27 @@
+input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  height: 33px;
+  text-align: left;
+}
+
+.no-focus-border {
+  outline: none; /* إلغاء الخط الافتراضي */
+  // border: 1px solid #ccc; /* حدود عادية */
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.no-focus-border:focus {
+  outline: none; /* إزالة الحدود عند التحديد */
+  border-color: #ccc; /* لا تغير اللون عند التحديد */
+}
+
+.date-input {
+  outline: none;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+}

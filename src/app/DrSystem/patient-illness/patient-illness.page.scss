@@ -1,0 +1,6 @@
+.illness-type{
+  border-bottom: solid 1px #eee;
+}
+.illness-type:nth-child(even) {
+  background-color: #e9e9e9; /* Alternate background color for even rows */
+}

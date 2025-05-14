@@ -1,0 +1,79 @@
+<ion-content [fullscreen]="true">
+  <div style="height: 100%; background: var(--ion-color-tertiary);">
+    <br>
+    <ion-card
+      style="max-width: 1100px; margin: auto; background: url('./assets/imgs/bg7.png') no-repeat center center / cover;">
+      <ion-card-content>
+        <ion-row>
+          <ion-col   size-lg="auto" size-md="auto" size-sm="4" size-xs="4">
+            <ion-img src="./assets/imgs/WIKIMED-logo.png" style="width: 70px;margin-inline-start: 40px;"></ion-img>
+          </ion-col>
+          <ion-col >
+            <h2 style="margin-top: 15px;">Wiki.Med.Web <br>ويكي.ميد.ويب</h2>
+          </ion-col>
+
+          <ion-col size="2">
+            <ion-button expand="block" color="success">
+              {{'Login' | translate }}
+            </ion-button>
+          </ion-col>
+          <ion-col size="2">
+            <ion-button expand="block" fill="clear">
+              {{ 'Register' | translate }}
+            </ion-button>
+          </ion-col>
+          <ion-col size="2">
+            <ion-select [value]="all.SelectedLang" (ionChange)="setLang($event)" interface="popover">
+              <ion-select-option value="en">English</ion-select-option>
+              <ion-select-option value="ar">عربي</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
+            <div class="ion-text-center">
+              <ion-icon name="person-circle" color="success" style="font-size: 130px;"></ion-icon>
+            </div>
+
+            <div class="ion-padding" *ngIf="Page=='SignIn'">
+              <ion-input [(ngModel)]="Login.Email" label="{{'Username' | translate }}:" fill="outline"></ion-input>
+
+              <ion-input [(ngModel)]="Login.Password" [type]="ShowPass? 'text': 'password'"
+                label="{{'Password' | translate }}:" fill="outline">
+                <ion-button fill="clear" slot="end" aria-label="Show/hide" (click)="ShowPass = !ShowPass;"
+                  color="success">
+                  <ion-icon slot="icon-only" [name]="ShowPass? 'eye-off': 'eye'" aria-hidden="true"></ion-icon>
+                </ion-button>
+              </ion-input>
+              <div>
+                <ion-button size="small" fill="clear" shape="round" color="dark">
+                  {{'Forget password?' | translate }}
+                </ion-button>
+              </div>
+              <br>
+              <ion-button [disabled]="Login.Email=='' || Login.Password==''" expand="block" shape="round"
+                color="success">
+                {{'Login' | translate }}
+              </ion-button>
+
+              <br>
+              <br>
+              <br>
+
+              <div>
+                <small>Lorem ipsum dolo sit amet, consec tetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                  ut laoreet dolore magnorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                  euismod Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
+                  illum dolore eu feugiat </small>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+
+
+</ion-content>

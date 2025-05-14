@@ -1,0 +1,1153 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+
+
+      <ion-button (click)="getLoad(CurrentDate, false);SelectedBtn='TodayAppts';"
+        [color]="SelectedBtn=='TodayAppts'?'warning':'light'" matTooltip="{{'Today Appointments' | translate}}">
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button (click)="getLoad(CurrentDate, true);SelectedBtn='MyAppts';"
+        [color]="SelectedBtn=='MyAppts'?'warning':'light'" matTooltip="{{'My Appointments' | translate}}">
+        <ion-icon slot="icon-only" name="calendar-number"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="getLoad(CurrentDate, true, true);SelectedBtn='MyNotDoneAppts';"
+        [color]="SelectedBtn=='MyNotDoneAppts'?'warning':'light'"
+        matTooltip="{{'My Not Done Appointments' | translate}}">
+        <ion-icon slot="icon-only"
+          src="./assets/icons/christmas-winter-calendar-snow-flake-christmas-svgrepo-com.svg"></ion-icon>
+      </ion-button>
+      <ion-button [disabled]="!Appt && SelectedBtn!='PatientAppts'"
+        (click)="getPatientAppts(Appt.IDPatient, Appt.IDDoctor);SelectedBtn='PatientAppts';"
+        [color]="SelectedBtn=='PatientAppts'?'warning':'light'" matTooltip="{{'Patient Appointments' | translate}}">
+        <ion-icon slot="icon-only" name="person"></ion-icon>
+      </ion-button>
+      <ion-button [disabled]="!Appt && SelectedBtn!='PatientServices' && SelectedBtn!='PatientAppts'"
+        (click)="getPatientServices(Appt.IDPatient);SelectedBtn='PatientServices';"
+        [color]="SelectedBtn=='PatientServices'?'warning':'light'" matTooltip="{{'Patient Services' | translate}}">
+        <ion-icon slot="icon-only" name="file-tray-stacked"></ion-icon>
+      </ion-button>
+      <ion-button (click)="SelectedBtn='Messages';" matTooltip="{{'Messages' | translate}}"
+        [color]="SelectedBtn=='Messages'?'warning':'light'">
+        <ion-icon slot="icon-only" name="mail"></ion-icon>
+      </ion-button>
+      <ion-button (click)="SelectedBtn='MyStatistics';" matTooltip="{{'My Statistics' | translate}}"
+        [color]="SelectedBtn=='MyStatistics'?'warning':'light'">
+        <ion-icon slot="icon-only" name="stats-chart"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Dr System</ion-title>
+    <ion-buttons slot="end">
+
+      <!-- <ion-button (click)="firstSession()" matTooltip="{{'First Medical Report' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'play-skip-forward' : 'play-skip-back'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="previousSession()" matTooltip="{{'Previous Medical Report' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'caret-forward' : 'caret-back'"></ion-icon>
+      </ion-button>
+      {{SessionCount}}/{{+SelectedSessionIndex +1}}
+      <ion-button (click)="nextSession()" matTooltip="{{'Next Medical Report' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'caret-back' : 'caret-forward'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="lastSession()" matTooltip="{{'Last Medical Report' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'play-skip-back' : 'play-skip-forward'"></ion-icon>
+      </ion-button> -->
+
+      <!-- label="Sessions({{tblSession.length}}/{{+SelectedSessionIndex +1}}):" -->
+
+      <!-- <span *ngIf="tblSession.length>0">
+        <span style="position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);">Sessions({{tblSession.length}}/{{+SelectedSessionIndex +1}})</span>
+        <ion-select fill="outline" placeholder="Sessions"
+          [(ngModel)]="SelectedSession" (ionChange)="getSession()">
+          <ion-select-option *ngFor="let item of tblSession" [value]="item">{{item.ReportDate}}</ion-select-option>
+        </ion-select>
+      </span> -->
+
+      <ion-button matTooltip="{{'Add New Session' | translate}}" fill="outline">
+        New
+        <ion-icon slot="end" name="add"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="illnessPage();" [disabled]="!Appt" color="danger" id="click-trigger"
+        [color]="IllnessColor ?'warning':'light'">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+        <ion-badge color="danger" style="padding-inline: 5px; margin-bottom: -12px; margin-inline-start: -11px;">
+          {{!Appt ? 0 : Appt?.IllnessCount}}
+        </ion-badge>
+      </ion-button>
+
+
+      <ion-button (click)="printForm();">
+        <ion-icon slot="icon-only" name="print"></ion-icon>
+      </ion-button>
+      <ion-button color="danger" id="click-trigger">
+        <ion-icon slot="icon-only" name="logo-youtube"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <div style="height: 100%; overflow-y: auto;">
+    <ion-row>
+      <ion-col size="4" style="padding: 0;">
+        <ion-card style="margin-block: 5px 0px;">
+          <ion-row class="row-no-padding">
+            <ion-col size="auto" style="padding-inline: 0;">
+              <ion-button (click)="getNextDay(-1)" fill="outline" style="--padding-start: 0; --padding-end: 0;">
+                <ion-icon slot="end" name="chevron-back" style="margin: 0;"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col style="padding-inline: 0;">
+              <!-- <app-date-picker [(ngModel)]="CurrentDate" (DateChanged)="currentDateChanged($event)" Label=""
+                [IsCalendar]="false" [LabelColor]="'primary'"></app-date-picker> -->
+
+              <app-mat-datepicker2 [(counterNumber)]="CurrentDate"
+                (counterNumberChange)="getDataByDate()"></app-mat-datepicker2>
+            </ion-col>
+            <ion-col size="auto" style="padding-inline: 0;">
+              <ion-button (click)="getNextDay(1)" fill="outline" style="--padding-start: 0; --padding-end: 0;">
+                <ion-icon slot="end" name="chevron-forward" style="margin: 0;"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="auto" style="padding-inline-start: 0;">
+              <ion-button (click)="today()" fill="outline" style="--padding-start: 3px; --padding-end: 3px;">
+                {{'Today' | translate}}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+
+
+        <div class="patient-table-container" style="height: calc(75vh - 120px);padding-inline-start: 4px;">
+          <app-grid-doctor [rows]="tblAppts" [colData]="columns" [IsBtnDel]="false" [IsPager]="false" [IsFilter]="true"
+            [IsPrint]="true" [IsExcel]="true" TableHeight="calc(75vh - 180px)" (selectSubmit)="selectItem($event)"
+            (menuBtn)="menuBtn($event)" [itemOptions]="ItemOptions" [SelectedRow]="Appt"
+            (startSearch)="searchForAppts($event)"></app-grid-doctor>
+        </div>
+        <div>
+          <ion-card style="height: 25vh;margin: 5px;">
+            <ion-row *ngIf="!Appt"
+              style="border-bottom: solid 1px #bbb; background: var(--ion-color-primary); color:#fff">
+              <ion-col size="12">
+                <span> {{'Choose Appointment' | translate}} </span>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="Appt"
+              style="border-bottom: solid 1px #bbb; background: var(--ion-color-primary); color:#fff; height:60px; overflow-y: auto;">
+              <ion-col size="7" style="border-inline-end: solid 1px; line-height: 1.2;">
+                <span *ngIf="tblService.length>0">[{{tblService[0]['ServiceName'+all.LangLetter]}}] </span>
+              </ion-col>
+              <ion-col size="5" style="padding-bottom: 0;">
+                <div>{{ Appt?.FileNo }}</div>
+                <div *ngIf="Appt" [innerHTML]="apptService.getEventFooter(Appt)"> </div>
+              </ion-col>
+            </ion-row>
+            <ion-card-content style="height: calc(25vh - 60px);overflow-y: auto; padding-block: 8px;">
+              <div>{{'File No' | translate }}: <span *ngIf="!Appt">..........</span> <ion-text color="primary"
+                  style="font-weight: bold !important;">{{ Appt?.FileNo }}</ion-text></div>
+              <div>{{'Patient A' | translate }}: <span *ngIf="!Appt">..........</span><ion-text color="primary"
+                  style="font-weight: bold !important;">{{ Appt?.PatientNameA }}</ion-text></div>
+              <div>{{'Patient E' | translate }}: <span *ngIf="!Appt">..........</span><ion-text color="primary"
+                  style="font-weight: bold !important;">{{ Appt?.PatientNameE }}</ion-text></div>
+              <div>{{'Appt Remarks' | translate }}: <span *ngIf="!Appt">..........</span> <ion-text color="primary"
+                  style="font-weight: bold !important;"> {{ Appt?.Description }} </ion-text></div>
+              <div *ngIf="Appt?.LastVisit">{{'Last Visit From'}} [{{calculateDaysFromDate(Appt?.LastVisit)}}] {{'in' |
+                translate}} ({{Appt?.LastVisit}})</div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+      </ion-col>
+      <ion-col size="8">
+        <!-- <ion-card *ngIf="tblSession.length==0"  style="padding: 5px 10px;margin: 5px;">
+          <div>
+            <div><ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text></div>
+            <div ><ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text></div>
+          </div>
+        </ion-card> -->
+
+        <div *ngIf="!Appt" class="ion-text-center" style="height: 54px;">
+          <div>{{'Session Information' | translate }} </div>
+          <div> -------------------- </div>
+        </div>
+
+        <ion-row *ngIf="Appt" class="row-no-padding">
+          
+
+          <ion-col size="6">
+            <ion-row>
+              <ion-col size="1" class="ion-text-center" style="padding-inline: 0;">
+                <ion-button (click)="nextSession(-1)" fill="outline" style="--padding-start: 0; --padding-end: 0; height: 48px;">
+                  <ion-icon slot="end" name="chevron-back" style="margin: 0;"></ion-icon>
+                </ion-button>
+              </ion-col>
+    
+              <ion-col size="10">
+                <!-- <ion-item> -->
+                  <ion-select *ngIf="tblSession.length>0"
+                    label="Sessions({{tblSession.length}}/{{+SelectedSessionIndex +1}})" fill="outline"
+                    placeholder="Sessions" [(ngModel)]="SelectedSession" (ionChange)="getSession()">
+                    <ion-select-option *ngFor="let item of tblSession"
+                      [value]="item">{{item.ReportDate}}</ion-select-option>
+                  </ion-select>
+                <!-- </ion-item> -->
+              </ion-col>
+              <ion-col size="1" class="ion-text-center" style="padding-inline: 0;">
+                <ion-button (click)="nextSession(1)" fill="outline" style="--padding-start: 0; --padding-end: 0; height: 48px;">
+                  <ion-icon slot="end" name="chevron-forward" style="margin: 0;"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+
+
+          <ion-col size="6">
+            <ion-card style="padding: 0 5px; line-height: 1.2; height: 54px; 
+              overflow-y: auto; margin: 1px 5px; display: flex; align-items: center;"
+              [color]="!IsNew ? 'light':'warning'">
+
+              <div *ngIf="Appt && tblSession.length>0">
+                <div>Dr: <ion-text
+                    [color]="IsNew?'success':(tblSession[SelectedSessionIndex].IDDoctor==IDDoctorCurrent? '': 'danger')">[{{tblSession[SelectedSessionIndex].DoctorCode
+                    }}] {{tblSession[SelectedSessionIndex].DoctorNameE }}
+                    User:({{tblSession[SelectedSessionIndex].IDUser }})</ion-text> </div>
+                <div>No: <ion-text
+                    [color]="IsNew?'success':(tblSession[SelectedSessionIndex].IDDoctor==IDDoctorCurrent? '': 'danger')">[{{tblSession[SelectedSessionIndex].IDAppointment}}]
+                    {{tblSession[SelectedSessionIndex].ReportDate}} {{Appt.ID}}</ion-text> </div>
+              </div>
+              <div *ngIf="Appt && tblSession.length==0">
+                <div>Dr: <ion-text
+                    [color]="IsNew?'success':(Appt?.IDDoctor==IDDoctorCurrent? '': 'danger')">[{{Appt?.SName }}]
+                    {{Appt?.DoctorNameE }} User:({{tblSession[SelectedSessionIndex]?.IDUser }})</ion-text> 
+                </div>
+                <div>No: <ion-text [color]="IsNew?'success':(Appt?.IDDoctor==IDDoctorCurrent? '': 'danger')">
+                  [{{ Appt?.AppointmentNo }}] {{ Appt?.ADate}} {{Appt?.ID}}</ion-text> 
+                </div>
+              </div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="11" style="padding-block: 3px 0;" *ngIf="tblForms.length<=3">
+            <ion-segment [(ngModel)]="SelectedTap" mode="ios" >
+              <ion-segment-button value="default">
+                <ion-label>Default</ion-label>
+              </ion-segment-button>
+              <ion-segment-button *ngFor="let item of tblForms; let i=index;" [value]="item.IDForm" (click)="setForm(i)">
+                <ion-label>{{ item['FieldsGroup'+all.LangLetter] }}</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+
+          </ion-col>
+          <ion-col size="10" *ngIf="tblForms.length>3">
+            <ion-segment [(ngModel)]="SelectedTap" mode="ios">
+              <ion-segment-button value="default">
+                <ion-label>Default</ion-label>
+              </ion-segment-button>
+              <ion-segment-button [value]="tblForms[SelectedFormIndex].IDForm" (click)="setForm(SelectedFormIndex)">
+                <ion-label>{{ tblForms[SelectedFormIndex]['FieldsGroup'+all.LangLetter] }}</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-col>
+          <ion-col size="1" *ngIf="tblForms.length>3" style="padding-block: 0;">
+            <ion-button id="click-form-trigger" size="small" expand="block" color="light">
+              <ion-icon slot="icon-only" name="caret-down"></ion-icon>
+            </ion-button>
+            <ion-popover trigger="click-form-trigger" triggerAction="click">
+              <ng-template>
+                <ion-content>
+                  <ion-item button *ngFor="let item of tblForms; let i=index;" (click)="setForm(i)">
+                    <ion-label>{{ item['FieldsGroup'+all.LangLetter] }}</ion-label>
+                  </ion-item>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+
+
+            
+          </ion-col>
+          <ion-col size="1" style="padding-block: 0;">
+            <ion-button size="small" expand="block">
+              <ion-icon slot="icon-only" name="add"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+
+        <!-- <app-grid [data]="rows" [IsBtnDel]="true" [IsBtnMenu]="true"></app-grid> -->
+
+        <!-- <app-dynamic-grid ></app-dynamic-grid> -->
+
+        <!-- prescription وصفات طبية  -->
+
+        <div *ngIf="SelectedTap=='default'">
+          <div>
+            <ion-row class="row-no-padding-block">
+              <ion-col size="9">
+                <!-- <ion-badge color="success">{{'Prescription' | translate}}</ion-badge> -->
+                <ion-label style="border-bottom: solid 1px;">{{'Prescription' | translate}}</ion-label>
+              </ion-col>
+              <ion-col size="1.5">
+                <ion-button (click)="newMedicinModal()" [disabled]="!Appt" expand="block" size="small">
+                  {{'New' | translate}}
+                  <ion-icon slot="end" name="add"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.5">
+                <ion-button (click)="saveMedicine()" [disabled]="!Appt" color="success" expand="block" size="small">
+                  {{'Save' | translate}}
+                  <ion-icon slot="end" name="save"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+
+            <ion-row>
+              <ion-col style="padding: 0;">
+                <ion-grid class="grid-class medicine-table">
+                  <ion-row class="table-header row-no-padding-block" style="padding: 0;">
+                    <ion-col size="0.5">{{'Qty' | translate }}</ion-col>
+
+                    <ion-col size="2" style="font-size: 11px;"> {{'Medicine NameE' | translate }} </ion-col>
+                    <ion-col size="0.8">{{'start Date' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Dose' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Unit' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Route' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Times Daily' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Evry' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Duration' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Duration Unit' | translate }}</ion-col>
+
+                    <ion-col size="0.8">{{'PRN' | translate }}</ion-col>
+                    <ion-col size="0.8">{{'Indications' | translate }}</ion-col>
+                    <ion-col size="1.5">{{'Order Instructions' | translate }}</ion-col>
+
+                    <!-- <ion-col size="0.5" style="padding: 0;">
+                    <ion-button size="small" color="danger" fill="clear"
+                      style="--padding-start:0;--padding-end:0; margin: 0;">
+                      <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+                    </ion-button>
+    
+                    <ion-button size="small" color="warning" fill="clear"
+                      style="--padding-start:0;--padding-end:0; margin: 0;">
+                      <ion-icon slot="icon-only" name="create"></ion-icon>
+                    </ion-button>
+                  </ion-col> -->
+                  </ion-row>
+                  <div style="height: calc(50vh - 185px); overflow-y: auto;">
+                    <ion-row class="table-row" style="padding: 0;" *ngFor="let item of tblMedicine;let i=index;"
+                      (click)="selectMedicine(i);" (dblclick)="dblclickMedicine(item);"
+                      [ngClass]="{'selected-medicine': item == SelectedMedicineIndex}">
+
+                      <ion-col size="0.5" style="padding-block: 0;">{{item.Quantity}}</ion-col>
+                      <ion-col size="2" style="font-size: 11px;"> {{ item.MedicineNameE }} </ion-col>
+                      <ion-col size="0.8"> {{ item.StartDate }}</ion-col>
+                      <ion-col size="0.8"> {{ item.Dose }}</ion-col>
+                      <ion-col size="0.8"> {{ getUnit(item.Unit)["Name"+all.LangLetter] }}</ion-col>
+                      <ion-col size="0.8"> {{ getRoute(item.Route)["Name"+all.LangLetter] }}</ion-col>
+                      <ion-col size="0.8"> {{ getTimesDaily(item.TimesDaily)["Name"+all.LangLetter] }} </ion-col>
+                      <ion-col size="0.8"> {{ item.EvryTime }} </ion-col>
+                      <ion-col size="0.8"> {{ item.Duration }} </ion-col>
+                      <ion-col size="0.8"> {{ getDurationUnit(item.DurationUnit)["Name"+all.LangLetter] }}</ion-col>
+
+                      <ion-col size="0.8"> {{ item.PRN }}</ion-col>
+                      <ion-col size="0.8">{{ item.Indications }}</ion-col>
+                      <ion-col size="1.5"> {{ item.Instructions }}</ion-col>
+
+                      <!-- <ion-col size="0.5" style="padding: 0;">
+                      <ion-button (click)="removeMedicine(item);" size="small" color="danger" fill="clear"
+                        style="--padding-start:0;--padding-end:0; margin: 0;cursor: pointer;">
+                        <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+                      </ion-button>
+                      <ion-button (click)="editMedicine(item)" size="small" color="warning" fill="clear"
+                        style="--padding-start:0;--padding-end:0; margin: 0;cursor: pointer;">
+                        <ion-icon slot="icon-only" name="create"></ion-icon>
+                      </ion-button>
+                    </ion-col> -->
+                    </ion-row>
+                  </div>
+
+                </ion-grid>
+
+              </ion-col>
+              <ion-col size="auto" style="padding: 0;">
+                <div style="padding-top: 30px;">
+                  <div>
+                    <ion-button [disabled]="SelectedMedicineIndex<0" (click)="addMedicineQty(1)"
+                      style="--padding-start: 0; --padding-end: 0;" size="small">
+                      <ion-icon slot="icon-only" name="add"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div>
+                    <ion-button [disabled]="SelectedMedicineIndex<0 || tblMedicine[SelectedMedicineIndex].Quantity==1"
+                      (click)="addMedicineQty(-1)" style="--padding-start: 0; --padding-end: 0;" size="small"
+                      color="light">
+                      <ion-icon slot="icon-only" name="remove"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div>
+                    <ion-button [disabled]="SelectedMedicineIndex<0"
+                      (click)="editMedicine(tblMedicine[SelectedMedicineIndex])"
+                      style="--padding-start: 0; --padding-end: 0;" size="small" color="warning">
+                      <ion-icon slot="icon-only" name="create"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div>
+                    <ion-button (click)="delMedicine();" [disabled]="SelectedMedicineIndex<0"
+                      style="--padding-start: 0; --padding-end: 0;" size="small" color="danger">
+                      <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-button>
+                  </div>
+
+                </div>
+              </ion-col>
+            </ion-row>
+
+
+          </div>
+
+          <!-- Services -->
+          <div>
+            <ion-row class="row-no-padding-bottom">
+              <ion-col size="1.5">
+                <ion-label style="border-bottom: solid 1px;">{{ 'Services' | translate }}</ion-label>
+              </ion-col>
+              <ion-col size="3">
+                <ion-button expand="block" size="small" [disabled]="!Appt">
+                  {{'Packages and Remaining Services' | translate}}
+                </ion-button>
+              </ion-col>
+
+              <ion-col size="3" style="padding: 6px 0 0 0;">
+                <div class="m-select">
+                  <app-select-autocomplete [tblItems]="tblItem" InputLabel="" [searchProp]="'Name'+all.LangLetter"
+                    [searchProp2]="'IDP'" [(ngModel)]="tmpID" [ResProp]="'IDP'" [prop1ColSize]="'10'"
+                    [prop2ColSize]="'2'" [disabled]="!Appt"></app-select-autocomplete>
+                </div>
+
+              </ion-col>
+              <ion-col size="1.5">
+                <ion-button (click)="discountAlert()" [disabled]="!Appt" expand="block" size="small">
+                  {{'Discount' | translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.5">
+                <ion-button (click)="newServiceModal()" [disabled]="!Appt" expand="block" size="small">
+                  {{'New' | translate}}
+                  <ion-icon slot="end" name="add"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.5">
+                <ion-button (click)="saveServices()" [disabled]="!Appt" expand="block" size="small" color="success">
+                  {{'Save' | translate}}
+                  <ion-icon slot="end" name="save"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+
+
+
+            <ion-row>
+              <ion-col style="padding: 0;">
+                <ion-grid class="grid-class">
+                  <ion-row class="table-header row-no-padding-block" style="padding: 0;">
+                    <ion-col size="1"> {{'CTypeName' | translate }} </ion-col>
+                    <ion-col size="0.5">{{'Qty' | translate }}</ion-col>
+                    <ion-col size="1">{{'Main List Price' | translate }}</ion-col>
+                    <ion-col size="1">{{'Discount' | translate }}</ion-col>
+                    <ion-col size="1">{{'Net Price' | translate }}</ion-col>
+                    <ion-col size="1">{{'PaidAmount' | translate }}</ion-col>
+                    <ion-col size="1.5">{{'DiagnosisCode' | translate }}</ion-col>
+                    <ion-col size="2.5" style="font-size: 11px;">{{'Service Code&Name' | translate }}</ion-col>
+                    <ion-col size="1.5">{{'Agreement' | translate }}</ion-col>
+                    <ion-col size="1">{{'Done' | translate }}</ion-col>
+
+                  </ion-row>
+                  <div style="height: calc(50vh - 150px); overflow-y: auto;">
+                    <ion-row class="table-row" style="padding: 0;" *ngFor="let item of tblService;let i=index;"
+                      (click)="selectService(i)" (dblclick)="dblclickService(i)"
+                      [ngClass]="{'selected-row': i==SelectedServiceIndex}">
+                      <ion-col size="1"> {{ item.CTypeName }} </ion-col>
+                      <ion-col size="0.5"> {{ item.Quantity }} </ion-col>
+                      <ion-col size="1">{{ item.MainPrice }}</ion-col>
+                      <ion-col size="1">{{ item.Discount }}</ion-col>
+                      <ion-col size="1">{{ item.NetPrice }}</ion-col>
+                      <ion-col size="1">{{ item.PaidAmount }}</ion-col>
+                      <ion-col size="1.5">{{ item.DiagnosisCode }}</ion-col>
+                      <ion-col size="2.5" style="font-size: 11px;">{{ item.ServiceNameE }}</ion-col>
+                      <ion-col size="1.5"> {{ item.IDAgreement }}</ion-col>
+                      <ion-col size="1"> {{ item.Done }}</ion-col>
+                    </ion-row>
+                  </div>
+                  <ion-row class="table-footer" style="padding: 0;">
+                    <ion-col size="1"> </ion-col>
+                    <ion-col size="0.5"></ion-col>
+                    <ion-col size="1">{{ all.sumArrayOfObject(tblService,'MainPrice') }}</ion-col>
+                    <!-- {{'Main List Price' | translate }}-->
+                    <ion-col size="1">{{ all.sumArrayOfObject(tblService,'Discount') }} </ion-col>
+                    <!-- {{'Discount' | translate }}-->
+                    <ion-col size="1">{{ all.sumArrayOfObject(tblService,'NetPrice') }} </ion-col>
+                    <!--{{'Net Price' | translate }}-->
+                    <ion-col size="1">{{ all.sumArrayOfObject(tblService,'PaidAmount') }}</ion-col>
+                    <ion-col size="1.5"></ion-col>
+                    <ion-col size="2.5" style="font-size: 11px;"></ion-col>
+                    <ion-col size="1.5"></ion-col>
+                    <ion-col size="1"></ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-col>
+              <ion-col size="auto" style="padding: 0;">
+                <div style="padding-top: 30px;">
+                  <div>
+                    <ion-button [disabled]="SelectedServiceIndex<0" (click)="addServiceQty(1)"
+                      style="--padding-start: 0; --padding-end: 0;" size="small">
+                      <ion-icon slot="icon-only" name="add"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div>
+                    <ion-button [disabled]="SelectedServiceIndex<0 || tblService[SelectedServiceIndex]?.Quantity==1"
+                      (click)="addServiceQty(-1)" style="--padding-start: 0; --padding-end: 0;" size="small"
+                      color="light">
+                      <ion-icon slot="icon-only" name="remove"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div>
+                    <ion-button [disabled]="SelectedServiceIndex<0"
+                      (click)="editService(tblService[SelectedServiceIndex])"
+                      style="--padding-start: 0; --padding-end: 0;" size="small" color="warning">
+                      <ion-icon slot="icon-only" name="create"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div>
+                    <ion-button (click)="delService();" [disabled]="SelectedServiceIndex<0"
+                      style="--padding-start: 0; --padding-end: 0;" size="small" color="danger">
+                      <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-button>
+                  </div>
+
+                </div>
+              </ion-col>
+            </ion-row>
+
+          </div>
+        </div>
+
+        <div *ngIf="SelectedTap!='default' && all.IsFirstLoaded">
+
+
+
+          <app-med-form [tblDiagnosis]="tblDiagnosis" [IsPrinting]="IsPrinting" [tblFieldsMap]="tblFieldsMap"
+            [tblFormItems]="tblFormItems"></app-med-form>
+
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>
+
+<ion-modal [isOpen]="IsServiceModal" (ionModalWillDismiss)="IsServiceModal=false;" class="service-modal">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{'Clinical Diagnosis' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="IsServiceModal=false;">{{'Close' | translate}}
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <div style="height: 100%; overflow-y: auto;">
+        <ion-card class="card-limit-border">
+          <ion-row>
+            <ion-col size="6" style="border: solid 1px #eee;">
+              <ion-label>{{ 'Diagnosis Code' | translate }}</ion-label>
+              <ion-button (click)="syncDiagnosisCode()" fill="clear" size="small" style="margin-top: -5px;">
+                <ion-icon slot="icon-only" name="sync-circle"></ion-icon>
+              </ion-button>
+              <div style="border: solid 1px #aaa; border-radius: 5px;">
+                <app-select-autocomplete [tblItems]="tblDiagnosis" InputLabel="" [searchProp]="'Code'"
+                  [searchProp2]="'Diagnosis'" [(ngModel)]="Service.DiagnosisCode" [ResProp]="'Code'"
+                  [reverseLabel]="true" prop1ColSize="3" prop2ColSize="9"
+                  (childSubmit)="setDiagnosis($event)"></app-select-autocomplete>
+              </div>
+
+            </ion-col>
+            <ion-col size="6" style="border: solid 1px #eee;">
+              <ion-label>{{ 'Diagnosis' | translate }}</ion-label>
+              <ion-input [(ngModel)]="Service.DiagnosisDesc" type="text" placeholder="" fill="outline"
+                style="margin-block: 4px 0;"></ion-input>
+            </ion-col>
+          </ion-row>
+          <div style="padding: 5px; position: relative;">
+            <ion-button shape="round" size="small" style="position: absolute; right: 10px; top: -12px;z-index: 99;">
+              <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+            </ion-button>
+            <ion-textarea [(ngModel)]="Service.OtherDiagnosis" label="Other Diagnosis" labelPlacement="stacked" rows="3"
+              fill="outline">
+            </ion-textarea>
+          </div>
+          <div style="padding: 5px; position: relative;">
+            <ion-button shape="round" size="small" style="position: absolute; right: 10px; top: -12px;z-index: 99;">
+              <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+            </ion-button>
+            <ion-textarea [(ngModel)]="Service.Actually" label="Note Actually" labelPlacement="stacked" rows="3"
+              fill="outline"></ion-textarea>
+          </div>
+
+          <ion-row
+            style="background: #4f6dcd12; padding-bottom:5px;border: solid 1px #A9D;margin: 5px;border-radius: 5px;">
+            <ion-col size="6" style="padding-bottom: 0; padding-top: 10px;">
+              {{ 'Service Code&Name' | translate }}
+            </ion-col>
+            <ion-col size="6" style="padding-block: 0;">
+              <!-- <app-select-autocomplete [tblItems]="tblItem" InputLabel="" [searchProp]="'Name'+all.LangLetter"
+                    [searchProp2]="'IDP'" [(ngModel)]="tmpID" [ResProp]="'IDP'"></app-select-autocomplete> -->
+              <ion-select [value]="CD_SreviceFilter" (ionChange)="serviceFilterChange($event)" interface="popover"
+                label="{{'Filter' | translate }}:">
+                <ion-select-option *ngFor="let item of tblSessoinType" [value]="item.IDP">
+                  {{ item["Name"+all.LangLetter] }}
+                </ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" style="padding-block: 0;">
+              <div style="border: solid 1px #aaa; border-radius: 5px;">
+                <app-select-autocomplete [tblItems]="tblServiceCodeName" InputLabel=""
+                  [searchProp]="'Name'+all.LangLetter" [searchProp2]="'PartNo'" [(ngModel)]="tmpID" [ResProp]="'IDP'"
+                  prop1ColSize="2" prop1ColSize="10"></app-select-autocomplete>
+              </div>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="3">
+              <ion-checkbox [(ngModel)]="ServiceModalCheckboxes.Recommended" (ionChange)="recommendedChange()"
+                labelPlacement="end">{{'Recommended' | translate }} </ion-checkbox>
+              <ion-checkbox [(ngModel)]="Service.Done" labelPlacement="end" (ionChange)="doneChange()">{{'Done' |
+                translate }}</ion-checkbox>
+              <ion-checkbox [(ngModel)]="ServiceModalCheckboxes.PrePaid" (ionChange)="prePaidChange()"
+                labelPlacement="end">{{'Pre Paid' | translate }} </ion-checkbox>
+              <ion-checkbox [(ngModel)]="Service.AsPackage" [disabled]="!ServiceModalCheckboxes.PrePaid"
+                (ionChange)="asPackageChange()" labelPlacement="end">
+                {{ 'As Package' | translate }}
+              </ion-checkbox>
+            </ion-col>
+            <ion-col size="1.2" style="padding-inline-end: 0;">
+              {{'Qty' | translate }}
+              <ion-input (ionInput)="changeQtyService()" (keypress)="all.isPositiveNumberEntering($event)"
+                [(ngModel)]="Service.Quantity" type="text" fill="outline" style="margin-top: 6px;"></ion-input>
+            </ion-col>
+            <ion-col size="0.6" style="padding-inline-start: 0;padding-top: 35px;">
+              <div style="height: 25px;"><ion-icon (click)="serviceQtyAdd(1)" name="add-circle"
+                  style="font-size: 25px;cursor: pointer;" color="primary"></ion-icon></div>
+              <div style="height: 25px;"><ion-icon (click)="serviceQtyAdd(-1)" name="remove-circle"
+                  style="font-size: 25px;cursor: pointer;" color="primary"></ion-icon></div>
+            </ion-col>
+
+            <ion-col size="2.2">
+              {{'Main List Price' | translate}}
+              <ion-input [(ngModel)]="Service.MainPrice" readonly (keypress)="all.isMoney($event)" type="text"
+                fill="outline" style="margin-top: 6px;"></ion-input>
+            </ion-col>
+
+            <ion-col size="2">
+              {{'Discount' | translate}}<ion-button (click)="discountModal();" shape="round" size="small"
+                style="margin-top: -5px;">
+                <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+              </ion-button>
+              <ion-input [(ngModel)]="Service.Discount" (ionInput)="changeDiscountService()"
+                (keypress)="all.isMoney($event)" type="text" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="1.5">
+              {{'Price' | translate}}
+              <ion-input [(ngModel)]="Service.Price" (ionInput)="changePriceService()" (keypress)="all.isMoney($event)"
+                type="text" fill="outline" style="margin-top: 6px;"></ion-input>
+            </ion-col>
+            <ion-col size="1.5">
+              {{'Net Price' | translate}}
+              <ion-input [(ngModel)]="Service.NetPrice" readonly (keypress)="all.isMoney($event)" type="text"
+                fill="outline" style="margin-top: 6px;"></ion-input>
+            </ion-col>
+          </ion-row>
+          <!-- <ion-row>
+            <ion-col size="3"></ion-col>
+            <ion-col size="9" style="padding-top: 0;">
+              <ion-checkbox [(ngModel)]="Service.AsPackage" labelPlacement="end"> {{ 'As Package' | translate }}
+              </ion-checkbox>
+            </ion-col>
+          </ion-row> -->
+
+        </ion-card>
+      </div>
+
+    </ion-content>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" color="danger" (click)="IsServiceModal=false;">
+          <ion-icon slot="start" name="close"></ion-icon>
+          <span *ngIf="Service.ID>0">{{'Cancel' | translate }}</span>
+          <span *ngIf="Service.ID==0">{{'Close' | translate }}</span>
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="saveServiceModal();" *ngIf="Service.ID>0" expand="block" color="success">
+          <ion-icon slot="start" name="save"></ion-icon>
+          {{'Save' | translate }}
+        </ion-button>
+
+        <ion-button (click)="addServiceModal();" *ngIf="Service.ID==0" expand="block" color="success">
+          <ion-icon slot="start" name="add"></ion-icon>
+          {{'Add' | translate }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ng-template>
+</ion-modal>
+
+<ion-modal class="box-modal" [isOpen]="IsDiscountModal" (ionModalWillDismiss)="IsDiscountModal=false;">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{'Service Discount' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="IsDiscountModal=false;">{{'Close' | translate}}
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light" style="border-inline: solid 2px var(--ion-color-primary);">
+      <ion-card>
+        <ion-row>
+          <ion-col size="8" class="ion-text-end"><ion-label>{{'Amount' | translate }}:</ion-label></ion-col>
+          <ion-col size="4">
+            <ion-input [(ngModel)]="DisacountModalData.Amount" readonly (keypress)="all.isMoney($event)"
+              placeholder="0.00" fill="outline"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="4" class="ion-text-end"> <ion-label>{{'Discount' | translate }}:</ion-label></ion-col>
+          <ion-col size="4" style="padding-block: 0;">
+            <ion-input [(ngModel)]="DisacountModalData.Discount" (ionInput)="setDiscount100()"
+              (keypress)="all.isMoney($event)" placeholder="0.00" fill="outline"></ion-input>
+          </ion-col>
+          <ion-col size="4" style="padding-block: 0;">
+            <ion-input [(ngModel)]="DisacountModalData.Discount100" (ionInput)="setDiscount()"
+              (keypress)="all.isPositiveNumberEntering($event)" label="%" placeholder="0.00" fill="outline"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" class="ion-text-end">
+            <ion-label>{{'Discount By Doctor' | translate }}:</ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-input [(ngModel)]="DisacountModalData.DiscountByDr" (ionInput)="setDiscountByDr100()"
+              (keypress)="all.isMoney($event)" placeholder="0.00" fill="outline"></ion-input>
+          </ion-col>
+          <ion-col size="4">
+            <ion-input [(ngModel)]="DisacountModalData.DiscountByDr100" (ionInput)="setDiscountByDr()"
+              (keypress)="all.isPositiveNumberEntering($event)" label="%" placeholder="0.00" fill="outline"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="4"></ion-col>
+          <ion-col size="4">
+            <ion-input [value]="+DisacountModalData.Discount + +DisacountModalData.DiscountByDr" readonly
+              placeholder="0.00" fill="outline"></ion-input>
+          </ion-col>
+          <ion-col size="4">
+            <ion-input [value]="+DisacountModalData.Discount100 + +DisacountModalData.DiscountByDr100" readonly
+              label="%" placeholder="0.00" fill="outline"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-content>
+    <ion-row style="    border-inline: solid 2px var(--ion-color-primary);
+    border-bottom: solid 2px var(--ion-color-primary);
+    border-radius: 0 0 15px 15px;">
+      <ion-col size="6">
+        <ion-button expand="block" color="danger" (click)="IsDiscountModal=false; CustomDiscountForAllService = false;">
+          <ion-icon slot="start" name="close"></ion-icon>
+          {{'Cancel' | translate }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="saveModalDiscount()" expand="block" color="success">
+          <ion-icon slot="start" name="save"></ion-icon>
+          {{'Save' | translate }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ng-template>
+</ion-modal>
+
+
+
+<ion-modal [isOpen]="IsMedicinModal" (ionModalWillDismiss)="IsMedicinModal=false;"
+  (ionModalWillPresent)="medicineModalOpened()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="success">
+        <ion-title>{{'Prescription Drugs' | translate }}:</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="IsMedicinModal=false;">{{'Close' | translate}}
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <div style="height: 100%; overflow-y: auto;">
+        <ion-card>
+          <div>
+            <ion-row>
+              <ion-col style="padding-inline-end: 0;">
+                <div style="border: solid 1px #aaa; border-radius: 5px;">
+                  <app-select-autocomplete [tblItems]="tblDrugs" InputLabel="{{'Prescription Drugs' | translate }}:"
+                    [searchProp]="'Name'+all.LangLetter" [searchProp2]="'PartNo'" [(ngModel)]="Medicine.IDItem"
+                    [ResProp]="'IDP'" prop1ColSize="9" prop2ColSize="3"
+                    (childSubmit)="selectDrug($event)"></app-select-autocomplete>
+                </div>
+              </ion-col>
+              <ion-col size="auto" style="padding-inline: 0;">
+                <ion-button (click)="getDrugData()" fill="clear">
+                  <ion-icon slot="icon-only" name="sync-circle"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12" style="padding-block: 0;">
+                <ion-input [(ngModel)]="Medicine.MedicineNameE" label="Medicine Name E:" type="text"
+                  fill="outline"></ion-input>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12" style="padding-block: 0;">
+                <div style="box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75); border-radius: 5px;">
+                  <app-mat-datepicker2 [(counterNumber)]="Medicine.StartDate"
+                    Label="{{'Start date' | translate}}:"></app-mat-datepicker2>
+                </div>
+              </ion-col>
+            </ion-row>
+
+
+            <ion-row>
+              <ion-col size="6" style="padding-block: 0;">
+                <ion-label>{{'Dose' | translate}}</ion-label>
+                <ion-input [(ngModel)]="Medicine.Dose" type="text" fill="outline"></ion-input>
+              </ion-col>
+              <ion-col size="3" style="padding-block: 0;">
+                <ion-label>{{'Unit' | translate}}</ion-label>
+                <ion-select [(ngModel)]="Medicine.Unit" interface="popover" fill="outline" style="min-height: 45px;">
+                  <ion-select-option *ngFor="let item of tblUnit" [value]="item.IDP">{{ item['Name'+all.LangLetter]
+                    }}</ion-select-option>
+                </ion-select>
+
+              </ion-col>
+              <ion-col size="3" style="padding-block: 0;">
+                <ion-label>{{'Concentration' | translate}} </ion-label>
+                <ion-select [(ngModel)]="Medicine.DrugUnit" interface="popover" fill="outline"
+                  style="min-height: 45px;">
+                  <ion-select-option *ngFor="let item of tblConcentration" [value]="item.IDP">{{
+                    item['Name'+all.LangLetter] }}</ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6" style="padding-block: 0;">
+                <ion-select label="{{'Route' | translate }}:" [(ngModel)]="Medicine.Route" interface="popover"
+                  fill="outline" style="min-height: 45px;">
+                  <ion-select-option *ngFor="let item of tblRoute" [value]="item.IDP">{{ item['Name'+all.LangLetter]
+                    }}</ion-select-option>
+                </ion-select>
+              </ion-col>
+              <ion-col size="6" style="padding-block: 0;">
+                <ion-select label="{{'Times Daily' | translate }}:" [(ngModel)]="Medicine.TimesDaily"
+                  interface="popover" fill="outline" style="min-height: 45px;">
+                  <ion-select-option *ngFor="let item of tblTimesDaily" [value]="item.IDP">{{
+                    item['Name'+all.LangLetter]
+                    }}</ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6">
+                <!-- <ion-label>{{'Duration' | translate}}</ion-label> -->
+                <ion-input [(ngModel)]="Medicine.Duration" type="text" fill="outline"
+                  label="{{'Duration' | translate}}:"></ion-input>
+              </ion-col>
+              <ion-col size="6">
+                <!-- <ion-label>{{'Duration Unit' | translate}}</ion-label> -->
+                <ion-select [(ngModel)]="Medicine.DurationUnit" interface="popover"
+                  label="{{'Duration Unit' | translate}}:" fill="outline" style="min-height: 45px;">
+                  <ion-select-option *ngFor="let item of tblDurationUnit" [value]="item.IDP">{{
+                    item['Name'+all.LangLetter] }}</ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+            <!-- <ion-row>
+              <ion-col size="12"><ion-checkbox labelPlacement="end">PRN</ion-checkbox></ion-col>
+            </ion-row> -->
+
+            <ion-item>
+              <ion-checkbox [(ngModel)]="Medicine.PRN" labelPlacement="start">PRN</ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-input [(ngModel)]="Medicine.Instructions" type="text"
+                label="{{'Order Instructions' | translate }}:?"></ion-input>
+              <ion-button size="small" slot="end" (click)="orderInstructionsAlert()">
+                <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+              </ion-button>
+            </ion-item>
+
+            <!-- <ion-row>
+              <ion-col>
+                <ion-input type="text" label="{{'Order Instructions' | translate }}:"></ion-input>
+              </ion-col>
+              <ion-col size="auto">
+                <ion-button size="small">
+                  <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row> -->
+
+
+          </div>
+
+        </ion-card>
+      </div>
+
+    </ion-content>
+    <ion-footer>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button expand="block" color="danger" (click)="IsMedicinModal=false;">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Cancel' | translate }}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button *ngIf="Medicine.ID>0" expand="block" color="success">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save' | translate }}
+          </ion-button>
+
+          <ion-button (click)="addMedicinModal()" *ngIf="Medicine.ID==0" expand="block" color="success">
+            <ion-icon slot="start" name="add"></ion-icon>
+            {{'Add' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+
+<ion-modal [isOpen]="IsRequestModal" (ionModalWillDismiss)="IsRequestModal=false;" class="request-modal"
+  [ngClass]="{'booking-modal': RequestModalTab==1}">
+  <ng-template>
+    <ion-header mode="ios">
+      <ion-toolbar color="primary">
+        <ion-title *ngIf="RequestModalTab==0">{{'Appointment Request' | translate }}</ion-title>
+        <ion-title *ngIf="RequestModalTab==1">{{'Create New Appointment' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="IsRequestModal=false;">{{'Close' | translate}}
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+
+      <div style="height: 100%; overflow-y: auto;">
+        <ion-card class="card-limit-border">
+          <ion-row>
+            <ion-col class="ion-text-center" size="6" style="background: var(--ion-color-primary);color: white;">
+              {{'Current Appointment' | translate}}:
+              <ion-text color="warning" style="font-weight: bold !important;"> {{ AppointmentRequest.AppointmentNo
+                }}</ion-text>
+              <!-- <ion-input label="{{'Current Appointment' | translate}}:"></ion-input> -->
+            </ion-col>
+            <ion-col class="ion-text-center" size="6" style="background: var(--ion-color-primary);color: white;">
+              {{'User' | translate}}:
+              <ion-text color="warning" style="font-weight: bold !important;"> {{ all.User.Name }} </ion-text>
+            </ion-col>
+            <ion-col size="12">
+              <ion-select [(ngModel)]="AppointmentRequest.IDBranch" label="{{'Branch' | translate }}:" fill="outline"
+                interface="popover" multiple="false">
+                <ion-select-option *ngFor="let item of all.tblBranch"
+                  [value]="item.IDP">{{item['Name'+all.LangLetter]}}</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12">
+              <div style="border: solid 1px #dadada; border-radius: 5px;">
+                <app-patient-select-auto [(ngModel)]="AppointmentRequest.Patient" [disabled]="false"
+                  InputLabel="{{'Patient' | translate}}:"></app-patient-select-auto>
+              </div>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <div style="border: solid 1px #dadada; border-radius: 5px;">
+                <app-select-autocomplete [tblItems]="tblDoctor" InputLabel="" [searchProp]="'Name'+all.LangLetter"
+                  [searchProp2]="'IDP'" [(ngModel)]="AppointmentRequest.IDDoctor" [ResProp]="'IDP'"
+                  [prop1ColSize]="'10'" [prop2ColSize]="'2'"
+                  InputLabel="{{'Doctor' | translate}}:"></app-select-autocomplete>
+              </div>
+
+              <ion-radio-group [(ngModel)]="AppointmentRequest.AType">
+                <ion-row>
+                  <ion-col size="4">
+                    <ion-label>{{'Appointment Type' | translate }}:</ion-label>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-radio [value]="0" labelPlacement="end">{{'Real' | translate}}</ion-radio>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-radio [value]="1" labelPlacement="end">{{'Waiting' | translate}}</ion-radio>
+                  </ion-col>
+                </ion-row>
+              </ion-radio-group>
+
+            </ion-col>
+
+          </ion-row>
+
+
+
+
+          <ion-row>
+            <ion-col size="4">{{'Date From' | translate}}</ion-col>
+            <ion-col size="4">{{'Within Days Count' | translate}}</ion-col>
+            <ion-col size="4">{{'Duration' | translate}}</ion-col>
+            <ion-col size="4">
+              <app-mat-datepicker2 [(counterNumber)]="AppointmentRequest.DateFrom" Label=""></app-mat-datepicker2>
+            </ion-col>
+            <ion-col size="3">
+              <ion-input [(ngModel)]="AppointmentRequest.WithinDaysCount"
+                (keypress)="all.isPositiveNumberEntering($event)" type="text" readonly placeholder="0"
+                fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="1" style="padding: 0;">
+              <div style="height: 25px;"><ion-icon (click)="requestWithinDaysCountAdd(1)" name="add-circle"
+                  style="font-size: 25px;cursor: pointer;" color="primary"></ion-icon></div>
+              <div style="height: 25px;"><ion-icon (click)="requestWithinDaysCountAdd(-1)" name="remove-circle"
+                  style="font-size: 25px;cursor: pointer;" color="primary"></ion-icon></div>
+            </ion-col>
+            <ion-col size="3">
+              <ion-input [(ngModel)]="AppointmentRequest.Duration" (keypress)="all.isPositiveNumberEntering($event)"
+                type="text" readonly placeholder="0" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="1" style="padding: 0;">
+              <div style="height: 25px;"><ion-icon (click)="requestDurationAdd(5)" name="add-circle"
+                  style="font-size: 25px;cursor: pointer;" color="primary"></ion-icon></div>
+              <div style="height: 25px;"><ion-icon (click)="requestDurationAdd(-5)" name="remove-circle"
+                  style="font-size: 25px;cursor: pointer;" color="primary"></ion-icon></div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <div style="border: solid 1px #dadada; border-radius: 5px;">
+                <app-select-autocomplete [tblItems]="tblRequestServices" InputLabel="{{'Service' | translate}}:"
+                  [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'" [(ngModel)]="AppointmentRequest.IDService"
+                  [reverseLabel]="true"></app-select-autocomplete>
+              </div>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input [(ngModel)]="AppointmentRequest.Description" label="{{'Description' | translate }}:"
+                type="text" fill="outline"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <!-- <ion-button (click)="getNextAvailable();" expand="block" [color]="IsRequest?'light':'primary'">
+            <ion-icon slot="start" name="color-wand"></ion-icon>
+            {{'Show Available Times' | translate}}
+          </ion-button> -->
+
+
+          <div *ngIf="RequestModalTab==1" style="margin: 2px;border: solid 1px #4f6dcd; border-radius: 10px;">
+            <ion-button (click)="getNextAvailable();" expand="block">
+              <ion-icon slot="start" name="search"></ion-icon>
+              {{'Find' | translate}}
+            </ion-button>
+            <ion-grid class="grid-class" style="border-radius: 5px 5px 0 0;">
+              <ion-row class="table-header" style="border-radius: 5px 5px 0 0;">
+                <ion-col size="3">{{ 'DayNo' | translate }}</ion-col>
+                <ion-col size="3">{{ 'AppDate' | translate }}</ion-col>
+                <ion-col size="3">{{ 'AppTime' | translate }}</ion-col>
+                <ion-col size="3">{{ 'Duration' | translate }}</ion-col>
+              </ion-row>
+              <div style="height: 200px; overflow-y: auto;">
+                <ion-row *ngFor="let item of tblNextAppt" (click)="SelectedNextAppt=item;" class="table-row"
+                  [ngClass]="{'selected-row': item==SelectedNextAppt}">
+                  <ion-col size="3">{{ item.DayNo }}</ion-col>
+                  <ion-col size="3">{{ item.AppDate }}</ion-col>
+                  <ion-col size="3">{{ item.AppTime }}</ion-col>
+                  <ion-col size="3">{{ item.Duration }}</ion-col>
+                </ion-row>
+              </div>
+            </ion-grid>
+
+
+            <!-- <ion-row>
+              <ion-col size="6">
+                <ion-button expand="block" shape="round" size="small" color="danger">
+                  {{'Close' | translate }} 
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button expand="block" shape="round" size="small">
+                  {{'Book' | translate }} 
+                </ion-button>
+              </ion-col>
+            </ion-row> -->
+
+          </div>
+        </ion-card>
+      </div>
+
+    </ion-content>
+    <ion-footer>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button expand="block" color="danger" (click)="IsRequestModal=false;">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Cancel' | translate }}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button *ngIf="RequestModalTab==0" (click)="saveModalRequest()" expand="block" color="primary">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save Request' | translate }}
+          </ion-button>
+          <ion-button *ngIf="RequestModalTab==1" [disabled]="SelectedNextAppt==null" expand="block" color="success">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Create Appointment' | translate }}
+          </ion-button>
+        </ion-col>
+        <!-- <ion-col size="auto">
+          <ion-button size="large">
+            <ion-icon slot="icon-only" name="color-wand"></ion-icon>
+          </ion-button>
+        </ion-col> -->
+      </ion-row>
+    </ion-footer>
+
+  </ng-template>
+</ion-modal>

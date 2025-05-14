@@ -1,0 +1,29 @@
+.header-cell, .body-cell {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+  }
+  
+  .resizable {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #f8f8f8;
+  
+    .resizer {
+      width: 5px;
+      height: 100%;
+      background: #000;
+      cursor: col-resize;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+  
+  .body-cell .resizable {
+    padding: 8px;
+    background-color: #fff;
+  }
+  

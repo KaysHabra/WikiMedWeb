@@ -1,0 +1,63 @@
+<!-- <div>
+  <input
+    type="text"
+    placeholder="ابحث..."
+    [(ngModel)]="searchTerm"
+    (input)="filterOptions()"
+  />
+  <select>
+    <option *ngFor="let option of filteredOptions" [value]="option.id">
+      {{ option.name }}
+    </option>
+  </select>
+</div> -->
+
+<ion-row style="border-bottom: solid 1px #dedede;
+padding-bottom: 1px;">
+  <!-- <ion-col size="auto" style="padding-top: 10px;">
+    <ion-text style="font-size: 15px;
+    color: #404246;">{{txtInputLabel}}</ion-text>
+  </ion-col> -->
+  <ion-col style="padding-block: 0;">
+
+    <div class="custom-select">
+
+      <!-- <input type="text" placeholder="{{placeholder}}" [(ngModel)]="searchTerm" (input)="filterOptions()"
+        (focus)="toggleDropdown(true)" (blur)="closeDropdown()" (keydown)="handleKeyDown($event)"
+        style="border: none;" /> -->
+
+      <ion-input type="text"  placeholder="{{placeholder}}" 
+        [(ngModel)]="searchTerm" (ionInput)="filterOptions()"
+        (ionFocus)="toggleDropdown(true); onFocus.emit(true);" (ionBlur)="closeDropdown()" (keydown)="handleKeyDown($event)"
+        label="{{txtInputLabel}}" style="margin: 0;">
+      </ion-input>
+
+
+
+      <div class="custom-dropdown" #dropdownContent *ngIf="dropdownOpen" (clickOutside)="dropdownOpen = false">
+        <div class="option" *ngFor="let option of filteredOptions; let i = index"
+          [class.highlighted]="i === highlightedIndex" (click)="selectOption(option)">
+          <!-- {{ option.name }} -->
+          <ion-row *ngIf="!reverseLabel">
+            <ion-col [size]="prop2ColSize" style="padding: 0;" *ngIf="prop2!='' && option[prop2]">{{option[prop2]}}</ion-col>
+            <ion-col [size]="prop1ColSize" style="padding: 0;">{{option[prop]}}</ion-col>
+          </ion-row>
+          <ion-row *ngIf="reverseLabel">
+            <ion-col [size]="prop1ColSize" style="padding: 0;" *ngIf="option[prop]">{{option[prop]}}</ion-col>
+            <ion-col [size]="prop2ColSize" style="padding: 0;" *ngIf="prop2!='' && option[prop2]">{{option[prop2]}}</ion-col>
+          </ion-row>
+        </div>
+        <div class="no-results" *ngIf="filteredOptions.length === 0">
+          {{'No results' | translate}}..
+        </div>
+      </div>
+
+      <ion-icon name="chevron-down" style="position: absolute;  top: 10px;" 
+        [ngStyle]="{'right': all.SelectedLang === 'en' ? '0' : 'auto', 'left': all.SelectedLang === 'en' ? 'auto' : '0'}"
+        (click)="toggleDropdown(true)"></ion-icon>
+    </div>
+
+
+  </ion-col>
+
+</ion-row>

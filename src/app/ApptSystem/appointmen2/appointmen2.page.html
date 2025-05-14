@@ -1,0 +1,481 @@
+<ion-content [fullscreen]="true" color="light">
+  <div class="tooltip-container-2 tooltip-container event-container" id="tooltip-container">
+
+  </div>
+  <!-- <span id="timer-1530497" class="timer-item flash">0:00</span> -->
+  <!-- <span id="timer-1530497">0:00</span> -->
+  <div style="max-height: 100%; height: 100%;overflow-y: auto; position: relative;">
+    <app-patient-appointments *ngIf="all.SubScheduleWindows.Visible" (childSubmit)="getPatientAppt($event)"
+      [Items]="all.tblSubWinItems"></app-patient-appointments>
+
+    <ion-row>
+      <ion-col size-lg="2" size-md="3" style="padding: 0;">
+        <div>
+          <ion-toolbar color="primary">
+            <ion-buttons slot="start">
+              <ion-back-button defaultHref="appointmen1"></ion-back-button>
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <!-- <ion-icon src="./assets/icons/alarm-clock-success.svg" color="success"></ion-icon>
+            <ion-icon src="./assets/icons/alarm-clock-cancelled.svg" color="danger"></ion-icon> -->
+            <ion-buttons slot="end">
+
+              <!-- <ion-button fill="clear" size="small" (click)="getNextDay(-1)">
+                <ion-icon slot="icon-only" name="play-skip-back"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" (click)="getNextDay(1)">
+                <ion-icon slot="icon-only" name="play-skip-forward"></ion-icon>
+              </ion-button> -->
+              <ion-button fill="clear" size="small" (click)="refreshSchedule()">
+                <ion-icon slot="icon-only" name="refresh"></ion-icon>
+              </ion-button>
+
+              <!-- <ion-row class="row-no-padding">
+                <ion-col size="6" class="ion-text-end">
+                  <ion-button fill="clear" size="small" (click)="getNextDay(-1)">
+                    <ion-icon slot="icon-only" name="play-skip-back"></ion-icon>
+                  </ion-button>
+                </ion-col>
+
+                <ion-col size="6" class="ion-text-start">
+                  <ion-button fill="clear" size="small" (click)="getNextDay(1)">
+                    <ion-icon slot="icon-only" name="play-skip-forward"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row> -->
+            </ion-buttons>
+            <!-- <ion-buttons slot="end">
+
+              <ion-button (click)="today()" fill="outline">
+                {{'Today' | translate}}
+              </ion-button>
+              <ion-button fill="outline">
+                <ion-icon slot="icon-only" name="play-skip-back"></ion-icon>
+              </ion-button>
+              <ion-button fill="outline">
+                <ion-icon slot="icon-only" name="play-skip-forward"></ion-icon>
+              </ion-button>
+            </ion-buttons> -->
+          </ion-toolbar>
+
+        </div>
+        <ion-card class="card-limit-border" style="margin: 5px;" color="warning">
+          <ion-row>
+            <ion-col style="padding: 0;">
+              <div style="padding-inline-start: 7px;">
+                <!-- <app-select-autocomplete-server [(ngModel)]="all.Patient" InputLabel=""
+                  [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'" [reverseLabel]="true"></app-select-autocomplete-server> -->
+
+                <!-- <app-select-autocomplete [(ngModel)]="Patient" [tblItems]="all.tblPatient" InputLabel="{{'Patient' | translate}}:"
+                  [searchProp]="'NameA'" [searchProp2]="'id'" ></app-select-autocomplete> -->
+
+                <!-- <app-gpt-autocomplete [(ngModel)]="all.Patient"
+                  (selectSubmit)="selectNewPatient($event)"></app-gpt-autocomplete> -->
+
+                <app-patient-select-auto [(ngModel)]="all.Patient"
+                  (selectSubmit)="selectNewPatient($event)"></app-patient-select-auto>
+
+              </div>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-card>
+
+        <ion-card class="card-limit-border" style="margin: 5px;">
+
+          <ion-row class="row-no-padding">
+            <ion-col size="auto">
+              <ion-button (click)="getNextDay(-1)" fill="outline" style="--padding-start: 0; --padding-end: 0;">
+                <ion-icon slot="end" name="chevron-back" style="margin: 0;"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col >
+              <app-date-picker [(ngModel)]="all.CurrentDate" 
+                (DateChanged)="currentDateChanged($event)" Label=""
+                [IsCalendar]="false" [LabelColor]="'primary'"></app-date-picker>
+            </ion-col>
+            <ion-col size="auto">
+              <ion-button (click)="getNextDay(1)" fill="outline" style="--padding-start: 0; --padding-end: 0;">
+                <ion-icon slot="end" name="chevron-forward" style="margin: 0;"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="auto" style="padding-inline-start: 0;">
+              <ion-button (click)="today()" fill="outline" style="--padding-start: 3px; --padding-end: 3px;">
+                {{'Today' | translate}}
+              </ion-button>
+            </ion-col>
+            
+          </ion-row>
+          <ion-row style="margin-top: -5px;">
+            <ion-col size="12" class="ion-text-center" style="padding-block: 0;">
+              <!-- {{ all.getHijriDate(all.CurrentDate) }}  -->
+              <div [innerHTML]="getHijriDate(all.CurrentDate)" 
+                style="border: solid 1px #5d78ce;border-radius: 3px;
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- <ion-row>
+            <ion-col size="6" class="ion-text-end" style="padding-top: 0;padding-bottom: 10px;">
+              <ion-button fill="outline" size="small" expand="block" (click)="getNextDay(-1)">
+                {{'Previous' | translate }}
+                <ion-icon slot="start" name="play-skip-back"
+                  [name]="this.all.LangLetter=='A'?'play-skip-forward': 'play-skip-back'"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="6" class="ion-text-start" style="padding-top: 0;padding-bottom: 10px;">
+              <ion-button fill="outline" size="small" expand="block" (click)="getNextDay(1)">
+                {{'Next' | translate}}
+                <ion-icon slot="end" name="play-skip-back"
+                  [name]="this.all.LangLetter=='A'?'play-skip-back': 'play-skip-forward'"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row> -->
+
+          <!-- <div> <ion-text color="success"></ion-text> </div> -->
+          <!-- <app-mat-datepicker2 [(counterNumber)]="CurrentDate" [(ngModel)]="CurrentDate"
+                    Label=""></app-mat-datepicker2> -->
+
+
+          <ion-datetime presentation="date" (ionChange)="setDate()" [(ngModel)]="all.CurrentDate"
+            style="margin-top: -10px;"  mode="md"></ion-datetime>
+        </ion-card>
+        <ion-card style="margin: 5px;">
+          <div>
+            <ion-row class="days-view">
+              <ion-col size="1.71" style="padding: 0;">
+                <ion-button (click)="viewDays(1)" fill="clear" size="small">
+                  1
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.71" style="padding: 0;">
+                <ion-button (click)="viewDays(2)" fill="clear" size="small">
+                  2
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.71" style="padding: 0;">
+                <ion-button (click)="viewDays(3)" fill="clear" size="small">
+                  3
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.71" style="padding: 0;">
+                <ion-button (click)="viewDays(7)" fill="clear" size="small">
+                  7
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.71" style="padding: 0;">
+                <ion-button (click)="viewDays(14)" fill="clear" size="small">
+                  14
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.71" style="padding: 0;">
+                <ion-button (click)="viewDays(28)" fill="clear" size="small">
+                  28
+                </ion-button>
+              </ion-col>
+              <ion-col size="1.71" style="padding: 0; background: #eee;">
+                <ion-input inputmode="decimal" [(ngModel)]="apptService.ViewDayCount" (keypress)="numberOnly($event)"
+                  class="ion-text-center" style="height: 25px;
+                  min-height: 24px !important;
+                  margin-top: 5px;"></ion-input>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-card>
+        <ion-card style="margin: 5px;">
+
+          <div class="btn-nextdays">
+            <ion-row>
+              <ion-col size="3">
+                <ion-button (click)="getNextDay(7)" matTooltip="{{'Next Week' | translate}}" fill="clear" shape="round"
+                  size="small">
+                  W>
+                </ion-button>
+              </ion-col>
+              <ion-col size="3">
+                <ion-button (click)="getNextMonthDate()" matTooltip="{{'Next Month' | translate}}" fill="clear"
+                  shape="round" size="small">
+                  M>
+                </ion-button>
+              </ion-col>
+
+              <ion-col size="3" class="ion-text-center">
+                <ion-input [(ngModel)]="NextDaysCount" style="box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);max-width: 60px; 
+                  border-radius: 5px; margin-top: 6px;min-height: 35px !important;height: 35px;
+                  height: 25px;
+                  min-height: 24px !important;
+                  margin-top: 5px;"></ion-input>
+              </ion-col>
+              <ion-col size="3">
+                <ion-button (click)="getNextDay(NextDaysCount)" matTooltip="{{'Next N Days' | translate}}" fill="clear"
+                  shape="round" size="small">
+                  N>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <div>
+            <ion-row class="row-no-padding">
+              <ion-col size="auto">
+                <ion-button (click)="expand()" [color]="IsYScroll? 'primary':'light'" size="small"
+                  matTooltip="{{'Auto Fill to Width' | translate}}" [matTooltipPosition]="'above'">
+                  <ion-icon slot="icon-only"
+                    [src]="IsYScroll? './assets/icons/expand-width-fill.svg':'./assets/icons/column-collapse.svg'"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <!-- <ion-col size="auto">
+                <ion-button [color]="IsYScroll? 'primary':'light'" size="small"
+                  matTooltip="{{'Show Flashed Notifications' | translate}}" [matTooltipPosition]="'above'">
+                  <ion-icon slot="icon-only" [name]="IsYScroll? 'flash':'flash-off'"></ion-icon>
+                </ion-button>
+              </ion-col> -->
+              <ion-col size="auto">
+                <ion-button (click)="showWalkAppt()" [color]="IsShowWalkAppt? 'primary':'light'" size="small"
+                  matTooltip="{{'Show Auto Walk In Appt' | translate}}" [matTooltipPosition]="'above'">
+                  <ion-icon slot="icon-only" name="walk"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="auto">
+                <ion-button (click)="showDeleted()" [color]="IsShowDeleted? 'primary':'light'" size="small"
+                  matTooltip="{{'Show Deleted Appt or Restore it' | translate}}" [matTooltipPosition]="'above'">
+                  <ion-icon slot="icon-only" src="./assets/icons/content-deleted.svg"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="auto">
+                <ion-button (click)="showBalloonHint()" [color]="IsShowBalloonHint? 'primary':'light'"
+                  matTooltip="{{'Show Balloon Hint' | translate}}" [matTooltipPosition]="'above'" size="small">
+                  <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <!-- <ion-col size="auto">
+                <ion-button [color]="IsYScroll? 'primary':'light'" size="small"
+                  matTooltip="{{'Show Schedule Balloon Hint' | translate}}" [matTooltipPosition]="'above'">
+                  <ion-icon slot="icon-only" name="chatbox-ellipses"></ion-icon>
+                </ion-button>
+              </ion-col> -->
+              <ion-col size="auto">
+                <ion-button (click)="showDayNotes()" [color]="IsDayHeaderNots? 'primary':'light'" size="small"
+                  matTooltip="{{'Show Display Notes' | translate}}" [matTooltipPosition]="'above'">
+                  <ion-icon slot="icon-only" name="browsers"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="auto">
+                <ion-button (click)="nextAvailable()" color="light" size="small"
+                  matTooltip="{{'Find Next Available Appointment' | translate}}" [matTooltipPosition]="'above'">
+                  <ion-icon slot="icon-only" name="color-wand"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-card>
+        <!-- <ion-button (click)="zoomCalendar(1.2)" style="text-align: center;">
+          <ion-icon slot="start" name="add"></ion-icon>
+          Zoom In
+        </ion-button>
+        <ion-button (click)="zoomCalendar(1)" style="text-align: center;">
+          <ion-icon slot="start" name="add"></ion-icon>
+          Zoom Out
+        </ion-button>
+        <ion-button (click)="addEvent()" style="text-align: center;">
+          <ion-icon slot="start" name="add"></ion-icon>
+          addEvent
+        </ion-button>
+        <ion-button (click)="removeEvent()" style="text-align: center;">
+          <ion-icon slot="start" name="add"></ion-icon>
+          removeEvent
+        </ion-button>
+        <ion-button (click)="getEventByID()">
+          <ion-icon slot="start" name="add"></ion-icon>
+          getEventByID
+        </ion-button> -->
+      </ion-col>
+      <ion-col size-lg="10" size-md="9" style=" padding: 0; ">
+        <!-- {{ tblNote[0].RepeatedDate }} -->
+        <div class="ion-text-center" style="padding: 0; margin: 0; background: #ccae62;font-size:14px"
+          *ngIf="IsDayHeaderNots && apptService.ViewDayCount==1 && tblNote.length>0 && tblNote[0].RepeatedDate==all.CurrentDate">
+          {{ tblNote[0].Note }}
+        </div>
+        <div>
+          <div id='calendar' #calender style="width: 100%; max-width: 100%; margin-top: 0; "></div>
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+
+
+    <div *ngIf="IsConfirmPatientBox" style="position: absolute; top: 30px; right: 15px;width: 250px; 
+      z-index: 99999999; background: white;">
+      <ion-card style="margin: 0;">
+        <ion-card-header color="primary" style="padding: 1px;">
+          <ion-card-subtitle style="display: flex;">
+            <ion-icon size="large" color="warning" src="./assets/icons/phone-confirm.svg"></ion-icon>
+            {{ ConfirmPatient['Name'+all.LangLetter] }} {{ ConfirmAppt.extendedProps.IDP }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content style="padding: 1px;">
+          <ion-list>
+            <ion-radio-group name="auto" [(ngModel)]="ConfirmAnswer">
+              <ion-list-header>
+                <ion-icon name="call" color="danger"></ion-icon> &nbsp;
+                <ion-label color="danger">{{'No Answer' | translate}}</ion-label>
+              </ion-list-header>
+              <div style="padding-inline-start:15px; ">
+                <ion-radio [value]="1" labelPlacement="end"> {{'No answer with ring' | translate }}</ion-radio>
+                <ion-radio [value]="2" labelPlacement="end"> {{'No answer with close mobile' | translate }}</ion-radio>
+                <ion-radio [value]="3" labelPlacement="end"> {{'No answer with wrong number' | translate}}</ion-radio>
+                <ion-radio [value]="4" labelPlacement="end"> {{'No answer with cream or proce..' |
+                  translate}}</ion-radio>
+              </div>
+
+
+              <ion-list-header>
+                <ion-icon name="call" color="success"></ion-icon>
+                <ion-label color="success">{{'Answer' | translate }}</ion-label>
+              </ion-list-header>
+              <div style="padding-inline-start:15px; ">
+                <ion-radio [value]="5" labelPlacement="end">{{'Answered and confirmed' | translate}}</ion-radio>
+                <ion-radio [value]="6" labelPlacement="end">{{'Answered with change' | translate}}</ion-radio>
+                <ion-radio [value]="7" labelPlacement="end">{{'Answered and confirmed for cream' |
+                  translate}}</ion-radio>
+                <ion-radio [value]="8" labelPlacement="end">{{'Answered and change appointment' |
+                  translate}}</ion-radio>
+              </div>
+
+              <ion-list-header>
+                <ion-icon name="call" color="warning"></ion-icon>
+                <ion-label color="warning">{{'Answer with no confirm' | translate}}</ion-label>
+              </ion-list-header>
+              <div style="padding-inline-start:15px; ">
+                <ion-radio [value]="9" labelPlacement="end">{{'Answered wrong appointment' | translate}}</ion-radio>
+                <ion-radio [value]="10" labelPlacement="end">
+                  <ion-label class="wrap-text">{{'Answered and patient will call patient later' |
+                    translate}}</ion-label>
+                </ion-radio>
+                <ion-radio [value]="11" labelPlacement="end">{{'Answered and Delete' | translate}}</ion-radio>
+              </div>
+            </ion-radio-group>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+
+      <!-- <ion-row class="event-header">
+        <ion-col size="auto"><ion-badge color="warning" class="visit-type-icon">&nbsp;&nbsp;</ion-badge></ion-col>
+        <ion-col> &nbsp; 1:45 PM-2:00 PM</ion-col>
+      </ion-row>
+      <ion-row class="event-patient">
+        <ion-col size="4">0</ion-col>
+        <ion-col size="8"> Salem Saleem </ion-col>
+      </ion-row>
+
+      <div class="event-desc"></div>
+      <div class="event-footer">
+        <div class="row">
+          <div class="branch-box">1</div>
+
+        </div>
+      </div> -->
+
+
+
+
+
+      <div style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; border: solid 1px #aaa; border-radius: 8px;">
+        <!-- <div>{{ConfirmPhone}}</div> -->
+        <!-- <app-select-autocomplete [tblItems]="tblConfirmPhone" [(ngModel)]="ConfirmPhone"></app-select-autocomplete> -->
+        <app-w3-autocomplete [items]="tblConfirmPhone" [(ngModel)]="ConfirmPhone"></app-w3-autocomplete>
+      </div>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button (click)="saveConfirm()" [disabled]="ConfirmAnswer==0" color="success" expand="block" size="small">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{ 'Save' | translate }}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button (click)="IsConfirmPatientBox=false;" color="danger" expand="block" size="small">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{ 'Cancel' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <div>
+        <ion-grid class="grid-class">
+          <ion-row class="table-header" style="padding:0;padding-inline-end:0">
+            <ion-col size="4.2"> {{'Status' | translate }} </ion-col>
+            <ion-col size="2.6"> {{'Date' | translate }} </ion-col>
+            <ion-col size="2.6"> {{'Phone' | translate }} </ion-col>
+            <ion-col size="2.6"> {{'User' | translate }} </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let item of tblConfirm" class="table-row" style="padding-inline-end:0; padding-block:0;">
+            <ion-col size="4.2" style="font-size: 12px;">
+              <div [ngSwitch]="item.Status">
+                <div *ngSwitchCase="1">{{'No answer with ring' | translate }} </div>
+                <div *ngSwitchCase="2">{{'No answer with close mobile' | translate }} </div>
+                <div *ngSwitchCase="3">{{'No answer with wrong number' | translate }} </div>
+                <div *ngSwitchCase="4">{{'No answer with cream or proce..' | translate }} </div>
+                <div *ngSwitchCase="5">{{'Answered and confirmed' | translate }} </div>
+                <div *ngSwitchCase="6">{{'Answered with change' | translate }} </div>
+                <div *ngSwitchCase="7">{{'Answered and confirmed for cream' | translate }} </div>
+                <div *ngSwitchCase="8">{{'Answered and change appointment' | translate }} </div>
+                <div *ngSwitchCase="9">{{'Answered wrong appointment' | translate }} </div>
+                <div *ngSwitchCase="10">{{'Answered and patient will call patient later' | translate }} </div>
+                <div *ngSwitchCase="11">{{'Answered and Delete' | translate }} </div>
+                <div *ngSwitchDefault></div>
+              </div>
+            </ion-col>
+            <ion-col size="2.6" style="font-size: 10px;"> {{ item.ADate }} </ion-col>
+            <ion-col size="2.6" style="font-size: 12px;"> {{ item.Phon | translate }} </ion-col>
+            <ion-col size="2.6" style="font-size: 12px;"> {{'User' | translate }} </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="context-menu" class="context-menu" style="display: none;">
+    <div *ngIf="ShowEventBallonHint" class="event-container" id="tooltip-container-mobile" style="width: 200px; max-height: 150px;">
+
+    </div>
+
+    <ul class="menu-slot">
+      <li (click)="newApp(true)" *ngIf="menuNo==0">{{'New Appointment' | translate }}</li>
+      <li (click)="getAvailableAreaList(true)" *ngIf="menuNo==0 && isSelectedDoctor()">{{'Available Operating Rooms' |
+        translate }}</li>
+      <li (click)="newApp(true, 1)" *ngIf="menuNo==0">{{ 'On Call Booking' | translate }}</li>
+      <li (click)="newApp(true, 0, null, 0, 1)" *ngIf="menuNo==0">{{ 'Walkin Booking' | translate }}</li>
+      <li *ngIf="menuNo==1" (click)="patientFilePage()"> {{'Open Patient File' | translate }} </li>
+      <li *ngIf="menuNo==1" (click)="getConfirmData()"> {{'Confirm Appointment' | translate }} </li>
+      <li *ngIf="menuNo==1" (click)="nextAvailable(1,0)"> {{'Send To' | translate }} </li>
+      <li *ngIf="menuNo==1" (click)="nextAvailable(0,1)"> {{'Copy To' | translate }} </li>
+      <li *ngIf="menuNo==1" (click)="cutAppt()"> {{'Cut' | translate }} </li>
+      <li [class.disabled]="CopyData==null || menuNo==1" (click)="pastAppt()"> {{'Paste' | translate }} </li>
+      <li class="submenu" *ngIf="menuNo==0"> {{'Schedules' | translate}}
+        <ul class="submenu-items">
+          <li (click)="openExtraErea()"> {{'Open Extra Area' | translate}} </li>
+          <li (click)="blockErea()"> {{'Block Selected Area' | translate}} </li>
+          <!-- <li> {{'Daily Note Schedule' | translate}} </li> -->
+        </ul>
+      </li>
+    </ul>
+    <!-- <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <div class="event-container" id="tooltip-container-mobile">
+
+    </div>
+      </ion-col>
+    </ion-row> -->
+
+  </div>
+
+</ion-content>
+
+
+
+

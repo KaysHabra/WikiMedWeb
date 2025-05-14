@@ -1,0 +1,50 @@
+<!-- <div style="border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+  <ion-list>
+    <ion-radio-group [(ngModel)]="Item.ReportVal">
+      <ion-list-header *ngIf="Item['Name' + Lang]">
+        <ion-label> {{ Item['Name' + Lang] }} </ion-label>
+      </ion-list-header>
+      <ion-row>
+        <ion-col *ngFor="let item of tblRadioVals;let i=index;">
+          <ion-radio [value]="i+1" labelPlacement="end"> {{item}} </ion-radio>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
+  </ion-list>
+</div> -->
+
+
+<div  style="margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+  <!-- {{item['Name'+Lang]}}: &nbsp; {{item.ReportVal}} -->
+
+
+  <div class="radio-group">
+    <div class="radio-header" *ngIf="Item['Name' + Lang]">
+      {{ Item['Name' + Lang] }}
+    </div>
+  
+    <div class="radio-options">
+      <label
+        class="radio-option"
+        *ngFor="let item of tblVals;"
+      >
+        <input *ngIf="Item.Report==item.Val"
+          type="radio"
+          [(ngModel)]="Item.Report"
+          [value]="item.Val" checked
+
+          (change)="onRadioChange(item.Val, $event)"
+        />
+        <input *ngIf="!(Item.Report==item.Val)"
+          type="radio"
+          [(ngModel)]="Item.Report"
+          [value]="item.Val" 
+          (change)="onRadioChange(item.Val, $event)"
+        />
+        <span class="custom-radio"></span>
+        <span class="option-label">{{ item.Label }}</span>
+      </label>
+    </div>
+  </div>
+  
+</div>

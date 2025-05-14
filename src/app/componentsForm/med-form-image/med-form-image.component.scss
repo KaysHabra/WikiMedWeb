@@ -1,0 +1,17 @@
+.area-mouse-over{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7768ff;
+}
+.area-mouse-over:hover{
+    border: solid 3px #999;
+    border-radius: 5px;
+}
+.found-data{
+    color: var(--ion-color-danger);
+}
+
+.form-class{
+    --width:500px;
+}

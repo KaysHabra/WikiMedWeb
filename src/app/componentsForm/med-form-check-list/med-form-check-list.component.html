@@ -1,0 +1,45 @@
+<!-- <div *ngIf="!IsPrinting">
+  <ion-checkbox *ngFor="let item of tblVals; let i=index;" [value]="i+1" 
+    [(ngModel)]="item.ReportVal" labelPlacement="end" > 
+    {{item}} 
+  </ion-checkbox>
+</div> -->
+
+
+<!-- <div class="checkbox-wrapper">
+  <input *ngIf="item.ReportVal" type="checkbox" checked id="checkbox-{{item.ReportVal}}">
+  <input *ngIf="!item.ReportVal" type="checkbox" id="checkbox-{{item.ReportVal}}">
+  <label for="checkbox-{{item.ReportVal}}">
+    {{ item['Name' + Lang] }}  
+  </label>
+</div> -->
+
+
+
+<div class="checkbox-group" style="margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+  <div class="checkbox-header" *ngIf="Item['Name' + Lang]">
+    {{ Item['Name' + Lang] }}
+  </div>
+
+  <div class="checkbox-options">
+    <label
+      class="checkbox-option"
+      *ngFor="let item of tblVals;"
+    >
+      <input *ngIf="isChecked(item.Val)"
+        type="checkbox"
+        [value]="item.Val"
+        (change)="onCheckboxChange(item.Val, $event)"
+        checked
+      />
+      <input *ngIf="!isChecked(item.Val)"
+        type="checkbox"
+        [value]="item.Val"
+        (change)="onCheckboxChange(item.Val, $event)"
+        
+      />
+      <span class="custom-checkbox"></span>
+      <span class="option-label">{{ item.Label }}</span>
+    </label>
+  </div>
+</div>

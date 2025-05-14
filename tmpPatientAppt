@@ -1,0 +1,47 @@
+
+select
+a.IDP,
+if((p.IDAcc>0 and Date(ifnull(a.ADate,0))=ifnull(p.createdDate,0)) or p.IDAcc<=0,"New","Old") PatientStatus,
+IfNull(c.Ac_Num,a.IDPatient) FileNo,p.NameE PatientName,
+cast(if(1=0 and a.AType=1 , Date(ifnull(a.ADate,0)) , ifnull(a.ADate,0) )  as DateTime) ADate,
+IfNull(i.PartNo,0) ServiceCode,IfNull(i.NameE,"") ServiceName,
+a.VisitType,Case a.VisitType when 0 then "First Visit" when 1 then "Follow up" when 2 then "Return" when 3 then "Procedure Room" when 4 then "Clinic Procedure" end VType,
+e.SName DoctorCode,e.Full_Name_Eng DoctorName,
+IfNull(O.NameE,"") OperatingRoom ,
+a.Description,
+u.UserName OwnerUser,uu.UserName LastUser,
+a.AType, case a.Atype when 0 then "Real" when 1 then "Waiting" when 2 then "All" when 3 then "WalkIn" end ApintmentType,
+a.Duration,
+a.ConfirmCount, ifnull(a.CreatedDate,0) CreatedDate,
+         case When a.Attend=1 and cast(TIMEDIFF(a.AttendTime,Time(a.ADate)) as signed)<=0 then "Attend Early"
+              when a.Attend=1 and cast(TIMEDIFF(a.AttendTime,Time(a.ADate)) as signed)>=700 then "Attend Late"
+              when a.Attend<=0 then "Not Attend"
+              Else "Attend On time"
+         end AttendStatus,
+         case when a.Enter=1 and cast(TIMEDIFF(a.AttendEnter,Time(a.ADate)) as signed)<=0 then "Enter Early"
+              when a.Enter=1 and cast(TIMEDIFF(a.AttendEnter,Time(a.ADate)) as signed)>=700 then "Enter Late"
+              when a.Enter<=0 then "Not Enter"
+              Else "Enter On Time"
+         end EnterStatus,
+         case when a.AOut=1 and cast(TIMEDIFF(a.AttendOut,Time(a.ADate)+interval a.Duration minute) as signed)<=0 then "Out Early"
+              when a.AOut=1 and cast(TIMEDIFF(a.AttendOut,Time(a.ADate)+interval a.Duration minute) as signed)>=700 then "Out Late"
+              when a.AOut<=0 then "Not Out"
+              Else "Out On Time"
+         end OutStatus,
+         case when a.Attend=1 and a.Enter=1 and a.AOut=1 and TIME_TO_SEC(TIMEDIFF(a.AttendOut,a.AttendEnter))/60>a.Duration+5 then "Exceeded"
+              when a.Attend=1 and a.Enter=1 and a.AOut=1 and TIME_TO_SEC(TIMEDIFF(a.AttendOut,a.AttendEnter))/60<=a.Duration+5 then "Normal"
+              Else ""
+         end ExceededStatus,
+a.IDAgreement,IfNull(g.NameE,"") Agreement,
+a.Deleted,
+p.IDP TempFileNo,
+a.IDPatient,a.IDDoctor,a.IDOperatingRoom,a.Attend
+FROM appointments a Left join Employees e on e.IDC=a.IDC and a.IDDoctor=e.IDP
+                    Left join OperatingRooms o on o.IDC=a.IDC and a.IDOperatingRoom=o.IDP
+                    Left Join Items i on i.IDC=a.IDC and a.IDProcedure=i.IDP
+                    Left Join Users u on u.ID=a.CreatedUser
+                    Left Join Users uu on uu.ID=a.IdUser
+                    Left Join agreements g on g.IDC=a.IDC and g.IDP=a.IDAgreement
+         ,Patients p Left join acc c on p.IDC=c.IDC and p.IDAcc=c.IDP
+where a.IDPatient=p.IDP and a.IDC=1 and a.IDPatient=300125565 
+order by  a.Adate; 

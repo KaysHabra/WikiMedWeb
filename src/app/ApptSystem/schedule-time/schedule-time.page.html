@@ -1,0 +1,602 @@
+<ion-header [translucent]="true" >
+  <ion-toolbar color="primary" >
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ 'Schedule Time' | translate }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-segment (ionChange)="segmentChange()" [(ngModel)]="SegmentNo">
+        <ion-segment-button [value]="1">
+          <ion-label>{{ 'Doctors' | translate }} </ion-label>
+        </ion-segment-button>
+        <ion-segment-button [value]="2">
+          <ion-label>{{'Operating Rooms' | translate }} </ion-label>
+        </ion-segment-button>
+        <ion-segment-button [value]="3">
+          <ion-label>{{'Week Schedule' | translate }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <!-- <ion-row>
+    <ion-col (click)="tblTempSort= getSortedIndices(tblTemp, 'ID', 'asc')">
+        ID
+        <ion-icon *ngIf="LSort.sortBy=='ID' && LSort.order=='desc'" slot="end" src="./assets/icons/down-arrow.svg"></ion-icon>
+        <ion-icon *ngIf="LSort.sortBy=='ID' && LSort.order=='asc'" slot="end" src="./assets/icons/up-arrow.svg"></ion-icon>
+    </ion-col>
+    <ion-col (click)="tblTempSort=getSortedIndices(tblTemp, 'Name', 'asc')">
+      {{'Name' | translate }}
+      <ion-icon *ngIf="LSort.sortBy=='Name' && LSort.order=='desc'" src="./assets/icons/down-arrow.svg"></ion-icon>
+      <ion-icon *ngIf="LSort.sortBy=='Name' && LSort.order=='asc'" src="./assets/icons/up-arrow.svg"></ion-icon>
+    </ion-col>
+    <ion-col (click)="tblTempSort=getSortedIndices(tblTemp, 'BirthDay', 'desc', true)">
+      {{'BirthDay' | translate }}
+      <ion-icon *ngIf="LSort.sortBy=='BirthDay' && LSort.order=='desc'" src="./assets/icons/down-arrow.svg"></ion-icon>
+      <ion-icon *ngIf="LSort.sortBy=='BirthDay' && LSort.order=='asc'" src="./assets/icons/up-arrow.svg"></ion-icon>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let i of tblTempSort">
+    <ion-col >{{tblTemp[i].ID}}</ion-col>
+    <ion-col >{{tblTemp[i].Name}}</ion-col>
+    <ion-col >{{tblTemp[i].BirthDay}}</ion-col>
+  </ion-row> -->
+
+
+
+
+  <div style="height: 100%; overflow-y: auto;">
+    <ion-card style="margin: 5px;">
+
+
+      <div *ngIf="SegmentNo==1 || SegmentNo==2">
+        <ion-row>
+          <ion-col *ngIf="SegmentNo==1" size="6" style="border-bottom: solid 1px #eee;padding: 0;">
+            <ion-item>
+              <ion-label> {{'Doctors' | translate}}:
+                <ion-chip *ngFor="let item of getSelected(all.tblDoctors, SearchDoctor)" color="primary"
+                  style="padding: 0 10px; margin: 0; min-height: 20px;">
+                  <ion-label>{{item['Name'+all.LangLetter]}}</ion-label>
+                  <!-- <ion-icon name="close" (click)="removeDoctor(item)"></ion-icon> -->
+                </ion-chip>
+              </ion-label>
+              <ion-button (click)="IsDoctorModal=true;" fill="outline" size="small" slot="end">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-col>
+          <ion-col *ngIf="SegmentNo==2" size="6" style="border-bottom: solid 1px #eee;padding: 0;">
+            <ion-item>
+              <ion-label> {{'Rooms' | translate}}:
+                <ion-chip *ngFor="let item of getSelected(all.tblRooms, SearchRoom)" color="primary"
+                  style="padding: 0 10px; margin: 0; min-height: 20px;">
+                  <ion-label>{{item['Name'+all.LangLetter]}}</ion-label>
+                  <!-- <ion-icon name="close" (click)="removeRoom(item)"></ion-icon> -->
+                </ion-chip>
+              </ion-label>
+              <ion-button (click)="IsRoomModal=true;" fill="outline" size="small" slot="end">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+
+
+        <ion-row>
+          <ion-col size="2.5">
+            <div class="ion-text-center">
+              <ion-checkbox [(ngModel)]="IsCreatedFromDate" labelPlacement="end" mode="ios">{{'Created From Date' | translate }}</ion-checkbox>
+              
+            </div>
+            <app-mat-datepicker2 [(counterNumber)]="Search.CreatedFromDate" [disabled]="!IsCreatedFromDate"
+              Label=""></app-mat-datepicker2>
+          </ion-col>
+          <ion-col size="2.5">
+            <div class="ion-text-center">
+              <ion-checkbox [(ngModel)]="IsCreatedToDate" labelPlacement="end" mode="ios">{{'Created To Date' | translate }}</ion-checkbox>
+            </div>
+            <app-mat-datepicker2 [(counterNumber)]="Search.CreatedToDate" [disabled]="!IsCreatedToDate"
+              Label=""></app-mat-datepicker2>
+          </ion-col>
+          <ion-col size="2.5">
+            <div class="ion-text-center">
+              <ion-checkbox [(ngModel)]="IsStartdDateFrom" labelPlacement="end" mode="ios">{{'Start Date From' | translate }}</ion-checkbox>
+              
+            </div>
+            <app-mat-datepicker2 [(counterNumber)]="Search.StartDateFrom" [disabled]="!IsStartdDateFrom"
+              Label=""></app-mat-datepicker2>
+          </ion-col>
+          <ion-col size="2.5">
+            <div class="ion-text-center">
+              <ion-checkbox [(ngModel)]="IsStartdDateTo" labelPlacement="end" mode="ios">{{'Start Date To' | translate }}</ion-checkbox>
+              
+            </div>
+            <app-mat-datepicker2 [(counterNumber)]="Search.StartDateTo" [disabled]="!IsStartdDateTo"
+              Label=""></app-mat-datepicker2>
+          </ion-col>
+          <ion-col size="2">
+            <ion-button (click)="getDoctorRoomTimes()" expand="block" size="large" >
+              <ion-icon slot="end" name="search"></ion-icon>
+              {{'Find' | translate}}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+
+
+
+
+
+    </ion-card>
+
+
+    <ion-card style="margin: 5px;" *ngIf="SegmentNo==1 || SegmentNo==2">
+      <ion-grid class="grid-class">
+        <ion-row class="table-header">
+          <ion-col size="1.5">{{'ScheduleType' | translate }}</ion-col>
+          <ion-col size="1">{{'AreaType' | translate }}</ion-col>
+          <ion-col size="1">{{'StartDate' | translate }}</ion-col>
+          <ion-col size="1">{{'CloseDate' | translate }}</ion-col>
+          <ion-col size="1">{{'OpenTime' | translate }}</ion-col>
+          <ion-col size="1">{{'EndTime' | translate }}</ion-col>
+          <ion-col size="1">{{'UserName' | translate }}</ion-col>
+          <ion-col size="1">{{'Branch' | translate }}</ion-col>
+          <ion-col size="2">{{'ADate' | translate }}</ion-col>
+          <ion-col size="0.5">
+            <ion-checkbox (ionChange)="selectAll($event)" style="margin-top: 2px;" color="success"></ion-checkbox>
+          </ion-col>
+          <ion-col size="0.5" style="padding: 0;">
+            <ion-button matTooltip="{{'Edit Selected' | translate}}" size="small"
+              fill="outline" color="warning" [disabled]="true">
+              <ion-icon slot="icon-only" name="create" style="--padding-start: 3px;--padding-end: 3px;"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="0.5" style="padding: 0;">
+            <ion-button (click)="delSelected()" matTooltip="{{'Delete Selected' | translate}}"
+              [disabled]="disableEdit()" size="small" fill="outline" color="danger">
+              <ion-icon slot="icon-only" name="trash" style="--padding-start: 3px;--padding-end: 3px;"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let item of tblTimes" class="table-row"
+          [ngStyle]="{'background': item.State==0? all.BlockColor: all['Shift'+item.ShiftNo+'Color']+60  }">
+          <ion-col size="1.5">{{ item.ScheduleType }}</ion-col>
+          <ion-col size="1">{{ item.AreaType }}</ion-col>
+          <ion-col size="1">{{ item.StartDate }}</ion-col>
+          <ion-col size="1">{{ item.CloseDate }}</ion-col>
+          <ion-col size="1">{{ item.OpenTime }}</ion-col>
+          <ion-col size="1">{{ item.EndTime }}</ion-col>
+          <ion-col size="1">{{ item.UserName }}</ion-col>
+          <ion-col size="1">{{ item.IDBranch }}</ion-col>
+          <ion-col size="2">{{ item.ADate }}</ion-col>
+          <ion-col size="0.5">
+            <ion-checkbox [(ngModel)]="item.Selected" [disabled]="item.State==0 || item.ShiftNo==-1 || item.ShiftNo==-2" style="margin-top: 2px;" color="success"></ion-checkbox>
+          </ion-col>
+          <ion-col size="0.5" style="padding: 0;">
+            <ion-button (click)="edit(item)" [disabled]="isEditDisabled(item)" size="small" fill="clear" color="warning">
+              <ion-icon slot="icon-only" name="create" style="--padding-start: 3px;--padding-end: 3px;"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="0.5" style="padding: 0;">
+            <ion-button (click)="del(item)" size="small" fill="clear" color="danger">
+              <ion-icon slot="icon-only" name="trash" style="--padding-start: 3px;--padding-end: 3px;"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+
+
+
+    <div *ngIf="SegmentNo==3">
+      <ion-card style="margin: 5px;">
+        <ion-row>
+          <ion-col size="6" style="border-bottom: solid 1px #eee;padding: 0;">
+            <ion-item>
+              <ion-label> {{'Doctors' | translate}}:
+                <ion-chip *ngFor="let item of getSelected(all.tblDoctors, tblSelectedDoctor)" color="primary"
+                  style="padding: 0 10px; margin: 0; min-height: 20px;">
+                  <ion-label>{{item['Name'+all.LangLetter]}}</ion-label>
+                  <ion-icon name="close" (click)="removeDoctor(item)"></ion-icon>
+                </ion-chip>
+              </ion-label>
+              <ion-button (click)="IsDoctorModal=true;" fill="outline" size="small" slot="end">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6" style="border-bottom: solid 1px #eee;padding: 0;">
+            <ion-item>
+              <ion-label> {{'Rooms' | translate}}:
+                <ion-chip *ngFor="let item of getSelected(all.tblRooms, tblSelectedRoom)" color="primary"
+                  style="padding: 0 10px; margin: 0; min-height: 20px;">
+                  <ion-label>{{item['Name'+all.LangLetter]}}</ion-label>
+                  <ion-icon name="close" (click)="removeRoom(item)"></ion-icon>
+                </ion-chip>
+              </ion-label>
+              <ion-button (click)="IsRoomModal=true;" fill="outline" size="small" slot="end">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+
+
+      <ion-card style="margin: 5px;padding: 0 10px;" [ngStyle]="{'background': all['Shift'+ShiftNo+'Color']+'10'}">
+
+        <ion-row>
+          <ion-col size="3">
+            <div class="ion-text-center">{{'Branch' | translate }}</div>
+            <div style="background: white; border-radius: 5px; ">
+              <app-select-autocomplete [tblItems]="all.tblBranch" [maxItems]="100" InputLabel=""
+                [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'" [ResProp]="'IDP'"
+                [placeholder]="'select branch'" [(ngModel)]="IDBranch"></app-select-autocomplete>
+            </div>
+          </ion-col>
+          <ion-col size="3">
+            <div class="ion-text-center">{{'Created From Date' | translate }}</div>
+            <app-mat-datepicker2 [(counterNumber)]="SechduleData.CreatedFromDate" Label=""></app-mat-datepicker2>
+          </ion-col>
+          <ion-col size="3">
+            <div class="ion-text-center">{{'Created From Date' | translate }}</div>
+            <app-mat-datepicker2 [(counterNumber)]="SechduleData.CreatedToDate" Label=""></app-mat-datepicker2>
+          </ion-col>
+          <ion-col size="3" style="padding-top: 15px;">
+            <div>
+              <ion-checkbox [(ngModel)]="RealApp" labelPlacement="end">
+                {{'Real Schedule' | translate}}
+              </ion-checkbox>
+            </div>
+            <div>
+              <ion-checkbox [(ngModel)]="WaitingApp" labelPlacement="end">
+                {{'Waiting Schedule' | translate}}
+              </ion-checkbox>
+            </div>
+
+
+          </ion-col>
+        </ion-row>
+
+        <ion-segment value="GeneralShift" mode="ios" [(ngModel)]="ShiftNo">
+          <ion-segment-button [value]="1" class="shift1">
+            <ion-label>{{'General Shift' | translate}}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button [value]="2" class="shift2">
+            <ion-label>{{'Operating Room Shift' | translate}}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button [value]="3" class="shift3">
+            <ion-label>{{'Procedures Shift' | translate}}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <div *ngIf="!ScheduleDisplay">
+          <ion-item *ngFor="let item of [1,2,3,4,5,6,7]">
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3><ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text></h3>
+              <p><ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item>
+        </div>
+
+        <div class="schedule-shifts" *ngIf="ScheduleDisplay">
+          <div style="margin-top: 50px;">
+            <ion-row>
+              <ion-col size="1.5" style="padding-inline: 0;">
+                <ion-checkbox [(ngModel)]="GeneralShift.Sunday.Active" labelPlacement="end"></ion-checkbox>
+                <ion-button (click)="setAll('Sunday')" fill="clear" size="small" class="innder-padding">
+                  {{'Sunday' | translate}}
+                  <!-- {{ GeneralShift.Sunday.Range.lower }} -->
+                </ion-button>
+              </ion-col>
+              <ion-col size="10.5">
+                <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="GeneralShift.Sunday.Range" [DayName]="'Sunday'"
+                  [Active]="GeneralShift.Sunday.Active"></app-doctor-shift>
+              </ion-col>
+            </ion-row>
+
+            <!-- <div *ngIf="warningMsg(GeneralShift.Sunday)!=''" class="ion-text-center">
+              <ion-note color="danger" style="font-style: italic">{{warningMsg(GeneralShift.Sunday)}}</ion-note>
+            </div> -->
+          </div>
+          <div style="margin-top: 30px;">
+            <ion-row>
+              <ion-col size="1.5" style="padding-inline: 0;">
+                <ion-checkbox [(ngModel)]="GeneralShift.Monday.Active" labelPlacement="end"></ion-checkbox>
+                <ion-button (click)="setAll('Monday')" fill="clear" size="small" class="innder-padding">
+                  {{'Monday' | translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col size="10.5">
+                <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="GeneralShift.Monday.Range" [DayName]="'Monday'"
+                  [Active]="GeneralShift.Monday.Active"></app-doctor-shift>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div style="margin-top: 30px;">
+            <ion-row>
+              <ion-col size="1.5" style="padding-inline: 0;">
+                <ion-checkbox [(ngModel)]="GeneralShift.Tuesday.Active" labelPlacement="end"></ion-checkbox>
+                <ion-button (click)="setAll('Tuesday')" fill="clear" size="small" class="innder-padding">
+                  {{'Tuesday' | translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col size="10.5">
+                <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="GeneralShift.Tuesday.Range" [DayName]="'Tuesday'"
+                  [Active]="GeneralShift.Tuesday.Active"></app-doctor-shift>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div style="margin-top: 30px;">
+            <ion-row>
+              <ion-col size="1.5" style="padding-inline: 0;">
+                <ion-checkbox [(ngModel)]="GeneralShift.Wednesday.Active" labelPlacement="end"></ion-checkbox>
+                <ion-button (click)="setAll('Wednesday')" fill="clear" size="small" class="innder-padding">
+                  {{'Wednesday' | translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col size="10.5">
+                <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="GeneralShift.Wednesday.Range"
+                  [DayName]="'Wednesday'" [Active]="GeneralShift.Wednesday.Active"></app-doctor-shift>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div style="margin-top: 30px;">
+            <ion-row>
+              <ion-col size="1.5" style="padding-inline: 0;">
+                <ion-checkbox [(ngModel)]="GeneralShift.Thursday.Active" labelPlacement="end"></ion-checkbox>
+                <ion-button (click)="setAll('Thursday')" fill="clear" size="small" class="innder-padding">
+                  {{'Thursday' | translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col size="10.5">
+                <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="GeneralShift.Thursday.Range"
+                  [DayName]="'Thursday'" [Active]="GeneralShift.Thursday.Active"></app-doctor-shift>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div style="margin-top: 30px;">
+            <ion-row>
+              <ion-col size="1.5" style="padding-inline: 0;">
+                <ion-checkbox [(ngModel)]="GeneralShift.Friday.Active" labelPlacement="end"></ion-checkbox>
+                <ion-button (click)="setAll('Friday')" fill="clear" size="small" class="innder-padding">
+                  {{'Friday' | translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col size="10.5">
+                <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="GeneralShift.Friday.Range" [DayName]="'Friday'"
+                  [Active]="GeneralShift.Friday.Active"></app-doctor-shift>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <div style="margin-top: 30px;">
+            <ion-row>
+              <ion-col size="1.5" style="padding-inline: 0;">
+                <ion-checkbox [(ngModel)]="GeneralShift.Saturday.Active" labelPlacement="end"></ion-checkbox>
+                <ion-button (click)="setAll('Saturday')" fill="clear" size="small" class="innder-padding">
+                  {{'Saturday' | translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col size="10.5">
+                <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="GeneralShift.Saturday.Range"
+                  [DayName]="'Saturday'" [Active]="GeneralShift.Saturday.Active"></app-doctor-shift>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+
+      </ion-card>
+    </div>
+
+
+  </div>
+
+</ion-content>
+<ion-footer *ngIf="SegmentNo==3">
+  <ion-toolbar>
+    <ion-title>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button color="danger" expand="block">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Cancel' | translate}}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button (click)="save()" color="success" expand="block">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
+
+
+
+
+
+<ion-modal [isOpen]="IsDoctorModal || IsRoomModal" (ionModalWillDismiss)="IsRoomModal=false; IsDoctorModal=false;">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{'Doctors' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="IsRoomModal=false; IsDoctorModal=false;">{{'Close' | translate}}
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <div style="height: 100%; overflow-y: auto;">
+
+        <ion-card *ngIf="IsDoctorModal && SegmentNo==1" style="margin: 0;">
+          <app-tree-view-selection (selectedCAT)="SearchDoctor= $event" [tblSelected]="SearchDoctor"
+            [tblArr]="all.tblDoctors" [showEdit]="false" [showDelete]="false" [showAddSub]="false"
+            [PropVeiw]="'Name'+all.LangLetter" [showProgressBar]="false" [fileIcon]="'doctor'"
+            [IsMultiSelect]="false"></app-tree-view-selection>
+        </ion-card>
+        <ion-card *ngIf="IsRoomModal && SegmentNo==2" style="margin: 0;">
+          <app-tree-view-selection (selectedCAT)="SearchRoom= $event" [tblSelected]="SearchRoom" [tblArr]="all.tblRooms"
+            [showEdit]="false" [showDelete]="false" [showAddSub]="false" [PropVeiw]="'Name'+all.LangLetter"
+            [showProgressBar]="false" [IsMultiSelect]="false"></app-tree-view-selection>
+        </ion-card>
+
+
+
+        <ion-card *ngIf="IsDoctorModal && SegmentNo==3" style="margin: 0;">
+          <app-tree-view-selection (selectedCAT)="tblSelectedDoctor= $event" [tblSelected]="tblSelectedDoctor"
+            [tblArr]="all.tblDoctors" [showEdit]="false" [showDelete]="false" [showAddSub]="false"
+            [PropVeiw]="'Name'+all.LangLetter" [showProgressBar]="false"
+            [fileIcon]="'doctor'"></app-tree-view-selection>
+        </ion-card>
+
+        <ion-card *ngIf="IsRoomModal && SegmentNo==3" style="margin: 0;">
+          <app-mat-tree-view (selectedCAT)="tblSelectedRoom= $event" [tblSelected]="tblSelectedRoom"
+            [tblArr]="all.tblRooms" [showEdit]="false" [showDelete]="false" [showAddSub]="false"
+            [PropVeiw]="'Name'+all.LangLetter" [showProgressBar]="false"></app-mat-tree-view>
+        </ion-card>
+      </div>
+
+
+
+    </ion-content>
+    <!-- <ion-footer>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button color="danger" expand="block">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Cancel' | translate}}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          
+          <ion-button (click)="saveSelection()" color="success" expand="block">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer> -->
+  </ng-template>
+</ion-modal>
+
+
+<ion-modal [isOpen]="IsEditModal" (ionModalWillDismiss)="IsEditModal=false;">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{'Update Schedule' | translate }} 
+          <span *ngIf="IsMultiSelect">
+            <ion-text color="warning">[{{'Multi-editing' | translate}}]</ion-text>
+          </span>
+         </ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="IsEditModal=false;">{{'Close' | translate}}
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <div style="height: 100%; overflow-y: auto;">
+        <div style="margin: 5px;background: white;">
+          <app-select-autocomplete [tblItems]="all.tblBranch" [maxItems]="100" InputLabel="Branch:"
+            [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'" [ResProp]="'IDP'" [placeholder]="'select branch'"
+            [(ngModel)]="EditingItem.IDBranch"></app-select-autocomplete>
+        </div>
+
+
+        <div style="margin: 5px;background: white;">
+          <ion-radio-group [(ngModel)]="EditingItem.ShiftNo">
+            <ion-row>
+              <ion-col>
+                {{'Shift' | translate}}:
+              </ion-col>
+              <ion-col size="auto">
+                <ion-radio [value]="1" labelPlacement="end">{{'General Shift' | translate }}</ion-radio>
+              </ion-col>
+              <ion-col size="auto">
+                <ion-radio [value]="2" labelPlacement="end">{{'Operating Room Shift' | translate}}</ion-radio>
+              </ion-col>
+              <ion-col size="auto">
+                <ion-radio [value]="3" labelPlacement="end">{{'Procedures Shift' | translate}}</ion-radio>
+              </ion-col>
+            </ion-row>
+          </ion-radio-group>
+        </div>
+
+        <ion-row *ngIf="!IsMultiSelect">
+          <ion-col size="6">
+            <div class="ion-text-center">
+              {{'Start Date' | translate }}
+            </div>
+            <app-mat-datepicker2 [(counterNumber)]="EditingItem.StartDate" Label=""></app-mat-datepicker2>
+          </ion-col>
+
+          <ion-col size="6">
+            <div class="ion-text-center">
+              {{'Closed Date' | translate }}
+            </div>
+            <app-mat-datepicker2 [(counterNumber)]="EditingItem.ClosedDate" Label=""></app-mat-datepicker2>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="IsEnableEditTime" style="background: white; margin-bottom: 5px; padding-top: 40px;">
+          <ion-col size="1.5">
+            <ion-button (click)="setAll('Wednesday')" fill="clear" size="small" class="innder-padding">
+              {{'Time' | translate}}:
+            </ion-button>
+          </ion-col>
+          <ion-col size="10.5">
+            <app-doctor-shift [min]="min" [max]="max" [(ngModel)]="EditingItem.Time.Range" [Active]="true"
+              [IsDayName]="false"></app-doctor-shift>
+          </ion-col>
+        </ion-row>
+
+        <ion-item>
+          <ion-input [(ngModel)]="EditingItem.WaitingCount" (keypress)="all.numberOnly($event)"
+            label="{{'Waiting Count' | translate }}:"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input [(ngModel)]="EditingItem.OverbookingCount" (keypress)="all.numberOnly($event)"
+            label="{{'Overbooking Count' | translate }}:"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-textarea [(ngModel)]="EditingItem.Description" label="{{'Description' | translate }}:"></ion-textarea>
+        </ion-item>
+      </div>
+
+
+      
+    </ion-content>
+    <ion-footer>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button (click)="IsEditModal=false;" color="danger" expand="block">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Cancel' | translate}}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+
+          <ion-button (click)="saveUpdate()" color="success" expand="block">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

@@ -1,0 +1,121 @@
+<ion-app>
+  <ion-split-pane contentId="main-content" [disabled]="true">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        <div style="height: 100%;overflow-y: auto;">
+          <ion-list id="inbox-list" style="padding-top: 0;">
+
+            <ion-card-header color="primary">
+              <ion-card-subtitle> {{'name@gmail.com'}}</ion-card-subtitle>
+
+              <ion-card-title button id="click-trigger">User Name <ion-icon name="caret-down"
+                  size="small"></ion-icon></ion-card-title>
+
+              <ion-popover trigger="click-trigger" triggerAction="click">
+                <ng-template>
+                  <ion-content>
+                    <ion-item>
+                      <ion-icon name="log-out" slot="end"></ion-icon>
+                      <ion-label>{{'Logout' | translate}}</ion-label>
+                    </ion-item>
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </ion-card-header>
+
+
+            <ion-menu-toggle auto-hide="false">
+              <ion-item routerDirection="root" routerLink="appointmen1" lines="none" detail="false"
+                routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="'calendar-number-outline'"
+                  [md]="'calendar-number-sharp'" color="primary"></ion-icon>
+                <ion-label>{{ 'Schedules' | translate }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item button routerDirection="root" routerLink="patient-file" lines="none" detail="false">
+                <ion-icon aria-hidden="true" slot="start" [ios]="'person-outline'" [md]="'person-sharp'"
+                  color="primary"></ion-icon>
+                <ion-label>{{ 'Patients File' | translate }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item (click)="showSubWindow(1)" button routerDirection="root" routerLink="appointmen2" lines="none" detail="false"
+                routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="'calendar-outline'" [md]="'calendar-sharp'"
+                  color="primary"></ion-icon>
+                <ion-label>{{ 'Patients Appointments' | translate}}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item (click)="showSubWindow(2)" button routerDirection="root" routerLink="appointmen2" lines="none" detail="false"
+                routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="'create-outline'" [md]="'create-sharp'"
+                  color="primary"></ion-icon>
+                <ion-label>{{ 'Patient Appts Modifications' | translate}}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item (click)="showSubWindow(3)" button routerDirection="root" routerLink="appointmen2" lines="none" detail="false"
+                routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="'stats-chart-outline'" [md]="'stats-chart-sharp'"
+                  color="primary"></ion-icon>
+                <ion-label>{{ "Patient's Financial" | translate }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item (click)="showSubWindow(4)" button routerDirection="root" routerLink="appointmen2" lines="none" detail="false"
+                routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="'bulb-outline'" [md]="'bulb-sharp'"
+                  color="primary"></ion-icon>
+                <ion-label>{{ "Appointments Requests" | translate }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle auto-hide="false">
+              <ion-item routerDirection="root" routerLink="schedule-time" lines="none" detail="false"
+                routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="'calendar-outline'" [md]="'calendar-sharp'"
+                  color="primary"></ion-icon>
+                <ion-label>{{ "Doctor Schedule" | translate }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <!-- @for (p of appPages; track p; let i = $index) {
+              <ion-menu-toggle auto-hide="false">
+                <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                  <ion-label>{{ p.title }}</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+            } -->
+          </ion-list>
+
+          <ion-item>
+            <ion-icon aria-hidden="true" slot="start" [ios]="'language-outline'" [md]="'language-sharp'"
+              color="primary"></ion-icon>
+            <ion-select [value]="all.SelectedLang" (ionChange)="setLang($event)" multiple="false" mode="ios"
+              label="{{'Language' | translate}}">
+              <ion-select-option value="en">English</ion-select-option>
+              <ion-select-option value="ar">عربي</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- <ion-list id="labels-list">
+            <ion-list-header>Labels</ion-list-header>
+
+            @for (label of labels; track label) {
+            <ion-item lines="none">
+              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
+              <ion-label>{{ label }}</ion-label>
+            </ion-item>
+            }
+          </ion-list> -->
+        </div>
+
+
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

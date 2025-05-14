@@ -1,0 +1,39 @@
+<div *ngIf="!IsPrinting" style="margin: 5px;border: solid 1px #aaa; border-radius: 5px;">
+  <!-- <ion-input *ngIf="item?.Visible && item.FieldDataType=='Text'" 
+    fill="outline"
+    type="text" 
+    label="{{item['Name'+Lang]}}:"
+    [maxlength]="item?.FieldDataSize>0? item?.FieldDataSize: -1"
+    [(ngModel)]="item.ReportVal"
+    >
+  </ion-input> -->
+
+  <app-select-autocomplete 
+    [tblItems]="tblItem" 
+    InputLabel="{{ICD10Item['Name'+Lang]}}:" 
+    [searchProp]="SearchProp"
+    [searchProp2]="SearchProp2"
+    prop1ColSize="9"
+    prop2ColSize="3"
+    [ResProp]="'ID'"
+    (childSubmit)="addItem($event)">
+  </app-select-autocomplete>
+
+  <div>
+    <ion-chip *ngFor="let item of tblVale" matTooltip="{{ item[SearchProp]? item[SearchProp]:'' }}">
+      <ion-label>{{ item[SearchProp2] }}</ion-label>
+      <ion-icon name="close" (click)="remove(item)"></ion-icon>
+    </ion-chip>
+  </div>
+
+</div>
+
+<div *ngIf="IsPrinting">
+  <div  style="margin: 5px;border: solid 1px #aaa; border-radius: 5px; padding: 5px 10px;">
+    <div style="margin-bottom: 5px;">  {{ICD10Item['Name'+Lang]}}: </div>
+    <span *ngFor="let item of tblVale" style="border: solid 1px #ccc;
+      border-radius: 50px;
+      padding-inline: 5px;
+      background: #eee; margin-inline-end: 5px;">{{ item[SearchProp2] }} </span> 
+  </div>
+</div>

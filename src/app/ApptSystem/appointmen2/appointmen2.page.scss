@@ -1,0 +1,84 @@
+.btn-nextdays {
+  ion-col {
+    padding: 0;
+  }
+  ion-button {
+    --padding-start: 10px;
+    --padding-end: 10px;
+  }
+}
+
+// #calendar {
+//   // height: 5250px !important;
+//   height: 327em;
+// }
+
+.grid-class-input {
+  ion-row {
+    padding: 0;
+  }
+  .table-row {
+    ion-col {
+      min-width: 200px;
+    }
+  }
+}
+.horizontal-scroll {
+  overflow-x: auto; /* تفعيل التمرير الأفقي */
+  white-space: nowrap; /* منع التفاف الأعمدة */
+}
+
+ion-grid {
+  display: inline-block; /* لجعل الشبكة تعمل بشكل أفقي */
+  min-width: max-content; /* لضمان عرض الأعمدة بالكامل */
+}
+
+// .absolute-center {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// }
+
+li.disabled {
+  opacity: 0.5; /* تقليل الشفافية */
+  pointer-events: none; /* منع التفاعل مع العنصر */
+  cursor: not-allowed; /* تغيير شكل المؤشر */
+}
+
+.grid-class {
+  // width: 300px;
+  overflow-y: auto;
+  height: 135px;
+  line-height: 1;
+  min-height: 120px;
+  border: solid 1px #4f6dcd;
+  padding: 0;
+  border-radius: 7px 7px 0 0;
+  ion-row {
+    width: 250px;
+  }
+}
+
+.wrap-text {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.days-view{
+  ion-button{
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+}
+
+.tooltip-container-2{
+  width: 200px; 
+  height: 200px;
+
+  position: absolute;
+    z-index: 999999;
+    background: #737fa3;
+    color: white;
+    display: none;
+}

@@ -1,0 +1,88 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    <ion-row style="width: 100%;">
+      <ion-col size="auto" *ngIf="node.IDF>0">
+        <div style="width: 25px; height: 40px; margin-top: -15px;">
+        </div>
+      </ion-col>
+
+      <ion-col size="auto">
+        <button mat-icon-button>
+          <ion-icon slot="icon-only" name="document">
+          </ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col size="auto">
+        <ion-checkbox slot="start"></ion-checkbox>
+      </ion-col>
+      <ion-col size="auto" *ngIf="node.IDF==0 ">
+        <ion-img [src]="all.imgUrl+all.User.IDC+'%2FCatImgs%2F'+node.ImgExt" style="max-width: 50px;"
+        (ionError)="imageLoaded($event)">
+        </ion-img>
+      </ion-col>
+
+      <ion-col style="padding-inline-start: 3px; display: flex; align-items: center;">
+        {{node.NameA}}
+      </ion-col>
+      <ion-col size="auto" *ngIf="IsBtnAddSub">
+        <ion-button (click)="addSubNode(node)" size="small" fill="clear" color="success" style="margin: 0;">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="auto" *ngIf="IsBtnEdit">
+        <ion-button (click)="editNode(node)" size="small" fill="clear" color="warning" style="margin: 0;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="auto" *ngIf="IsBtnDel">
+        <ion-button (click)="delNode(node)" size="small" fill="clear" color="danger" style="margin: 0;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </mat-tree-node>
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <div class="mat-tree-node">
+      <ion-row style="width: 100%;">
+        <ion-col size="auto" *ngIf="node.IDF>0">
+          <div style="width: 7px; height: 40px; margin-top: -15px;">
+          </div>
+        </ion-col>
+        <ion-col size="auto">
+          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.NameA">
+            <ion-icon slot="start" [name]="treeControl.isExpanded(node) ? 'remove' : 'add'">
+            </ion-icon>
+          </button>
+        </ion-col>
+        <ion-col size="auto" *ngIf="node.IDF==0">
+          <ion-img [src]="all.imgUrl+all.User.IDC+'%2FCatImgs%2F'+node.ImgExt" style="max-width: 50px;"
+          (ionError)="imageLoaded($event)">
+          </ion-img>
+        </ion-col>
+        <ion-col style="display: flex; align-items: center;">
+          {{node.NameA}}
+        </ion-col>
+        <ion-col size="auto" *ngIf="IsBtnAddSub">
+          <ion-button (click)="addSubNode(node)" size="small" fill="clear" color="success" style="margin: 0;">
+            <ion-icon slot="icon-only" name="add"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="auto" *ngIf="IsBtnEdit">
+          <ion-button (click)="editNode(node)" size="small" fill="clear" color="warning" style="margin: 0;">
+            <ion-icon slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="auto" *ngIf="IsBtnDel">
+          <ion-button (click)="delNode(node)" size="small" fill="clear" color="danger" style="margin: 0;">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+    </div>
+    <div [class.example-tree-invisible]="!treeControl.isExpanded(node)" role="group">
+      <ng-container matTreeNodeOutlet></ng-container>
+    </div>
+  </mat-nested-tree-node>
+</mat-tree>

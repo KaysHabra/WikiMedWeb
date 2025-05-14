@@ -1,0 +1,17 @@
+<div style="position: relative;">
+  <div class="autocomplete" style="border-radius: 8px;" [style.width]="width==0? '100%': width+'px'">
+    <input #inputField type="text" [(ngModel)]="searchTerm" [placeholder]="placeholder" 
+      style="background: white;"
+      (input)="onInput()" (keydown)="onKeyDown($event)" (focus)="openList()">
+  </div>
+  <div *ngIf="filteredItems.length" class="autocomplete-items">
+    <div *ngFor="let item of filteredItems; let i = index" 
+         [class.autocomplete-active]="i === currentFocus"
+         (click)="selectItem(item)">
+         {{item}}
+      <!-- <strong>{{ item.substring(0, query.length) }}</strong>{{ item.substring(query.length) }} -->
+
+    </div>
+  </div>
+
+</div>

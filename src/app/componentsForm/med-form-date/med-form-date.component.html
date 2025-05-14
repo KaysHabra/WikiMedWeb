@@ -1,0 +1,26 @@
+
+<div *ngIf="!IsPrinting" style="margin: 5px; border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+  
+  <div *ngIf="Item.FieldDataType=='Date'">
+    <app-mat-datepicker2 
+      [(counterNumber)]="Item.ReportVal" 
+      (counterNumberChange)="export($event);"
+      Label="{{Item['Name'+Lang]}}:"></app-mat-datepicker2>
+  </div>
+
+  <div *ngIf="Item.FieldDataType=='Time'">
+    <ion-row>
+      <ion-col size="auto">{{Item['Name'+Lang]}}:</ion-col>
+      <ion-col style="padding-block: 0;"> 
+        <app-time-input [(ngModel)]="Item.ReportVal" (getData)="export($event);" [isBtnNow]="true"></app-time-input> </ion-col>
+    </ion-row>
+    
+  </div>
+</div>
+
+<div *ngIf="IsPrinting" style="margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+  
+  {{Item['Name'+Lang]}}: &nbsp; 
+  <span *ngIf="Item.FieldDataType=='Date'"> {{Item.ReportVal}}</span>
+  <span *ngIf="Item.FieldDataType=='Time'"> {{ convertTo12HourFormat(Item.ReportVal)}} </span>
+</div>

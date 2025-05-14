@@ -1,0 +1,606 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{'Patient File' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="nextPatient(1)" matTooltip="{{'First' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'play-skip-forward' : 'play-skip-back'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="nextPatient(2)" matTooltip="{{'Previous' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'caret-forward' : 'caret-back'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="nextPatient(3)" matTooltip="{{'Next' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'caret-back' : 'caret-forward'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="nextPatient(4)" matTooltip="{{'Last' | translate}}">
+        <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'play-skip-back' : 'play-skip-forward'"></ion-icon>
+      </ion-button>
+
+      <!-- <ion-button (click)="newPatientFile()" matTooltip="{{'New Patient' | translate}}">
+        {{'New' | translate}} <ion-icon slot="end" name="add"></ion-icon>
+      </ion-button> -->
+
+      <ion-button (click)="delPatient()" matTooltip="{{'Delete' | translate}}" color="danger">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+
+  <div style="height: 100%; overflow-y: auto;">
+    <ion-card class="card-limit-border" style="margin: 5px;">
+      <!-- <ion-row>
+        <ion-col size="4">
+          <app-gpt-autocomplete [(ngModel)]="all.Patient" InputLabel="{{'Patient' | translate}}:"></app-gpt-autocomplete>
+        </ion-col>
+      </ion-row> -->
+      <!-- <ion-card-header>
+        <ion-card-subtitle>
+          <ion-badge color="warning" style="font-weight: bold !important;">
+            &nbsp;&nbsp; {{'Serial Numbers' | translate}}&nbsp;&nbsp;
+          </ion-badge>
+        </ion-card-subtitle>
+      </ion-card-header> -->
+
+      <ion-card-content style="padding: 0;">
+        <ion-row>
+          <ion-col size="4" style="color: black; background: #dcbe31;">
+            <!-- <app-gpt-autocomplete [(ngModel)]="all.Patient" (selectSubmit)="changePatient($event)"
+              InputLabel="{{'Patient' | translate}}:"></app-gpt-autocomplete> -->
+
+            <app-patient-select-auto [(ngModel)]="all.Patient" (selectSubmit)="changePatient($event)"
+              InputLabel="{{'Patient' | translate}}:"></app-patient-select-auto>
+          </ion-col>
+          <ion-col size="4" style="padding-top: 9px;">
+            <ion-input value="{{getBranchName()}}" labelPlacement="floating" (keypress)="all.numberOnly($event)"
+              readonly class="input-underline">
+              <div slot="label">
+                <ion-text color="primary"> &nbsp; &nbsp;<b>{{'Branch' | translate}}:</b> </ion-text>
+                <ion-text color="danger">*</ion-text>
+              </div>
+            </ion-input>
+            <!-- <app-select-autocomplete [tblItems]="all.tblBranch" [maxItems]="100" InputLabel="{{'Branch' | translate}}:"
+              [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'" [ResProp]="'IDP'"
+              [placeholder]="'select branch'" [(ngModel)]="Patient.IDBranch"></app-select-autocomplete> -->
+          </ion-col>
+          <ion-col size="2" style="padding-block: 0;">
+            <ion-input [(ngModel)]="Patient.IDP" labelPlacement="floating" (keypress)="all.numberOnly($event)" readonly
+              class="input-underline">
+              <div slot="label">
+                <ion-text color="primary"> &nbsp; &nbsp;<b>{{'PC Auto No' | translate}}:</b> </ion-text>
+                <ion-text color="danger">*</ion-text>
+              </div>
+            </ion-input>
+          </ion-col>
+          <ion-col size="2" style="padding-block: 0;">
+            <ion-input [(ngModel)]="Patient.SavedFileNo" labelPlacement="floating" (keypress)="all.numberOnly($event)"
+              readonly class="input-underline">
+              <div slot="label">
+                <ion-text color="primary"><b>{{'File No' | translate}}:</b> </ion-text>
+                <ion-text color="danger">*</ion-text>
+              </div>
+              <!-- NewFileNo=Patient.SavedFileNo; IsFileNoModal=true; -->
+              <!-- <ion-button matTooltip="{{'Create or Modify File No' | translate}}" (click)="newFileNo()" size="small"
+                slot="end" fill="clear" color="warning"
+                style="min-height: 25px; margin: 0;height: 27px;--padding-top: 0; --padding-bottom: 0;--padding-start: 4px;--padding-end: 8px;">
+                <ion-icon slot="icon-only" name="create"></ion-icon>
+              </ion-button> -->
+            </ion-input>
+
+
+            <ion-modal [isOpen]="IsFileNoModal" (willDismiss)="IsFileNoModal=false;" style="--height: 250px;">
+              <ng-template>
+                <ion-header>
+                  <ion-toolbar color="primary">
+                    <ion-title>{{'Update File No' | translate}}</ion-title>
+                    <ion-buttons slot="end">
+                      <ion-button (click)="IsFileNoModal=false">{{'Close' | translate}}</ion-button>
+                    </ion-buttons>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-content>
+                  <ion-card class="ion-padding">
+                    <ion-input [(ngModel)]="NewFileNo" (keypress)="all.numberOnly($event)" class="input-underline">
+                      <div slot="label">
+                        <ion-text color="primary"><b>{{'File No' | translate}}:</b> </ion-text>
+                      </div>
+                    </ion-input>
+                  </ion-card>
+                </ion-content>
+                <ion-footer>
+                  <ion-toolbar>
+                    <ion-row>
+                      <ion-col size="6">
+                        <ion-button (click)="IsFileNoModal=false;" color="danger" expand="block">
+                          <ion-icon slot="start" name="close"></ion-icon>
+                          {{'Cancel' | translate}}
+                        </ion-button>
+                      </ion-col>
+                      <ion-col size="6">
+                        <ion-button (click)="updateFilNo()" color="success" expand="block">
+                          <ion-icon slot="start" name="save"></ion-icon>
+                          {{'Save' | translate }}
+                        </ion-button>
+                      </ion-col>
+                    </ion-row>
+                  </ion-toolbar>
+                </ion-footer>
+              </ng-template>
+            </ion-modal>
+
+
+          </ion-col>
+
+
+
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-row>
+      <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
+        <ion-card class="card-limit-border" style="margin: 0;">
+
+          <ion-card-content style="padding: 10px;">
+            <ion-input [(ngModel)]="Patient.NameE" label-placement="floating" maxlength="150">
+              <div slot="label">
+                <ion-text color="dark">{{'Full Name E' | translate}}:</ion-text>
+                <ion-text color="danger">*</ion-text>
+              </div>
+            </ion-input>
+            <ion-text color="danger" *ngIf="Patient.NameE==''">
+              <small>{{'Enter Full Name In English' | translate}}</small>
+            </ion-text>
+
+            <ion-input [(ngModel)]="Patient.NameA" label-placement="floating" maxlength="150">
+              <div slot="label">
+                <ion-text color="dark">{{'Full Name A' | translate}}:</ion-text>
+                <ion-text color="danger">*</ion-text>
+              </div>
+            </ion-input>
+            <ion-text color="danger" *ngIf="Patient.NameA==''">
+              <small>{{'Enter Full Name In English' | translate}}</small>
+            </ion-text>
+
+
+            <ion-row>
+              <ion-col size="8">
+                <app-date-picker [(ngModel)]="Patient.BirthDate" (DateChanged)="changeBirthDate($event)"
+                  [IsCalendar]="false" Label="{{ 'Date of Birth' | translate }}:"
+                  [LabelColor]="'primary'"></app-date-picker>
+
+
+                <!-- <ion-item style="--padding-start: 0;height: 45px; border-bottom: solid 1px #dedede;">
+                  <ion-label style="flex: 0 0 115px;"> {{ 'Date of Birth' | translate }}:</ion-label>
+                  <app-mat-datepicker [(counterNumber)]="PatientFile.BirthDate" (counterNumberChange)="Age=calculateAge(PatientFile.BirthDate)"></app-mat-datepicker>
+                </ion-item> -->
+              </ion-col>
+              <ion-col size="4" style="padding-top: 0;">
+                <ion-input [(ngModel)]="Age" (ionChange)="Patient.BirthDate=calculateBirthDate(Age)"
+                  label-placement="floating" maxlength="3" (keypress)="all.numberOnly($event)">
+                  <div slot="label">
+                    <ion-text color="dark">{{'Age' | translate}}:</ion-text>
+                    <ion-text color="danger">*</ion-text>
+                  </div>
+                </ion-input>
+              </ion-col>
+            </ion-row>
+
+            <div>
+              <ion-row>
+                <ion-col size="8" style="padding: 0;">
+                  <ion-input label-placement="floating" helperText="{{ SocialIDError | translate}}" maxlength="10"
+                    (keypress)="all.numberOnly($event)" [(ngModel)]="Patient.SocialID" (ionChange)="checkSocialID()">
+                    <div slot="label">
+                      <ion-text color="dark">{{ 'Social ID' | translate }}:</ion-text>
+                      <ion-text color="danger">*</ion-text>
+                    </div>
+                  </ion-input>
+
+                </ion-col>
+                <ion-col size="4">
+                  <app-select-autocomplete [(ngModel)]="Patient.SocialIDType" [tblItems]="tblIDype"
+                    InputLabel="{{'ID Type' | translate}}:" [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'"
+                    [ResProp]="'IDP'"></app-select-autocomplete>
+                </ion-col>
+              </ion-row>
+            </div>
+
+            <div>
+              <ion-row>
+                <ion-col size="8">
+                  <app-select-autocomplete [(ngModel)]="Patient.ID_Nationality" [tblItems]="tblNationality"
+                    InputLabel="{{'Nationality' | translate}}:" [searchProp]="'Name'+all.LangLetter"
+                    [ResProp]="'IDP'"></app-select-autocomplete>
+                </ion-col>
+                <ion-col size="4">
+                  <app-select-autocomplete [tblItems]="tblReligion" InputLabel="{{'Religion' | translate}}:"
+                    [searchProp]="'Name'+all.LangLetter" [(ngModel)]="Patient.ID_Religion"
+                    [ResProp]="'IDP'"></app-select-autocomplete>
+                </ion-col>
+              </ion-row>
+            </div>
+            <ion-row>
+              <ion-col size="8">
+                <app-select-autocomplete [tblItems]="tblMarital" InputLabel="{{'Marital Status' | translate}}:"
+                  [searchProp]="'Name'+all.LangLetter" [(ngModel)]="Patient.Marital_State"
+                  [ResProp]="'IDP'"></app-select-autocomplete>
+              </ion-col>
+              <ion-col size="4">
+                <app-select-autocomplete [tblItems]="tblSex" InputLabel="{{'Sex' | translate}}:"
+                  [searchProp]="'Name'+all.LangLetter" [(ngModel)]="Patient.Sex" [searchProp2]="'IDP'"
+                  [ResProp]="'IDP'"></app-select-autocomplete>
+              </ion-col>
+            </ion-row>
+
+
+
+
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card-limit-border" style="margin: 8px 0 0 0;">
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-text color="primary"><b>{{'Emergency Medical Contact' | translate}}</b></ion-text>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="relative-section">
+
+            <ion-row>
+              <ion-col size="4"><b>{{'Relative Name' | translate}}</b></ion-col>
+              <ion-col size="4"><b>{{'Relative Type' | translate}}</b></ion-col>
+              <ion-col size="4"><b>{{'Relative Phone' | translate}}</b></ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="4">
+                <ion-input [(ngModel)]="Patient.RelativeName1" class="input-underline"
+                  placeholder="{{'Enter Full Name' | translate}}">
+                </ion-input>
+              </ion-col>
+              <ion-col size="4">
+                <app-select-autocomplete [tblItems]="tblRelativeType" InputLabel="" [searchProp]="'Name'+all.LangLetter"
+                  [searchProp2]="'IDP'" [ResProp]="'IDP'" [(ngModel)]="Patient.RelativeType1"></app-select-autocomplete>
+              </ion-col>
+              <ion-col size="4">
+                <ion-input class="input-underline" placeholder="{{'Enter Phone' | translate}}"
+                  [(ngModel)]="Patient.RelativePhon1" (keypress)="all.numberOnly($event)">
+                  <ion-icon matTooltip="Mobile:0512345678, Local:01234567, External:00966512345678" slot="end"
+                    name="alert-circle" color="warning"></ion-icon>
+                </ion-input>
+                <ion-text color="danger"
+                  *ngIf="Patient.RelativePhon1.length>0 && all.checkPhoneNumber(Patient.RelativePhon1)=='Wrong'">
+                  <small>{{'Not a valid number' | translate}}</small>
+                </ion-text>
+                <ion-text color="success"
+                  *ngIf="Patient.RelativePhon1.length>0 && all.checkPhoneNumber(Patient.RelativePhon1)!='Wrong'">
+                  <small>{{all.checkPhoneNumber(Patient.RelativePhon1) | translate}}</small>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="4">
+                <ion-input [(ngModel)]="Patient.RelativeName2" class="input-underline"
+                  placeholder="{{'Enter Full Name' | translate}}">
+                </ion-input>
+              </ion-col>
+              <ion-col size="4">
+                <app-select-autocomplete [tblItems]="tblRelativeType" InputLabel="" [searchProp]="'Name'+all.LangLetter"
+                  [searchProp2]="'IDP'" [ResProp]="'IDP'" [(ngModel)]="Patient.RelativeType2"></app-select-autocomplete>
+              </ion-col>
+              <ion-col size="4">
+                <ion-input class="input-underline" placeholder="{{'Enter Phone' | translate}}"
+                  [(ngModel)]="Patient.RelativePhon2" (keypress)="all.numberOnly($event)">
+                  <ion-icon matTooltip="Mobile:0512345678, Local:01234567, External:00966512345678" slot="end"
+                    name="alert-circle" color="warning"></ion-icon>
+                </ion-input>
+                <ion-text color="danger"
+                  *ngIf="Patient.RelativePhon2.length>0 && all.checkPhoneNumber(Patient.RelativePhon2)=='Wrong'">
+                  <small>{{'Not a valid number' | translate}}</small>
+                </ion-text>
+                <ion-text color="success"
+                  *ngIf="Patient.RelativePhon2.length>0 && all.checkPhoneNumber(Patient.RelativePhon2)!='Wrong'">
+                  <small>{{all.checkPhoneNumber(Patient.RelativePhon2) | translate}}</small>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="4">
+                <ion-input [(ngModel)]="Patient.RelativeName3" class="input-underline"
+                  placeholder="{{'Enter Full Name' | translate}}">
+                </ion-input>
+              </ion-col>
+              <ion-col size="4">
+                <app-select-autocomplete [tblItems]="tblRelativeType" InputLabel="" [searchProp]="'Name'+all.LangLetter"
+                  [searchProp2]="'IDP'" [ResProp]="'IDP'" [(ngModel)]="Patient.RelativeType3"></app-select-autocomplete>
+              </ion-col>
+              <ion-col size="4">
+                <ion-input class="input-underline" placeholder="{{'Enter Phone' | translate}}"
+                  [(ngModel)]="Patient.RelativePhon3" (keypress)="all.numberOnly($event)">
+                  <ion-icon matTooltip="Mobile:0512345678, Local:01234567, External:00966512345678" slot="end"
+                    name="alert-circle" color="warning"></ion-icon>
+                </ion-input>
+                <ion-text color="danger"
+                  *ngIf="Patient.RelativePhon3.length>0 && all.checkPhoneNumber(Patient.RelativePhon3)=='Wrong'">
+                  <small>{{'Not a valid number' | translate}}</small>
+                </ion-text>
+                <ion-text color="success"
+                  *ngIf="Patient.RelativePhon3.length>0 && all.checkPhoneNumber(Patient.RelativePhon3)!='Wrong'">
+                  <small>{{all.checkPhoneNumber(Patient.RelativePhon3) | translate}}</small>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+
+      <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
+        <ion-button color="warning" (click)="tblDoctorsTmp=all.deepCopy(this.tblDoctors);isBlackListModal=true;">
+          <ion-icon slot="start" name="ban"></ion-icon>
+          {{'Add to BlackList' | translate}}
+        </ion-button>
+
+        <ion-card class="card-limit-border" style="margin: 0;">
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-badge color="warning" style="font-weight: bold !important;">&nbsp;&nbsp; {{'Security' |
+                translate}}&nbsp;&nbsp;</ion-badge>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="6">
+                <!-- <app-select-autocomplete [tblItems]="all.tblPatient" InputLabel="{{'User' | translate}}"
+                  [searchProp]="'NameA'" [searchProp2]="'id'"></app-select-autocomplete> -->
+
+                <ion-input readonly [value]="''">
+                  <div slot="label">
+                    <ion-text color="dark">{{'User' | translate}}:</ion-text>
+                  </div>
+                </ion-input>
+              </ion-col>
+              <ion-col size="6">
+
+                <ion-input readonly [(ngModel)]="Patient.ADate.split(' ')[0]">
+                  <div slot="label">
+                    <ion-text color="dark">{{ 'Creation Date' | translate }}:</ion-text>
+                  </div>
+                </ion-input>
+                <!-- <app-date-picker [(ngModel)]="Patient.ADate" [IsCalendar]="false"
+                  Label="{{ 'Creation Date' | translate }}:" [LabelColor]="'primary'"></app-date-picker> -->
+
+
+                <!-- <ion-item>
+                  <ion-label>{{ 'Creation Date' | translate }}:</ion-label>
+                  <ion-datetime-button datetime="CreationDate"></ion-datetime-button>
+                </ion-item>
+
+                <ion-modal [keepContentsMounted]="true">
+                  <ng-template>
+                    <ion-datetime id="CreationDate" [formatOptions]="{
+                        time: { hour: '2-digit', minute: '2-digit' },
+                        date: { day: '2-digit', month: '2-digit' , year: 'numeric'},
+                      }" presentation="date" [(ngModel)]="PatientFile.CreationDate"
+                      [showDefaultButtons]="true"></ion-datetime>
+                  </ng-template>
+                </ion-modal> -->
+              </ion-col>
+            </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+
+
+        <ion-card class="card-limit-border" style="margin: 8px 0 0 0;">
+          <ion-card-content>
+
+            <div>
+              <ion-row>
+                <ion-col size="8" style="padding-inline-start: 0; padding-top: 0;">
+                  <ion-input [(ngModel)]="Patient.Occupation" label-placement="floating">
+                    <div slot="label">
+                      <ion-text color="dark">{{'Occupation' | translate}}:</ion-text>
+                    </div>
+                  </ion-input>
+                </ion-col>
+                <ion-col size="4" style="padding-block: 0;">
+                  <app-select-autocomplete [(ngModel)]="Patient.Employer" [tblItems]="tblEmployee"
+                    InputLabel="{{'Employee' | translate}}:" [searchProp]="'Name'+all.LangLetter"
+                    [ResProp]="'IDP'"></app-select-autocomplete>
+                </ion-col>
+              </ion-row>
+            </div>
+
+            <ion-input [(ngModel)]="Patient.Description" label-placement="floating" maxlength="150">
+              <div slot="label">
+                <ion-text color="dark">{{'Description' | translate}}:</ion-text>
+              </div>
+            </ion-input>
+
+            <ion-radio-group [(ngModel)]="Patient.Classification" name="auto">
+              <ion-list-header>
+                <ion-label> {{'Patient Classification' | translate}} </ion-label>
+              </ion-list-header>
+              <ion-row>
+                <ion-col size="4">
+                  <ion-radio [value]="0" labelPlacement="end">{{'Normal' | translate}}</ion-radio>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-radio [value]="1" labelPlacement="end">{{'Important' | translate}}</ion-radio>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-radio [value]="2" labelPlacement="end">{{'SP' | translate}}</ion-radio>
+                </ion-col>
+              </ion-row>
+
+            </ion-radio-group>
+
+
+            <ion-row>
+              <ion-col size="4" style="padding-inline-start: 0;">
+                <ion-input [(ngModel)]="Patient.Phon1" label-placement="floating" maxlength="16"
+                  (keypress)="all.numberOnly($event)">
+                  <div slot="label">
+                    <ion-text color="dark">{{'Phone1' | translate}}:</ion-text>
+                    <ion-text color="danger">*</ion-text>
+                  </div>
+                  <ion-icon matTooltip="Mobile:0512345678, Local:01234567, External:00966512345678" slot="end"
+                    name="alert-circle" color="warning"></ion-icon>
+                </ion-input>
+                <ion-text color="danger" *ngIf="Patient.Phon1.length>0 && all.checkPhoneNumber(Patient.Phon1)=='Wrong'">
+                  <small>{{'Not a valid number' | translate}}</small>
+                </ion-text>
+                <ion-text color="success"
+                  *ngIf="Patient.Phon1.length>0 && all.checkPhoneNumber(Patient.Phon1)!='Wrong'">
+                  <small>{{all.checkPhoneNumber(Patient.Phon1) | translate}}</small>
+                </ion-text>
+              </ion-col>
+
+              <ion-col size="4">
+                <ion-input [(ngModel)]="Patient.Phon2" label-placement="floating" maxlength="10"
+                  (keypress)="all.numberOnly($event)">
+                  <div slot="label">
+                    <ion-text color="dark">{{'Phone2' | translate}}:</ion-text>
+                  </div>
+                  <ion-icon matTooltip="Mobile:0512345678, Local:01234567, External:00966512345678" slot="end"
+                    name="alert-circle" color="warning"></ion-icon>
+                </ion-input>
+                <ion-text color="danger" *ngIf="Patient.Phon2.length>0 && all.checkPhoneNumber(Patient.Phon2)=='Wrong'">
+                  <small>{{'Not a valid number' | translate}}</small>
+                </ion-text>
+                <ion-text color="success"
+                  *ngIf="Patient.Phon2.length>0 && all.checkPhoneNumber(Patient.Phon2)!='Wrong'">
+                  <small>{{all.checkPhoneNumber(Patient.Phon2) | translate}}</small>
+                </ion-text>
+              </ion-col>
+
+              <ion-col size="4" style="padding-inline-end: 0;">
+                <ion-input [(ngModel)]="Patient.Phon3" label-placement="floating" maxlength="10"
+                  (keypress)="all.numberOnly($event)">
+                  <div slot="label">
+                    <ion-text color="dark">{{'Phone3' | translate}}:</ion-text>
+                  </div>
+                  <ion-icon matTooltip="Mobile:0512345678, Local:01234567, External:00966512345678" slot="end"
+                    name="alert-circle" color="warning"></ion-icon>
+                </ion-input>
+                <ion-text color="danger" *ngIf="Patient.Phon3.length>0 && all.checkPhoneNumber(Patient.Phon3)=='Wrong'">
+                  <small>{{'Not a valid number' | translate}}</small>
+                </ion-text>
+                <ion-text color="success"
+                  *ngIf="Patient.Phon3.length>0 && all.checkPhoneNumber(Patient.Phon3)!='Wrong'">
+                  <small>{{all.checkPhoneNumber(Patient.Phon3) | translate}}</small>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-input [(ngModel)]="Patient.EMail" label-placement="floating" email
+              errorText="{{'Invalid email' | translate }}" maxlength="150">
+              <div slot="label">
+                <ion-text color="dark">{{'Email' | translate}}:</ion-text>
+              </div>
+            </ion-input>
+
+            <div>
+              <ion-row>
+                <ion-col size="6">
+                  <ion-checkbox [(ngModel)]="Patient.Enable_SMS" labelPlacement="end" style="margin-top: 15px;">
+                    {{'Enable SMS Messages' | translate}}</ion-checkbox>
+                </ion-col>
+                <ion-col size="6">
+                  <app-select-autocomplete [tblItems]="tblCity" [(ngModel)]="Patient.IDCity"
+                    InputLabel="{{'City' | translate}}:" [searchProp]="'Name'+all.LangLetter"
+                    [ResProp]="'ID'"></app-select-autocomplete>
+                </ion-col>
+              </ion-row>
+            </div>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="cancel()" color="danger" expand="block">
+          <ion-icon slot="start" name="close"></ion-icon>
+          {{'Cancel' | translate}}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="save()" color="success" expand="block">
+          <ion-icon slot="start" name="save"></ion-icon>
+          {{'Save' | translate}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+
+
+
+<ion-modal [isOpen]="isBlackListModal" (willDismiss)="isBlackListModal=false;">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{'Select Blocked Doctors for this patient' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isBlackListModal=false;">
+            <ion-icon slot="end" name="close"></ion-icon>
+            {{'Close' | translate}}
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div style="height: 100%; overflow-y: auto;">
+        <ion-card>
+          <ion-card-header color="primary" class="ion-text-center" style="padding: 5px;">
+            <ion-card-title> {{'Doctors' | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-row>
+            <ion-col size="6">
+              <div><ion-checkbox labelPlacement="end"> {{'All' | translate }}</ion-checkbox></div>
+            </ion-col>
+            <ion-col size="6" *ngFor="let item of tblDoctorsTmp">
+              <div><ion-checkbox labelPlacement="end" [(ngModel)]="item.Checked"
+                  (ionChange)="setBlacklistDoctor($event, item)"> {{item.SName}}-{{
+                  item['Name'+all.LangLetter] }}</ion-checkbox></div>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </div>
+
+
+    </ion-content>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-row>
+          <ion-col size="6">
+            <ion-button (click)="isBlackListModal=false;" color="danger" expand="block">
+              <ion-icon slot="start" name="close"></ion-icon>
+              {{'Cancel' | translate}}
+            </ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button (click)="saveBlackList()" color="success" expand="block">
+              <ion-icon slot="start" name="save"></ion-icon>
+              {{'Save' | translate }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

@@ -1,0 +1,141 @@
+//Flash From Attend to Enter only
+//Timer From Attend
+//Timer From Enter
+//Timer For Deliay by us to Enter
+//Time Value for out
+//Time Value for late by minutes
+
+function TAppointmentGrid.ShowStr(var FlashColor:TColor;ACol, ARow: Integer;AppNo:Integer=0):String;
+//تحسب الأوقات التي يجب أن تظهر في رأس الموعد
+var AA,AE,AO,AT,N:integer;
+var ShowTime,DelayTime,LateTime,EnterTime,OutTime:String;
+    IsNowDate:Boolean;
+    CalcDate:Tdate;
+begin
+     result:='';
+     FlashColor:=0;
+
+     ShowTime:='';LateTime:='';EnterTime:='';DelayTime:='';OutTime:='';
+
+     //IsNowDate:=CompareDate(ObCells[ACol, ARow].Appointments[AppNo].ADate,Date)=0; //إذا كان التاريخ ليس التاريخ الحال أخرج
+
+
+     IsNowDate:=IsDateInThisDay(ObCells[ACol, ARow].Appointments[AppNo].ADate,AdditionalHours);
+     //DatePeriodCheck(ObCells[ACol, ARow].Appointments[AppNo].ADate,Date,Date,AdditionalHours);
+     {(CompareDate(ObCells[ACol, ARow].Appointments[AppNo].ADate,Date)=0) or
+                ((CompareDate(ObCells[ACol, ARow].Appointments[AppNo].ADate+1,Date)=0) and
+                       (TimeToMinutes(ObCells[ACol, ARow].Appointments[AppNo].ADate+1)<AdditionalHours*60));}
+
+
+     CalcDate:=DateOnly(ObCells[ACol, ARow].Appointments[AppNo].ADate);
+
+     AA:=TimeToMinutes(ObCells[ACol, ARow].Appointments[AppNo].AttendTime);
+     AE:=TimeToMinutes(ObCells[ACol, ARow].Appointments[AppNo].AttendEnter);
+     AO:=TimeToMinutes(ObCells[ACol, ARow].Appointments[AppNo].AttendOut);
+
+     if AA>0 then
+     begin
+          if AA>AdditionalHours*60
+          then AA:=DateToMinutes(CalcDate+ObCells[ACol, ARow].Appointments[AppNo].AttendTime)
+          Else AA:=DateToMinutes((CalcDate+1)+ObCells[ACol, ARow].Appointments[AppNo].AttendTime);
+     end;
+
+     if AE>0 then
+     begin
+          if AE>AdditionalHours*60
+          then AE:=DateToMinutes(CalcDate+ObCells[ACol, ARow].Appointments[AppNo].AttendEnter)
+          Else AE:=DateToMinutes((CalcDate+1)+ObCells[ACol, ARow].Appointments[AppNo].AttendEnter);
+     end;
+
+     if AO>0 then
+     begin
+          if AO>AdditionalHours*60
+          then AO:=DateToMinutes(CalcDate+ObCells[ACol, ARow].Appointments[AppNo].AttendOut)
+          Else AO:=DateToMinutes((CalcDate+1)+ObCells[ACol, ARow].Appointments[AppNo].AttendOut);
+     end;
+
+
+
+
+     N :=DateToMinutes(Now);
+     AT:=DateToMinutes(ObCells[ACol, ARow].Appointments[AppNo].ADate);
+
+
+
+     if (AO<=0) and (AA>0) and IsNowDate then
+     begin //فقط في حالة المريض وصل
+          if AE<=0
+          then begin  // المريض لم يدخل
+                    ShowTime :='S '+TimeToMinutesStr(TimeOnly(Now)-ObCells[ACol, ARow].Appointments[AppNo].AttendTime);
+
+                    if (AA>AT+7) and (N>AT) // إذا كان المريض متأخرا
+                    then LateTime:='L '+TimeToMinutesStr(ObCells[ACol, ARow].Appointments[AppNo].AttendTime-TimeOnly(ObCells[ACol, ARow].Appointments[AppNo].ADate))
+                    Else if (N>AA) and (N>AT) then // كم من الوقت أخرنا المريض ليدخل
+                            DelayTime:='D '+TimeToMinutesStr(TimeOnly(Now)-TimeOnly(ObCells[ACol, ARow].Appointments[AppNo].ADate));
+               end
+          Else EnterTime:='E '+TimeToMinutesStr(TimeOnly(Now)-ObCells[ACol, ARow].Appointments[AppNo].AttendEnter);
+
+
+
+     end Else
+     if (AO>0) and (AA>0) then
+     begin   //في حالة المريض خرج
+          if IsNowDate Then
+             OutTime:='Out '+TimeToShortStr12(ObCells[ACol, ARow].Appointments[AppNo].AttendOut);
+     end;
+
+     if ShowTime<>'' then
+     begin
+          Result:=ShowTime;
+          FlashColor:=clLime;
+     end;
+     if DelayTime<>'' then
+     begin
+          CommaConcatS(Result,DelayTime,' ');
+          FlashColor:=clRed;
+     end;
+     if LateTime<>'' then
+     begin
+          CommaConcatS(Result,LateTime,' ');
+          FlashColor:=clYellow;
+     end;
+
+     if EnterTime<>'' then
+     begin
+          CommaConcatS(Result,EnterTime,' ');
+          FlashColor:=-1;
+     end;
+
+     {if OutTime<>'' then
+     begin
+          CommaConcatS(Result,OutTime,' ');
+     end;}
+     if (Result='') then
+     begin
+          if OutTime<>''
+          then result:=OutTime
+          Else
+          begin
+               { // تم ايقافها , لأنه فعليا لاداعي لها و عرض الوقت أكثر اهمية
+               if (ObCells[ACol, ARow].Appointments[AppNo].Duration<=MinatesPirod) or (AO>0)
+               Then result:=GetshortName(PatientNameLang,ObCells[ACol, ARow].Appointments[AppNo].PatientNameA,
+                                         ObCells[ACol, ARow].Appointments[AppNo].PatientNameE,PatientLangMode)
+               Else} if ColWidths[ACol]>MinColWidth*3.5
+               then result:=TimeToShortStr12( ObCells[ACol, ARow].Appointments[AppNo].ADate)+'-'+
+                            TimeToShortStr12(MinutesToTime(TimeToMinutes(ObCells[ACol, ARow].Appointments[AppNo].ADate)+
+                                                                    ObCells[ACol, ARow].Appointments[AppNo].Duration))
+               Else if ColWidths[ACol]>MinColWidth*2.5
+               then result:=TimeToShortStr12( ObCells[ACol, ARow].Appointments[AppNo].ADate)+'-'+
+                                                                  Inttostr(ObCells[ACol, ARow].Appointments[AppNo].Duration)
+               Else if ColWidths[ACol]>MinColWidth*1.7
+               then result:=TimeToShortStr12( ObCells[ACol, ARow].Appointments[AppNo].ADate)
+               Else if ColWidths[ACol]>MinColWidth
+               then result:=Inttostr(ObCells[ACol, ARow].Appointments[AppNo].Duration)+'M';
+
+               if (AO>0) then
+                  result:='Out '+result;
+          end;
+     end;
+
+
+end;

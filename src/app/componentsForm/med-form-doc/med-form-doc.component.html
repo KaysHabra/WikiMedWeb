@@ -1,0 +1,26 @@
+
+<div style="margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+
+  <label for="regedit" *ngIf="Item['Name'+Lang].length>0">{{ Item['Name'+Lang] }}:</label>
+  <div *ngIf="IsPrinting">
+    <div id="regedit" class="editor" contenteditable="true" [innerHTML]="Item.ReportVal">
+    </div>
+  </div>
+ 
+
+
+
+
+  <div *ngIf="!IsPrinting" class="NgxEditor__Wrapper">
+    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+    <ngx-editor 
+      [editor]="editor"  
+      [(ngModel)]="Item.ReportVal" 
+      [disabled]="false" 
+      (ngModelChange)="export($event)"
+      [placeholder]="'Type here...'"></ngx-editor>
+  </div>
+
+
+
+</div>

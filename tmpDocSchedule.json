@@ -1,0 +1,20 @@
+-- _____________________
+Select ifNull(ac.Ac_Num,0) FileNo,p.NameE,p.NameA,p.Phon1 , q.ADate OrderDate,
+q.ID, q.IDC, q.IDY, q.IDP, q.IDBranch, q.IDAppointment, q.IDDoctor,e.SName Doctor, q.IDOperatingRoom, q.IDPatient,
+q.IDUser,ifnull(u.UserName,"") RequiredUser, q.DateFrom, q.WithinDays, q.AType, q.IDService, q.Duration, q.Description, 
+q.IDAppt, q.IDTranDoctor, q.join_url ,
+ifNull(Date(af.ADate),"2010-01-01") DoneDate, ifNull(af.CreatedUser,0) DoneIDUser, ifNull(uf.UserName,0) DoneUser
+from AppointmentsRequired q
+inner join patients p on q.idc=p.idc and q.IDPatient=p.IDP
+inner join Employees e on e.idc=q.idc and e.idp=q.IDDoctor
+Left join users u on u.id=q.IDUser
+Left join Acc ac on ac.idc=p.idc and ac.IDP=p.IDAcc
+Left join appointments af on q.idc=af.idc and q.IDAppt=af.idp and q.IDy=af.IDY
+Left join users uf on uf.id=af.CreatedUser
+
+Where q.IDC=1 -- and q.IDAppt<=0
+and Date(q.ADate)>=CurDate()-interval 14 Day
+and Date(q.ADate)<=CurDate()
+order by if(DoneDate<=0,OrderDate,"2060-01-01");
+-- _____________________
+Select 0 ID,0 IDP,"Any Branch" NameE,"Any Branch" NameA UNION ALL Select ID,IDP,NameE,NameA from branchs where IDC=1; 

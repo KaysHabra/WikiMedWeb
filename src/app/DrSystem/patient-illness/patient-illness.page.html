@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dr-system/main"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Patient Illness' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">PatientIllness</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+  <div style="height: 100%; overflow-y: auto;">
+    <ion-card>
+      <ion-card-header >
+        <div style="background: white; max-width: 400px; border-radius: 5px;">
+          <app-patient-select-auto [(ngModel)]="all.Patient" (selectSubmit)="getPatientIllness($event)"
+          InputLabel="{{'Patient' | translate}}"></app-patient-select-auto>
+          
+        </div>
+        
+      </ion-card-header>
+      <ion-card-content style="padding-block: 10px;">
+        <div *ngFor="let item of tblIllnessType" class="illness-type">
+          <ion-checkbox (ionChange)="chkIllness(item)" [checked]="isInPatientIllness(item)"
+            color="danger" labelPlacement="end">
+            <ion-label class="ion-text-wrap">
+              <ion-row class="row-no-padding" style="width: calc(100vw - 95px); line-height: 1.2;">
+                <ion-col size="6" *ngIf="all.SelectedLang!='ar'" style="text-align: left;">{{ item.NameE }}</ion-col>
+                <ion-col size="6" style="text-align: right;">{{ item.NameA }}</ion-col>
+                <ion-col size="6" *ngIf="all.SelectedLang=='ar'" style="text-align: left;">{{ item.NameE }}</ion-col>
+              </ion-row>
+            </ion-label>
+            <!-- <div>{{ item.NameE }}</div>
+            <small>{{ item.NameA }}</small> -->
+            <!-- <ion-row class="row-no-padding" style="width: calc(100vw - 80px);">
+              <ion-col size="6" *ngIf="all.SelectedLang!='ar'">{{ item.NameE }}</ion-col>
+              <ion-col size="6" style="text-align: right;">{{ item.NameA }}</ion-col>
+              <ion-col size="6" *ngIf="all.SelectedLang=='ar'">{{ item.NameE }}</ion-col>
+            </ion-row> -->
+          </ion-checkbox>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="cancel();" expand="block" color="danger">
+          <ion-icon slot="start" name="close"></ion-icon>
+          {{'Cancel' | translate }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="savePatientIllness()" expand="block" color="success">
+          <ion-icon slot="start" name="save"></ion-icon>
+          {{'Save' | translate }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

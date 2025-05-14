@@ -1,0 +1,727 @@
+
+-- _____________________
+insert into `patients`
+  (`ID`, `IDC`, `IDP`, `IDF`, `Relative`, `IDBranch`, `IDMainAcc`, `IDUser`, `IDAcc`, `IDInvitedBy`, `ADate`, `ID_Emp`, `PricePolicy`, `Active`, `NameE`, `NameA`, `SoundNameA`, `SoundNameE`, `Classification`, `Description`, `BirthDate`, `Marital_State`, `Sex`, `SocialID`, `SocialIDType`, `ID_Nationality`, `ID_Religion`, `PoBOX`, `IDCity`, `Postal_Code`, `PhonType1`, `Phon1`, `PhonType2`, `Phon2`, `PhonType3`, `Phon3`, `Enable_SMS`, `EMail`, `RelativeName1`, `RelativePhon1`, `RelativeType1`, `RelativeName2`, `RelativePhon2`, `RelativeType2`, `RelativeName3`, `RelativePhon3`, `RelativeType3`, `IDAgreement`, `CreatedDate`, `IDPTemp`, `ByFrind`, `ByFacebook`, `ByTwitter`, `ByInstagram`, `BySnapchat`, `BySMS`, `ByInternet`, `ByShow`, `ApptCount`, `TotalDuration`, `TotalAttendDuration`, `TotalNotAttendDuration`, `OperatingRoomSessionCount`, `AttendCount`, `AttendEarly`, `AttendOnTime`, `AttendLate`, `NotAttend`, `NotAttendAfterConfirm`, `BlackPoints`, `AttendAndDelayedCount`, `AttendAndDelayedInMenutes`, `FirstVisitCount`, `FollowUpVisitCount`, `ReturnVisitCount`, `ProcedureRoomVisitCount`, `ClinicProcedureVisitCount`, `NotAttendStatus`, `LateStatus`, `DelayStatus`, `MonyStatus`, `PatientPoints`, `FutureAppt`, `SavedFileNo`, `PPassword`, `SecureCode`, `IDDoctor`, `Status`, `Occupation`, `Employer`, `LastModifyDate`, `ModifyIDUser`, `ModifyReason`, `IDPeriod`, `SoundName`, `ByTV`, `ByNewspaper`, `ByMagazine`, `ByRadio`)
+values
+  ('0', '1', '0', '0', '0', '0', '0', '17', '0', '0', '2025-2-22 16:19:41', '0', '0', '0', 'Samir Ab Gd Aaelh', 'سامر اب جد عائلة', '', '', '0', '', '1995-3-2', '0', '1', '', '0', '0', '0', '', '23', '', '8', '0553921133', '1', '051111111', '1', '', '1', '', '', '', '0', '', '', '0', '', '', '0', '0', '2025-2-22', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '', '', '2025-2-22 16:19:41', '0', '', '1', '', '0', '0', '0', '0')
+; -- ,0,51 
+-- _____________________
+COMMIT; -- ,0,51 
+-- _____________________
+SET AUTOCOMMIT=1; -- ,0,51 
+-- _____________________
+Call AddToUserSession1(93,"2307078464","172.20.32.1",17,"2094","2040","1","16","2","0","0","0","0","New","5"); -- ,0,51 ; -- [140]
+-- _____________________
+Select IDP from Patients where IDC=1 order by ID desc limit 1; -- ,0,51 ; -- [219]
+-- _____________________
+select * from Patients where IDC=1 and IDP=300125557; -- ,0,51 ; -- [188]
+-- _____________________
+
+
+
+
+-- _____________________
+Select IDP,IDBranch,IDAcc,NameE,NameA,Phon1,Phon2,Phon3 from Patients Where IDC=1 and IDBranch=0 and ID<>0 and (Phon1 like "%553921133%" or Phon2 like "%553921133%" or Phon1 like "%553921133%") Order by IDBranch,Adate Desc; -- ,0,51 ; -- [172]
+-- _____________________
+Call ModifyTable("Patients", "0", Now(), 17,"","Modify", 0); -- ,0,51 
+-- _____________________
+SET AUTOCOMMIT=0; -- ,0,51 
+-- _____________________
+BEGIN WORK; -- ,0,51 
+-- _____________________
+insert into `patients`
+  (`ID`, `IDC`, `IDP`, `IDF`, `Relative`, `IDBranch`, `IDMainAcc`, `IDUser`, `IDAcc`, `IDInvitedBy`, `ADate`, `ID_Emp`, `PricePolicy`, `Active`, `NameE`, `NameA`, `SoundNameA`, `SoundNameE`, `Classification`, `Description`, `BirthDate`, `Marital_State`, `Sex`, `SocialID`, `SocialIDType`, `ID_Nationality`, `ID_Religion`, `PoBOX`, `IDCity`, `Postal_Code`, `PhonType1`, `Phon1`, `PhonType2`, `Phon2`, `PhonType3`, `Phon3`, `Enable_SMS`, `EMail`, `RelativeName1`, `RelativePhon1`, `RelativeType1`, `RelativeName2`, `RelativePhon2`, `RelativeType2`, `RelativeName3`, `RelativePhon3`, `RelativeType3`, `IDAgreement`, `CreatedDate`, `IDPTemp`, `ByFrind`, `ByFacebook`, `ByTwitter`, `ByInstagram`, `BySnapchat`, `BySMS`, `ByInternet`, `ByShow`, `ApptCount`, `TotalDuration`, `TotalAttendDuration`, `TotalNotAttendDuration`, `OperatingRoomSessionCount`, `AttendCount`, `AttendEarly`, `AttendOnTime`, `AttendLate`, `NotAttend`, `NotAttendAfterConfirm`, `BlackPoints`, `AttendAndDelayedCount`, `AttendAndDelayedInMenutes`, `FirstVisitCount`, `FollowUpVisitCount`, `ReturnVisitCount`, `ProcedureRoomVisitCount`, `ClinicProcedureVisitCount`, `NotAttendStatus`, `LateStatus`, `DelayStatus`, `MonyStatus`, `PatientPoints`, `FutureAppt`, `SavedFileNo`, `PPassword`, `SecureCode`, `IDDoctor`, `Status`, `Occupation`, `Employer`, `LastModifyDate`, `ModifyIDUser`, `ModifyReason`, `IDPeriod`, `SoundName`, `ByTV`, `ByNewspaper`, `ByMagazine`, `ByRadio`)
+values
+  ('0', '1', '0', '0', '0', '0', '0', '17', '0', '0', '2025-2-22 16:48:28', '0', '0', '0', 'NameE FahthgerE GfatherE SurnameE', 'NameA FahthgerA GFatherA SurNameA', '', '', '0', '', '1992-3-2', '0', '1', '', '0', '0', '0', '', '23', '', '8', '0553921133', '1', '011111111', '1', '', '1', '', '', '', '0', '', '', '0', '', '', '0', '0', '2025-2-22', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '', '', '2025-2-22 16:48:28', '0', '', '1', '', '0', '0', '0', '0')
+; -- ,0,51 
+-- _____________________
+COMMIT; -- ,0,51 
+-- _____________________
+SET AUTOCOMMIT=1; -- ,0,51 
+-- _____________________
+Select IDP from Patients where IDC=1 order by ID desc limit 1; -- ,0,51 ; -- [188]
+-- _____________________
+select * from Patients where IDC=1 and IDP=300125558; -- ,0,51 ; -- [141]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=300125558
+order by p.ID desc 
+limit 1; -- ,0,51 ; -- [125]
+-- _____________________
+Call SoundSearcher(1,2,"p.IDP=300125558",50,0,"OnlyDefaultBranch"); -- ,0,51 ; -- [250]
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=0 and Transfered=1 and (Debit>0 or Credit>0); -- ,0,51 ; -- [141]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125558 and (0=0 or IDDoctor in (0,0) ); -- ,0,51 ; -- [219]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=0 and DoneUser<=0; -- ,0,51 ; -- [125]
+-- _____________________
+Insert into PatientsDiagnosis (IDC, IDPatient, ID_Diagnosis, IDUser, ADate) values (1,300125558,64,17,Now()),(1,300125558,65,17,Now()); -- ,0,51 
+-- _____________________
+Call SoundSearcher(1,2,"IDPatient=300125558",50,0,""); -- ,0,51 ; -- [140]
+
+
+
+
+
+Select IDP,IDBranch,IDAcc,NameE,NameA,Phon1,Phon2,Phon3 from Patients Where IDC=1 and IDBranch=0 and ID<>0 and (Phon1 like "%553921133%" or Phon2 like "%553921133%" or Phon1 like "%553921133%") Order by IDBranch,Adate Desc; -- ,0,51 ; -- [157]
+-- _____________________
+Select Ver,MustUpdate,Information,OtherFiles,IsLocked From ProjectInfo where EXEFileName="MedAcc.exe" and IsExe=1 Order by Ver desc limit 1; -- ,0,51 ; -- [188]
+-- _____________________
+Call UpdateLogON2("172.20.32.1",17,1,"D:/Musef/WikiMed/MedAcc.exe",2002000769,1,"2307078464","00-50-56-C0-00-01","wikimed.selfip.com","Windows 11 (Version 24H2, OS Build 26100.3194, 64-bit Edition)","Nitro",1,2); -- ,0,51 ; -- [188]
+-- _____________________
+select IfNull(Count(u.ID),0) NewMessages from patientcommunicationusers u inner join patientcommunication c on u.IDMessage=c.ID where u.IDUser=17 and u.IsSeen<=0 and (u.Done<=0 and c.Doneuser<=0); -- ,0,51 ; -- [141]
+-- _____________________
+select IfNull(Count(u.ID),0) NewMessages from patientcommunicationusers u inner join patientcommunication c on u.IDMessage=c.ID where u.IDUser=17 and u.IsSeen<=0 and (u.Done<=0 and c.Doneuser<=0); -- ,0,51 ; -- [141]
+-- _____________________
+Select Ver,MustUpdate,Information,OtherFiles,IsLocked From ProjectInfo where EXEFileName="MedAcc.exe" and IsExe=1 Order by Ver desc limit 1; -- ,0,51 ; -- [172]
+-- _____________________
+select IfNull(Count(u.ID),0) NewMessages from patientcommunicationusers u inner join patientcommunication c on u.IDMessage=c.ID where u.IDUser=17 and u.IsSeen<=0 and (u.Done<=0 and c.Doneuser<=0); -- ,0,51 ; -- [172]
+-- _____________________
+Call UpdateLogON2("172.20.32.1",17,1,"D:/Musef/WikiMed/MedAcc.exe",2002000769,1,"2307078464","00-50-56-C0-00-01","wikimed.selfip.com","Windows 11 (Version 24H2, OS Build 26100.3194, 64-bit Edition)","Nitro",1,2); -- ,0,51 ; -- [157]
+-- _____________________
+select IfNull(Count(u.ID),0) NewMessages from patientcommunicationusers u inner join patientcommunication c on u.IDMessage=c.ID where u.IDUser=17 and u.IsSeen<=0 and (u.Done<=0 and c.Doneuser<=0); -- ,0,51 ; -- [156]
+-- _____________________
+Select Ver,MustUpdate,Information,OtherFiles,IsLocked From ProjectInfo where EXEFileName="MedAcc.exe" and IsExe=1 Order by Ver desc limit 1; -- ,0,51 ; -- [203]
+-- _____________________
+Select Now(); -- ,0,51 ; -- [203]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=300125559
+order by p.ID desc 
+limit 1; -- ,0,51 ; -- [187]
+-- _____________________
+select * from Patients where IDC=1 and IDP=300125558; -- ,0,51 ; -- [250]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=300125558
+order by p.ID desc 
+limit 1; -- ,0,51 ; -- [172]
+-- _____________________
+Call SoundSearcher(1,2,"p.IDP=300125558",50,0,"OnlyDefaultBranch"); -- ,0,51 ; -- [141]
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=0 and Transfered=1 and (Debit>0 or Credit>0); -- ,0,51 ; -- [141]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125558 and (0=0 or IDDoctor in (0,0) ); -- ,0,51 ; -- [188]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=0 and DoneUser<=0; -- ,0,51 ; -- [140]
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=0 and Transfered=1 and (Debit>0 or Credit>0); -- ,0,51 ; -- [125]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125558 and (0=0 or IDDoctor in (0,0) ); -- ,0,51 ; -- [187]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=0 and DoneUser<=0; -- ,0,51 ; -- [140]
+-- _____________________
+Call SoundSearcher(1,2,"IDPatient=300125558",50,0,""); -- ,0,51 ; -- [140]
+-- _____________________
+Select ID,IDUser,Active,CreateDate,ExpireDate,FileName,TargetFolder,UpdateIfExist,UpdateCount,MessageForClient,DoneClientsPC,IsLocked From FilesForCopyToClients Where active=1 and IsLocked=0 and ExpireDate>=CurDate(); -- ,0,51 ; -- [141]
+
+
+
+
+
+
+
+
+
+
+-- _____________________
+select IDP from Patients where IDC=1 and IDP<300125564 Order by IDP desc limit 1; -- ,0,51 ; -- [141]
+-- _____________________
+select * from Patients where IDC=1 and IDP=300125563; -- ,0,51 ; -- [172]
+-- _____________________
+Call SoundSearcher(1,2,"p.IDP=300125563",50,0,"OnlyDefaultBranch"); -- ,0,51 ; -- [234]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=300125563
+order by p.ID desc 
+limit 1; -- ,0,51 ; -- [187]
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=0 and Transfered=1 and (Debit>0 or Credit>0); -- ,0,51 ; -- [141]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125563 and (0=0 or IDDoctor in (0,0) ); -- ,0,51 ; -- [219]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=0 and DoneUser<=0; -- ,0,51 ; -- [157]
+
+
+{
+    "ID": 250654,
+    "IDC": 1,
+    "IDP": 300125565,
+    "IDF": 0,
+    "Relative": 0,
+    "IDBranch": 2,
+    "IDMainAcc": 31,
+    "IDUser": 0,
+    "IDAcc": 153140,
+    "IDInvitedBy": 0,
+    "ADate": "2025-02-23 13:42:19",
+    "ID_Emp": 0,
+    "PricePolicy": 0,
+    "Active": 0,
+    "NameE": "Kosay   Zebak",
+    "NameA": "???   ????",
+    "SoundNameA": "QSY   ZYBQ",
+    "SoundNameE": "K000 Z120",
+    "Classification": 0,
+    "Description": ",OldFileNo=66414,OldFileNo=1",
+    "BirthDate": "1995-02-22",
+    "Marital_State": "0",
+    "Sex": 1,
+    "SocialID": "",
+    "SocialIDType": 0,
+    "ID_Nationality": 0,
+    "ID_Religion": 0,
+    "PoBOX": "",
+    "IDCity": 23,
+    "Postal_Code": "",
+    "PhonType1": 8,
+    "Phon1": "553921135",
+    "PhonType2": 1,
+    "Phon2": "",
+    "PhonType3": 1,
+    "Phon3": "",
+    "Enable_SMS": 1,
+    "EMail": "",
+    "RelativeName1": "",
+    "RelativePhon1": "",
+    "RelativeType1": 0,
+    "RelativeName2": "",
+    "RelativePhon2": "",
+    "RelativeType2": 0,
+    "RelativeName3": "",
+    "RelativePhon3": "",
+    "RelativeType3": 0,
+    "IDAgreement": 0,
+    "CreatedDate": "2025-02-23",
+    "IDPTemp": 0,
+    "ByFrind": 0,
+    "ByFacebook": 0,
+    "ByTwitter": 0,
+    "ByInstagram": 1,
+    "BySnapchat": 1,
+    "BySMS": 0,
+    "ByInternet": 0,
+    "ByShow": 0,
+    "ApptCount": 0,
+    "TotalDuration": 0,
+    "TotalAttendDuration": 0,
+    "TotalNotAttendDuration": 0,
+    "OperatingRoomSessionCount": 0,
+    "AttendCount": 0,
+    "AttendEarly": 0,
+    "AttendOnTime": 0,
+    "AttendLate": 0,
+    "NotAttend": 0,
+    "NotAttendAfterConfirm": 0,
+    "BlackPoints": 0,
+    "AttendAndDelayedCount": 0,
+    "AttendAndDelayedInMenutes": 0,
+    "FirstVisitCount": 0,
+    "FollowUpVisitCount": 0,
+    "ReturnVisitCount": 0,
+    "ProcedureRoomVisitCount": 0,
+    "ClinicProcedureVisitCount": 0,
+    "NotAttendStatus": 0,
+    "LateStatus": 0,
+    "DelayStatus": 0,
+    "MonyStatus": 0,
+    "PatientPoints": 0,
+    "FutureAppt": 0,
+    "SavedFileNo": 66414,
+    "PPassword": "",
+    "SecureCode": 0,
+    "IDDoctor": 0,
+    "Status": 0,
+    "Occupation": "",
+    "Employer": "",
+    "LastModifyDate": "2025-02-23 13:49:05",
+    "ModifyIDUser": 0,
+    "ModifyReason": "",
+    "IDPeriod": 1,
+    "SoundName": "",
+    "ByTV": 0,
+    "ByNewspaper": 0,
+    "ByMagazine": 0,
+    "ByRadio": 0
+}
+
+
+
+
+
+
+
+
+-- _____________________
+Select concat_ws(",",IDF,Ac_PNum,Ac_Num) from acc where IDC=1 and IDP=153140; -- ,0,51 ; -- [188]
+-- _____________________
+Select concat_ws(",",IDP,NameE,NameA) from acc a where (a.IDC,a.Ac_Num)=(1,788) and IDF in(Select distinct IDMainPatientsAcc from departments where IDC=1) limit 1; -- ,0,51 ; -- [141]
+-- _____________________
+Select IDMainPatientsAcc from ( Select d.IDMainPatientsAcc ,Max(a.Ac_Num) MaxAc_Num,Min(a.Ac_Num) MinAc_Num from departments d Left join acc a on a.IDC=d.IDC and d.IDMainPatientsAcc=a.IDF where d.IDC=1 group by a.IDf having (788 between MinAc_Num and MaxAc_Num) or 788>MaxAc_Num)a order by MinAc_Num desc limit 1; -- ,0,51 ; -- [250]
+-- _____________________
+Update Acc Set AccOld=Ac_Num,IDF=4,Ac_Num=788 where (IDC,IDP)=(1,153140); -- ,0,51 
+-- _____________________
+Update Patients Set Description=concat_ws(",",Description,"OldFileNo=789") where (IDC,IDP)=(1,300125565); -- ,0,51 
+-- _____________________
+select * from Patients where IDC=1 and IDP=300125565; -- ,0,51 ; -- [203]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=300125565
+order by p.ID desc 
+limit 1; -- ,0,51 ; -- [141]
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=153140 and Transfered=1 and (Debit>0 or Credit>0); -- ,0,51 ; -- [140]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125565 and (0=0 or IDDoctor in (0,0) ); -- ,0,51 ; -- [141]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=153140 and DoneUser<=0; -- ,0,51 ; -- [141]
+-- _____________________
+Select 0 IDP,0 IDC,0 Ac_Num UNION ALL Select IDP IDAcc,IDC,Ac_Num from acc where IDC=1 and AcType=2  and IDP="44883"; -- ,0,51 ; -- [141]
+-- _____________________
+Select 0 IDP,0 IDC,0 Ac_Num UNION ALL Select IDP IDAcc,IDC,Ac_Num from acc where IDC=1 and AcType=2  and IDP="153140"; -- ,0,51 ; -- [187]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Select concat_ws(",",IDF,Ac_PNum,Ac_Num) from acc where IDC=1 and IDP=153140; -- ,0,51 ; -- [172]
+-- _____________________
+Select concat_ws(",",IDP,NameE,NameA) from acc a where (a.IDC,a.Ac_Num)=(1,888) and IDF in(Select distinct IDMainPatientsAcc from departments where IDC=1) limit 1; -- ,0,51 ; -- [219]
+-- _____________________
+Select IDMainPatientsAcc from ( Select d.IDMainPatientsAcc ,Max(a.Ac_Num) MaxAc_Num,Min(a.Ac_Num) MinAc_Num from departments d Left join acc a on a.IDC=d.IDC and d.IDMainPatientsAcc=a.IDF where d.IDC=1 group by a.IDf having (888 between MinAc_Num and MaxAc_Num) or 888>MaxAc_Num)a order by MinAc_Num desc limit 1; -- ,0,51 ; -- [157]
+-- _____________________
+Update Acc Set AccOld=Ac_Num,IDF=4,Ac_Num=888 where (IDC,IDP)=(1,153140); -- ,0,51 
+-- _____________________
+Update Patients Set Description=concat_ws(",",Description,"OldFileNo=777") where (IDC,IDP)=(1,300125565); -- ,0,51 
+-- _____________________
+select * from Patients where IDC=1 and IDP=300125565; -- ,0,51 ; -- [172]
+-- _____________________
+SELECT ID,IDP,NameE,NameA FROM agreements a where IDC=1 and AgrType in (1); -- ,0,51 ; -- [156]
+-- _____________________
+Select 0 ID,"Any Code" UserCode,"Any User" UserName,"" Name UNION ALL Select ID,UserCode,UserName,Name from Users where Active=1 and Nature=0; -- ,0,51 ; -- [172]
+-- _____________________
+Select ID,IDP,Full_Name_Ar,Full_Name_Eng,Emp_Status from employees where IDC=1; -- ,0,51 ; -- [156]
+-- _____________________
+Select ID,if(Trim(NameE)="",NameA,NameE) NameE,if(Trim(NameA)="",NameE,NameA) NameA,IsLocal from citys; -- ,0,51 ; -- [156]
+-- _____________________
+Select  IDP,NameA,NameE,Code_Type from Coding Where Code_Type like "nat" and IDC=1; -- ,0,51 ; -- [187]
+-- _____________________
+Select 0 ID,0 IDP,"Any Branch" NameE,"Any Branch" NameA UNION ALL Select ID,IDP,NameE,NameA from branchs where IDC=1; -- ,0,51 ; -- [156]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=300125565
+order by p.ID desc 
+limit 1; -- ,0,51 ; -- [156]
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=153140 and Transfered=1 and (Debit>0 or Credit>0); -- ,0,51 ; -- [234]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125565 and (0=0 or IDDoctor in (0,0) ); -- ,0,51 ; -- [187]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=153140 and DoneUser<=0; -- ,0,51 ; -- [156]
+-- _____________________
+Select 0 IDP,0 IDC,0 Ac_Num UNION ALL Select IDP IDAcc,IDC,Ac_Num from acc where IDC=1 and AcType=2  and IDP="153140"; -- ,0,51 ; -- [141]
+-- _____________________
+Select 0 IDP,0 IDC,0 Ac_Num UNION ALL Select IDP IDAcc,IDC,Ac_Num from acc where IDC=1 and AcType=2  and IDP="153140" /*|*/ having IDP="153140"; -- ,0,51 ; -- [172]
+
+
+
+{
+    "ID": 250654,
+    "IDC": 1,
+    "IDP": 300125565,
+    "IDF": 0,
+    "Relative": 0,
+    "IDBranch": 2,
+    "IDMainAcc": 31,
+    "IDUser": 0,
+    "IDAcc": 153140,
+    "IDInvitedBy": 0,
+    "ADate": "2025-02-23 13:42:19",
+    "ID_Emp": 0,
+    "PricePolicy": 0,
+    "Active": 0,
+    "NameE": "Kosay   Zebak",
+    "NameA": "???   ????",
+    "SoundNameA": "QSY   ZYBQ",
+    "SoundNameE": "K000 Z120",
+    "Classification": 0,
+    "Description": ",OldFileNo=66414,OldFileNo=1,OldFileNo=789,OldFileNo=788,OldFileNo=789,OldFileNo=777,OldFileNo=888",
+    "BirthDate": "1995-02-22",
+    "Marital_State": "0",
+    "Sex": 1,
+    "SocialID": "",
+    "SocialIDType": 0,
+    "ID_Nationality": 0,
+    "ID_Religion": 0,
+    "PoBOX": "",
+    "IDCity": 23,
+    "Postal_Code": "",
+    "PhonType1": 8,
+    "Phon1": "553921135",
+    "PhonType2": 1,
+    "Phon2": "",
+    "PhonType3": 1,
+    "Phon3": "",
+    "Enable_SMS": 1,
+    "EMail": "",
+    "RelativeName1": "",
+    "RelativePhon1": "",
+    "RelativeType1": 0,
+    "RelativeName2": "",
+    "RelativePhon2": "",
+    "RelativeType2": 0,
+    "RelativeName3": "",
+    "RelativePhon3": "",
+    "RelativeType3": 0,
+    "IDAgreement": 0,
+    "CreatedDate": "2025-02-23",
+    "IDPTemp": 0,
+    "ByFrind": 0,
+    "ByFacebook": 0,
+    "ByTwitter": 0,
+    "ByInstagram": 1,
+    "BySnapchat": 1,
+    "BySMS": 0,
+    "ByInternet": 0,
+    "ByShow": 0,
+    "ApptCount": 0,
+    "TotalDuration": 0,
+    "TotalAttendDuration": 0,
+    "TotalNotAttendDuration": 0,
+    "OperatingRoomSessionCount": 0,
+    "AttendCount": 0,
+    "AttendEarly": 0,
+    "AttendOnTime": 0,
+    "AttendLate": 0,
+    "NotAttend": 0,
+    "NotAttendAfterConfirm": 0,
+    "BlackPoints": 0,
+    "AttendAndDelayedCount": 0,
+    "AttendAndDelayedInMenutes": 0,
+    "FirstVisitCount": 0,
+    "FollowUpVisitCount": 0,
+    "ReturnVisitCount": 0,
+    "ProcedureRoomVisitCount": 0,
+    "ClinicProcedureVisitCount": 0,
+    "NotAttendStatus": 0,
+    "LateStatus": 0,
+    "DelayStatus": 0,
+    "MonyStatus": 0,
+    "PatientPoints": 0,
+    "FutureAppt": 0,
+    "SavedFileNo": 66414,
+    "PPassword": "",
+    "SecureCode": 0,
+    "IDDoctor": 0,
+    "Status": 0,
+    "Occupation": "",
+    "Employer": "",
+    "LastModifyDate": "2025-02-23 19:10:48",
+    "ModifyIDUser": 0,
+    "ModifyReason": "",
+    "IDPeriod": 1,
+    "SoundName": "",
+    "ByTV": 0,
+    "ByNewspaper": 0,
+    "ByMagazine": 0,
+    "ByRadio": 0
+}
+
+
+
+[
+  {
+      "start": "21:00:00",
+      "end": "21:15:00"
+  },
+  {
+      "start": "21:00:00",
+      "end": "21:10:00"
+  },
+  {
+      "start": "21:00:00",
+      "end": "21:10:00"
+  },
+  {
+      "start": "21:10:00",
+      "end": "21:20:00"
+  },
+  {
+      "start": "21:10:00",
+      "end": "21:20:00"
+  },
+  {
+      "start": "21:15:00",
+      "end": "21:30:00"
+  },
+  {
+      "start": "21:20:00",
+      "end": "21:25:00"
+  },
+  {
+      "start": "21:30:00",
+      "end": "21:45:00"
+  },
+  {
+      "start": "21:30:00",
+      "end": "21:45:00"
+  },
+  {
+      "start": "21:30:00",
+      "end": "21:45:00"
+  },
+  {
+      "start": "21:30:00",
+      "end": "21:45:00"
+  },
+  {
+      "start": "21:30:00",
+      "end": "21:45:00"
+  },
+  {
+      "start": "21:45:00",
+      "end": "21:55:00"
+  },
+  {
+      "start": "21:45:00",
+      "end": "21:50:00"
+  },
+  {
+      "start": "21:45:00",
+      "end": "21:50:00"
+  },
+  {
+      "start": "21:45:00",
+      "end": "21:55:00"
+  },
+  {
+      "start": "21:55:00",
+      "end": "22:10:00"
+  },
+  {
+      "start": "21:55:00",
+      "end": "22:05:00"
+  },
+  {
+      "start": "22:00:00",
+      "end": "22:10:00"
+  },
+  {
+      "start": "22:10:00",
+      "end": "22:20:00"
+  },
+  {
+      "start": "22:10:00",
+      "end": "22:25:00"
+  },
+  {
+      "start": "22:10:00",
+      "end": "22:25:00"
+  },
+  {
+      "start": "22:10:00",
+      "end": "22:25:00"
+  },
+  {
+      "start": "22:20:00",
+      "end": "22:30:00"
+  },
+  {
+      "start": "22:25:00",
+      "end": "22:40:00"
+  },
+  {
+      "start": "22:25:00",
+      "end": "22:40:00"
+  },
+  {
+      "start": "22:25:00",
+      "end": "22:40:00"
+  },
+  {
+      "start": "22:30:00",
+      "end": "22:40:00"
+  },
+  {
+      "start": "22:40:00",
+      "end": "22:55:00"
+  },
+  {
+      "start": "22:55:00",
+      "end": "23:10:00"
+  },
+  {
+      "start": "22:55:00",
+      "end": "23:10:00"
+  },
+  {
+      "start": "22:55:00",
+      "end": "23:10:00"
+  },
+  {
+      "start": "22:55:00",
+      "end": "23:10:00"
+  },
+  {
+      "start": "23:10:00",
+      "end": "23:25:00"
+  },
+  {
+      "start": "23:15:00",
+      "end": "23:30:00"
+  },
+  {
+      "start": "23:15:00",
+      "end": "23:30:00"
+  },
+  {
+      "start": "23:25:00",
+      "end": "23:40:00"
+  },
+  {
+      "start": "23:30:00",
+      "end": "23:40:00"
+  },
+  {
+      "start": "23:40:00",
+      "end": "23:45:00"
+  },
+  {
+      "start": "23:40:00",
+      "end": "23:55:00"
+  },
+  {
+      "start": "23:45:00",
+      "end": "00:00:00"
+  },
+  {
+      "start": "23:45:00",
+      "end": "23:55:00"
+  },
+  {
+      "start": "23:55:00",
+      "end": "00:10:00"
+  },
+  {
+      "start": "00:00:00",
+      "end": "00:10:00"
+  },
+  {
+      "start": "00:10:00",
+      "end": "00:20:00"
+  },
+  {
+      "start": "00:10:00",
+      "end": "00:25:00"
+  },
+  {
+      "start": "00:20:00",
+      "end": "00:35:00"
+  },
+  {
+      "start": "00:35:00",
+      "end": "00:50:00"
+  },
+  {
+      "start": "00:35:00",
+      "end": "00:50:00"
+  },
+  {
+      "start": "00:35:00",
+      "end": "00:50:00"
+  },
+  {
+      "start": "00:50:00",
+      "end": "01:05:00"
+  },
+  {
+      "start": "00:50:00",
+      "end": "01:00:00"
+  },
+  {
+      "start": "01:05:00",
+      "end": "01:20:00"
+  },
+  {
+      "start": "01:05:00",
+      "end": "01:15:00"
+  },
+  {
+      "start": "01:15:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "01:15:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "01:15:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "01:15:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "01:20:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "21:00:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "12:30:00",
+      "end": "20:00:00"
+  },
+  {
+      "start": "21:00:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "21:00:00",
+      "end": "01:30:00"
+  },
+  {
+      "start": "12:30:00",
+      "end": "20:00:00"
+  },
+  {
+      "start": "21:00:00",
+      "end": "01:30:00"
+  }
+]

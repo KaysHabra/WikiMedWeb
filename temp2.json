@@ -1,0 +1,555 @@
+SELECT * FROM Appointments where IDC=1 and IDY>0 and IDP>0 order by ID desc limit 1; -- ,
+0,
+51 ; 
+-- _____________________
+Call SoundSearcher(1,
+2,
+"300125555",
+50,
+0,
+""); -- ,
+0,
+51 ; -- [
+    1234
+]
+-- _____________________
+Call SoundSearcher(1,
+2,
+"IDPatient=200010272",
+50,
+0,
+""); -- ,
+0,
+51 ; -- [
+    172
+]
+-- _____________________
+SELECT * FROM MedicalProcedures
+where IDC=1 and IDAppointment=3942489; -- ,
+0,
+51 ; -- [
+    188
+]
+-- __________ الخدمة أو الاجر ___________
+Select 0 IDP,
+1 IDC,
+0 IDNature,
+0 It_Level,
+0 PartNo,
+0 IDHand,
+"Any" NameE,
+"Any" NameA,
+"" NickName union all Select IDP,IDC,IDNature,It_Level,PartNo,IDHand,NameE,NameA,NickName from Items where IDC=1 AND IDNature in (13,
+14,
+15,
+16); -- ,
+0,
+51 ; -- [
+    797
+]
+-- _____________________
+Call SoundSearcher(1,
+2,
+"IDPatient=0",
+50,
+0,
+""); -- ,
+0,
+51 ; -- [
+    687
+]
+-- _____________________
+SELECT * FROM MedicalProcedures where IDC=1 and IDAppointment=0; -- ,
+0,
+51 ; -- [
+    187
+]
+-- _____________________
+Call SoundSearcher(1,
+2,
+"IDPatient=300125555",
+50,
+0,
+""); -- ,
+0,
+51 ; -- [
+    156
+]
+-- __________ غ.غ ___________
+Select 0 ID,
+0 IDP,
+"Any OperatingRoom" NameE,
+"Any OperatingRoom" NameA,
+0 IDBranch,
+0 RoomType union all Select ID,IDP,NameE,NameA,IDBranch,RoomType from OperatingRooms where IDC=1; -- ,
+0,
+51 ; -- [
+    188
+]
+-- _____________________
+Select 0 ID,
+0 IDP,
+"Any Room" NameE,
+"Any Room" NameA,
+0 IDBranch union all Select ID,IDP,NameE,NameA,IDBranch from OperatingRooms where IDC=1 and RoomType=4; -- ,
+0,
+51 ; -- [
+    157
+]
+
+-- _____________________
+select ID, NameE, NameA from AnesthetistDoctors where IDC=1 and Active=1; -- ,
+0,
+51 ; -- [
+    188
+]
+-- ___________ الغرض / الحزمة __________
+SELECT 0 ID,
+0 IDP,
+"None" NameE,
+"None" NameA,
+2 AgrType Union All SELECT ID,IDP,NameE,NameA,AgrType FROM agreements a where IDC=1 and AgrType in (2,
+3,
+4); -- ,
+0,
+51 ; -- [
+    125
+]
+-- _____________________
+select 0 IDP,
+0 IDBranch,
+"Any Doctor" Full_Name_Eng,
+"Any Doctor" Full_Name_Ar,
+"0000" SName,
+0 Ac_Num,
+0 IDAgreement,
+"00000000" AccountNo,
+0 ID_Job_Iqamah,
+0 IDItem,
+0 ApptSlotsPeriod,
+0 PntBlackPointsMessage union All Select E.IDP,a.IDBranch,e.Full_Name_Eng,e.Full_Name_Ar,e.SName,a.Ac_Num,g.IDP IDAgreement,GetAccountNo(a.Ac_PNum,a.Ac_Num,
+8) AccountNo,e.ID_Job_Iqamah,e.IDItem,e.ApptSlotsPeriod,e.PntBlackPointsMessage from Employees E inner join Acc a on (E.IDC,E.ID_Acc)=(a.IDC,a.IDP) Left Join Agreements g on (e.IDC,e.IDP,
+0)=(g.IDC,g.ID_Emp,g.AgrType) where e.IDC=1 and e.ID_Job=7 and E.ID_Acc>0; -- ,
+0,
+51 ; -- [
+    140
+]
+-- ___________ الأفرع __________
+Select 0 ID,
+0 IDP,
+"Any Branch" NameE,
+"Any Branch" NameA UNION ALL Select ID,IDP,NameE,NameA from branchs where IDC=1; -- ,
+0,
+51 ; -- [
+    156
+]
+-- ____________ المريض _________
+Select * from patients where idc=1 and idP=300125555; -- ,
+0,
+51 ; -- [
+    125
+]
+-- _____________________
+select Sum(Debit)-Sum(Credit) from JournalsD where IDC=1 and IDAcc=300125555 and Transfered=1 and (Debit>0 or Credit>0); -- ,
+0,
+51 ; -- [
+    125
+]
+-- _____________________
+Select count(*) v from patientsblacklist where IDC=1 and IDPatient=300125555 and (0=0 or IDDoctor in (0,
+0) ); -- ,
+0,
+51 ; -- [
+    125
+]
+-- _____________________
+SELECT TextMessage FROM patientcommunication where IDPatient=300125555 and DoneUser<=0; -- ,
+0,
+51 ; -- [
+    109
+]
+-- _____________________
+
+
+
+
+//*************************
+
+Select 0 IDP,
+0 IDC,
+0 Ac_Num UNION ALL Select IDP IDAcc,IDC,Ac_Num from acc where IDC=1 and AcType=2  and IDP="" /*|*/ having IDP=""; -- ,
+0,
+51 ; -- [
+    172
+]
+-- _____________________
+Select 0 IDP,
+0 IDC,
+0 Ac_Num UNION ALL Select IDP IDAcc,IDC,Ac_Num from acc where IDC=1 and AcType=2  and IDP="" /*|*/ having IDP=""; -- ,
+0,
+51 ; -- [
+    125
+]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,
+"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=0
+order by p.ID desc 
+limit 1; -- ,
+0,
+51 ; -- [
+    156
+]
+-- _____________________
+Select ID, IDC, IDP,IDF, Active,
+if(Trim(NameE)="",NameA,NameE) NameE,
+if(Trim(NameA)="",NameE,NameA) NameA,
+Description, DataStream, DoctorPriority1, DoctorPriority2, DoctorPriority3  
+from Diagnosis 
+where IDC=1 and Active=True; -- ,
+0,
+51 ; -- [
+    218
+]
+-- _____________________
+select 0 IDP,
+0 IDBranch,
+"Any Doctor" Full_Name_Eng,
+"Any Doctor" Full_Name_Ar,
+"0000" SName,
+0 Ac_Num,
+0 IDAgreement,
+"00000000" AccountNo,
+0 ID_Job_Iqamah
+ union All 
+Select E.IDP,a.IDBranch,e.Full_Name_Eng,e.Full_Name_Ar,e.SName,a.Ac_Num,g.IDP IDAgreement,GetAccountNo(a.Ac_PNum,a.Ac_Num,
+8) AccountNo,e.ID_Job_Iqamah 
+from Employees E
+ inner join Acc a on (E.IDC,E.ID_Acc)=(a.IDC,a.IDP) 
+Left Join Agreements g on (e.IDC,e.IDP,
+0)=(g.IDC,g.ID_Emp,g.AgrType) 
+where e.IDC=1 and e.ID_Job=7 and E.ID_Acc>0; -- ,
+0,
+51 ; -- [
+    125
+]
+
+
+
+TREE_DATA = [
+    {
+        IDP: 1,
+        IDF: 0,
+      name: 'Fruit',
+    },
+    {
+        IDP: 2,
+        IDF: 1,
+      name: 'Apple',
+    },
+    {
+        IDP: 3,
+        IDF: 1,
+      name: 'Banana',
+    },
+    {
+        IDP: 10,
+        IDF: 0,
+      name: 'Vegetables',
+    },
+    {
+        IDP: 11,
+        IDF: 10,
+      name: 'Green',
+    },
+    {
+        IDP: 22,
+        IDF: 10,
+      name: 'Orange',
+    },
+    {
+        IDP: 12,
+        IDF: 11,
+      name: 'Broccoli',
+    },
+    {
+        IDP: 13,
+        IDF: 22,
+      name: 'Pumpkins',
+    },
+]
+
+
+
+
+
+TREE_DATA = [
+    {
+        IDP: 1,
+        IDF: 0,
+      name: 'Fruit',
+      children: [
+            {IDP: 2,
+      IDF: 1,name: 'Apple'
+            },
+            {IDP: 3,
+      IDF: 1,name: 'Banana'
+            }
+        ],
+    },
+    {IDP: 10,
+    IDF: 0,
+      name: 'Vegetables',
+      children: [
+            {
+            IDP: 11,
+        IDF: 10,
+          name: 'Green',
+          children: [
+                    {IDP: 12,
+          IDF: 11,name: 'Broccoli'
+                    }
+                ],
+            },
+            {
+            IDP: 22,
+        IDF: 10,
+          name: 'Orange',
+          children: [
+                    { IDP: 13,
+          IDF: 22,name: 'Pumpkins'
+                    }
+                ],
+            },
+        ],
+    },
+];
+
+
+
+
+  --  جلب تعليقات مستخدمة سابقا
+select 0 IDSort,
+"^^Appointments Change" Description,
+0 dc
+union All
+select 1 IDSort,Description, dc From (
+select IDPatient,Description,count(*) dc
+        from appointmentChange c
+        where IDC=1 and AppointmentID=0 and Trim(Description)<>""
+        group by c.ChangeDate
+        order by dc desc
+limit 5
+) a
+union All
+select 2 IDSort,
+"^^Repeated Descriptions" Description,
+0 dc
+union All
+select 3 IDSort,Description, dc From (
+select IDPatient,Description,count(*) dc
+        from appointments c
+        where IDC=1 and Trim(Description)<>""
+        group by Trim(Description)
+        order by dc desc
+ limit 5
+) a
+union All
+select 4 IDSort,
+"^^Selected Patient Descriptions" Description,
+0 dc
+union All
+select 5 IDSort,Description, dc From (
+select IDPatient,Description,count(*) dc
+        from appointments c
+        where IDC=1 and IDPatient=300125555 and Trim(Description)<>""
+        group by IDPatient,Trim(Description)
+      Order by dc desc
+limit 5
+) a
+Order by IDSort,dc Desc; -- ,
+0,
+51 ; -- [
+    125
+]
+
+
+
+[
+    {
+        "IDP": 300122273,
+        "IDPatient": 300122273,
+        "Ac_Num": 65389,
+        "FileNo": 65389,
+        "AcType": 2,
+        "IDBranch": 2,
+        "MainAccE": "Patients Branch 2",
+        "MainAccA": "مرضى Branch 2",
+        "IDPatientAcc": 151374,
+        "NameE": "Nora Abd Alazez Abd ALSAHLI",
+        "NameA": "نورا عبدالعزيز آلساهلي",
+        "Phon1": "0555880020",
+        "Phon2": "0",
+        "Phon3": "",
+        "Adate": "2024-01-28 15:45:41",
+        "Classification": 0,
+        "ApptCount": 8,
+        "FutureAppt": 0,
+        "OperatingRoomSessionCount": 1,
+        "AttendCount": 3,
+        "AttendLate": 0,
+        "NotAttend": 5,
+        "NotAttendAfterConfirm": 5,
+        "BlackPoints": 1,
+        "AttendAndDelayedCount": 1,
+        "MonyStatus": 0,
+        "CardNo": 0
+    },
+    {
+        "IDP": 300124171,
+        "IDPatient": 300124171,
+        "Ac_Num": 66008,
+        "FileNo": 66008,
+        "AcType": 2,
+        "IDBranch": 2,
+        "MainAccE": "Patients Branch 2",
+        "MainAccA": "مرضى Branch 2",
+        "IDPatientAcc": 152256,
+        "NameE": "Abd Alrahman Abd Almhsn lyen",
+        "NameA": "عبد الرحمن عبد المحسن لآيينا",
+        "Phon1": "0580078000",
+        "Phon2": "0",
+        "Phon3": "",
+        "Adate": "2024-03-31 21:24:10",
+        "Classification": 0,
+        "ApptCount": 0,
+        "FutureAppt": 0,
+        "OperatingRoomSessionCount": 0,
+        "AttendCount": 0,
+        "AttendLate": 0,
+        "NotAttend": 0,
+        "NotAttendAfterConfirm": 0,
+        "BlackPoints": 0,
+        "AttendAndDelayedCount": 0,
+        "MonyStatus": 0,
+        "CardNo": 0
+    },
+    {
+        "IDP": 300027940,
+        "IDPatient": 300027940,
+        "Ac_Num": 30833,
+        "FileNo": 30833,
+        "AcType": 2,
+        "IDBranch": 2,
+        "MainAccE": "Patients Branch 2",
+        "MainAccA": "مرضى Branch 2",
+        "IDPatientAcc": 89152,
+        "NameE": "Abd Alalha Abd Alazez madawe",
+        "NameA": "عبد الاله عبد العزيز مادو",
+        "Phon1": "0552200077",
+        "Phon2": "0",
+        "Phon3": "",
+        "Adate": "2017-10-11 17:23:52",
+        "Classification": 0,
+        "ApptCount": 2,
+        "FutureAppt": 0,
+        "OperatingRoomSessionCount": 0,
+        "AttendCount": 2,
+        "AttendLate": 0,
+        "NotAttend": 0,
+        "NotAttendAfterConfirm": 0,
+        "BlackPoints": 0,
+        "AttendAndDelayedCount": 0,
+        "MonyStatus": 0,
+        "CardNo": 0
+    },
+    {
+        "IDP": 300123370,
+        "IDPatient": 300123370,
+        "Ac_Num": 71859,
+        "FileNo": 71859,
+        "AcType": 2,
+        "IDBranch": 1,
+        "MainAccE": "Patients Branch 1",
+        "MainAccA": "مرضى Branch 1",
+        "IDPatientAcc": 151527,
+        "NameE": "Nada Abd Allah ALNAFEESAH",
+        "NameA": "ندى عبد الله آلنافيساه",
+        "Phon1": "0528882850",
+        "Phon2": "0",
+        "Phon3": "",
+        "Adate": "2024-02-18 17:30:03",
+        "Classification": 0,
+        "ApptCount": 3,
+        "FutureAppt": 0,
+        "OperatingRoomSessionCount": 0,
+        "AttendCount": 0,
+        "AttendLate": 0,
+        "NotAttend": 3,
+        "NotAttendAfterConfirm": 3,
+        "BlackPoints": 3,
+        "AttendAndDelayedCount": 0,
+        "MonyStatus": 0,
+        "CardNo": 0
+    },
+    {
+        "IDP": 300122983,
+        "IDPatient": 300122983,
+        "Ac_Num": 71815,
+        "FileNo": 71815,
+        "AcType": 2,
+        "IDBranch": 1,
+        "MainAccE": "Patients Branch 1",
+        "MainAccA": "مرضى Branch 1",
+        "IDPatientAcc": 151220,
+        "NameE": "Nwrh Abd Allah Alyne",
+        "NameA": "نورة عبد الله آلآين",
+        "Phon1": "0558575887",
+        "Phon2": "0",
+        "Phon3": "",
+        "Adate": "2024-01-09 20:34:57",
+        "Classification": 0,
+        "ApptCount": 0,
+        "FutureAppt": 0,
+        "OperatingRoomSessionCount": 0,
+        "AttendCount": 0,
+        "AttendLate": 0,
+        "NotAttend": 0,
+        "NotAttendAfterConfirm": 0,
+        "BlackPoints": 0,
+        "AttendAndDelayedCount": 0,
+        "MonyStatus": 0,
+        "CardNo": 0
+    }
+]
+
+
+-- _____________________
+Call SoundSearcher(1,2,"66412 مسعف هبرة",50,0,"OnlyDefaultBranch"); -- ,0,51 ; -- [265]
+-- _____________________
+Call CreateProperty(17,"Menu","ActionPatients","1499",1); -- ,0,51 
+-- _____________________
+Select Max(IDP) as MaxID from Patients; -- ,0,51 ; -- [140]
+-- _____________________
+select * from Patients where IDC=1 and IDP=Max(IDP); -- ,0,51 ; -- [204]
+-- _____________________
+Call SoundSearcher(1,2,"p.IDP=300125555",50,0,"OnlyDefaultBranch"); -- ,0,51 ; -- [234]
+-- _____________________
+SELECT p.ID,c.NameE InsCompany, concat(y.PolicyNo,"-",y.NameE) Policy,s.NameE Class, p.CardNo, p.ExpiryDate
+FROM patientsinsurance p
+Left join agreements c on (p.IDC,p.IDInsCompany)=(c.IDC,c.IDP)
+Left join agreements y on (p.IDC,p.IDInsPolicy)=(y.IDC,y.IDP)
+Left join agreements s on (p.IDC,p.IDInsClass)=(s.IDC,s.IDP)
+where p.IDC=1 and p.IDPatient=300125555
+order by p.ID desc 
+limit 1; -- ,0,51 ; -- [125]
+-- _____________________
+Select * from ( Select IDUser,`Level`,`Group`,Property,Mid(cast(if(not  r.`Extended` is null and Trim(r.`Extended`)<>"",r.`Extended`,r.`Value`) as char CHARSET latin1),1,5000) PropValue,0 Changed From registry r Where ((0=0 and r.IDUser=0) or (0<>0 and r.IDUser=0)) and ("Colors"="" or r.`Group`="Colors") Order by if(`Level`="Global",0,100000),if(r.IDUser=17,-1,r.IDUser) Desc ) a; -- ,0,51 ; -- [141]
+-- _____________________
+Select 0 IDP,0 IDC,0 Ac_Num UNION ALL Select IDP IDAcc,IDC,Ac_Num from acc where IDC=1 and AcType=2  and IDP="153138"; -- ,0,51 ; -- [188]
+-- _____________________
+SELECT ID,Answer FROM confirmtypes; -- ,0,51 ; -- [109]

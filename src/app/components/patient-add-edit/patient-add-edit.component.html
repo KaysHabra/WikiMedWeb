@@ -1,0 +1,280 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>{{'New Patient' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+
+  <!-- <div *ngIf="TreatmentDetails.length>0" style="height: 100%; overflow-y: auto;">
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col size="auto">
+        <ion-button (click)="hideDetials()" fill="clear">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <div [innerHTML]="TreatmentDetails" style="text-align: right;">
+    </div>
+  </div> -->
+
+
+  <div style="height: 100%; overflow-y: auto;">
+    <ion-row>
+      <ion-col size="8">
+        <ion-row>
+          <ion-col size="6">
+            <ion-card style="margin: 0;">
+              <ion-card-header class="ion-text-center" style="padding-bottom: 0;">
+                <ion-card-title><ion-text color="primary">{{'Arabic Data' | translate }} </ion-text> </ion-card-title>
+              </ion-card-header>
+              <ion-card-content style="padding: 0;">
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.NameA">
+                    <div slot="label">
+                      {{'First Name' | translate }}:
+                      <ion-text color="danger">*</ion-text>
+                    </div>
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.FNameA">
+                    <div slot="label">
+                      {{'Father Name' | translate }}:
+                      <!-- <ion-text color="danger">*</ion-text> -->
+                    </div>
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.GFNameA">
+                    <div slot="label">
+                      {{'G Father Name' | translate }}:
+                    </div>
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.LastNameA">
+                    <div slot="label">
+                      {{'Family Name' | translate }}:
+                      <ion-text color="danger">*</ion-text>
+                    </div>
+                  </ion-input>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+
+          <ion-col size="6">
+            <ion-card style="margin: 0;">
+              <ion-card-header class="ion-text-center" style="padding-bottom: 0;">
+                <ion-card-title> <ion-text color="primary"> {{'English Data' | translate }} </ion-text>
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content style="padding: 0;">
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.NameE">
+                    <div slot="label">
+                      {{'First Name' | translate }}:
+                      <ion-text color="danger">*</ion-text>
+                    </div>
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.FNameE">
+                    <div slot="label">
+                      {{'Father Name' | translate }}:
+                      <!-- <ion-text color="danger">*</ion-text> -->
+                    </div>
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.GFNameE">
+                    <div slot="label">
+                      {{'G Father Name' | translate }}:
+                    </div>
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input [(ngModel)]="Patient.LastNameE">
+                    <div slot="label">
+                      {{'Family Name' | translate }}:
+                      <ion-text color="danger">*</ion-text>
+                    </div>
+                  </ion-input>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-card style="margin: 5px;">
+          <ion-row>
+            <ion-col size="3">
+              <ion-item>
+                <ion-input [(ngModel)]="Patient.Age" (keypress)="all.numberOnly($event)">
+                  <div slot="label">
+                    {{'Age' | translate }}:
+                    <ion-text color="danger">*</ion-text>
+                  </div>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+
+            <ion-col size="6">
+              <ion-item>
+                <ion-input [(ngModel)]="Patient.Phon1" (keypress)="all.numberOnly($event)">
+                  <div slot="label">{{'Mobile No' | translate }}:
+                    <ion-text color="danger">*</ion-text>
+                  </div>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-item>
+                <ion-input [(ngModel)]="Patient.Phon2" (keypress)="all.numberOnly($event)">
+                  <div slot="label">{{'Phone No' | translate }}:</div>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+        <ion-card class="card-limit-border" style="margin: 5px;">
+          <ion-card-header>
+            <ion-card-subtitle> <ion-text color="primary">
+              <b>{{'How Patient Know Us!' | translate}}</b></ion-text></ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.ByFrind" labelPlacement="end"><ion-text>
+                    <b>{{'By Friend' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.ByInternet" labelPlacement="end">
+                  <ion-text><b>{{'By Internet' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.ByTwitter" labelPlacement="end">
+                  <ion-text><b>{{'By Twitter' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.BySnapchat" labelPlacement="end">
+                  <ion-text><b>{{'By Snapchat' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.BySMS" labelPlacement="end">
+                  <ion-text><b>{{'By SMS' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.ByFacebook" labelPlacement="end">
+                  <ion-text><b>{{'By Facebook' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.ByInstagram" labelPlacement="end">
+                  <ion-text><b>{{'By Instagram' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+              <ion-col size="3">
+                <ion-checkbox [(ngModel)]="Patient.ByShow" labelPlacement="end">
+                  <ion-text><b>{{'By Show' | translate }}</b></ion-text></ion-checkbox>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="7">
+                <div><ion-text color="primary"><b>{{'Invited By Patient' | translate }}:</b></ion-text></div>
+                <app-select-autocomplete [tblItems]="all.tblPatient" InputLabel="" [searchProp]="'NameA'"
+                  [searchProp2]="'id'" (childSubmit)="getInvitedPatient($event)"></app-select-autocomplete>
+              </ion-col>
+              <ion-col size="5">
+                <div><ion-text color="primary"><b>{{'Specifited Doctor' | translate }}:</b></ion-text></div>
+                <app-select-autocomplete [tblItems]="tblDoctors" InputLabel="" [searchProp]="'Name'+all.LangLetter"
+                  [searchProp2]="'SName'" (childSubmit)="getInvitedPatient($event)"></app-select-autocomplete>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4" style="padding: 0px;">
+        <ion-card style="margin: 0px;">
+          <ion-card-header style="padding-bottom: 0;">
+            <ion-card-subtitle> <ion-text color="secondary">
+                <b>{{'Patient Complaint or Diagnosis' | translate }}</b>
+                <!-- <b>Patient Complaint orDiagnosis</b> -->
+              </ion-text>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <div style="max-height: 80vh; overflow-y: auto;">
+            <!-- <app-tree-view-selection (selectedCAT)="tblSelectedItem= $event" [tblSelected]="tblSelectedItem"
+              [tblArr]="tblTretment" [showEdit]="false" [showDelete]="false" [showAddSub]="false"
+              [PropVeiw]="'NameA'" [showProgressBar]="true"></app-tree-view-selection> -->
+
+            <!-- <app-mat-tree-view (selectedCAT)="tblSelectedItem= $event" [tblSelected]="tblSelectedItem"
+              [tblArr]="tblTretment" [showEdit]="false" [showDelete]="false" [showAddSub]="false"
+              [PropVeiw]="'Name'+all.LangLetter" [showProgressBar]="false" [showDetail]="true"
+              (btnDetail)="showStream($event)"></app-mat-tree-view> -->
+
+            <app-tree-view-selection (selectedCAT)="tblSelectedItem= $event" [tblSelected]="tblSelectedItem"
+              [tblArr]="tblTretment" [showEdit]="false" [showDelete]="false" [showAddSub]="false"
+              [PropVeiw]="'Name'+all.LangLetter" (btnIcon)="showStream($event)"></app-tree-view-selection>
+          </div>
+          <!-- <div id='editor' #editorA contenteditable [innerHTML]="WordStr">
+          </div> -->
+
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+
+
+
+  </div>
+
+
+
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <div *ngIf="TreatmentDetails.length>0" style="position: relative;">
+      <ion-button (click)="hideDetials()" fill="clear" style="position: absolute; top: 0; left: 0; ">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+
+      <div [innerHTML]="TreatmentDetails" style="text-align: right;max-height: 150px;overflow-y: auto; padding: 10px;">
+      </div>
+    </div>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="cancel()" color="danger" expand="block">
+          <ion-icon slot="start" name="close"></ion-icon>
+          {{ 'Close' | translate }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="save()" color="success" expand="block">
+          <ion-icon slot="start" name="save"></ion-icon>
+          {{ 'Save' | translate }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+
+  </ion-toolbar>
+
+
+
+</ion-footer>

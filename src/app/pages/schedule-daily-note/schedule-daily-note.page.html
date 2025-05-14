@@ -1,0 +1,163 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{'Schedule Daily Note' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+      <ion-button color="danger" fill="solid">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <div style="height: 100%; overflow-y: auto;">
+    <ion-card>
+      <ion-row>
+        <ion-col size="6" style="border-inline-end: solid;">
+          <div  style="height: calc(100vh - 144px); overflow-y: auto;">
+            <app-tree-view-selection [tblArr]="tblNots" [showEdit]="false" [showDelete]="false" [showAddSub]="false"
+              [PropVeiw]="'Note'" [showImg]="false" [showCheckbox]="true" [IsMultiSelect]="false" [showDelete]="true"
+              [showEdit]="true" [showProgressBar]="false" (btnEdit)="edit($event)">
+            </app-tree-view-selection>
+          </div>
+
+
+        </ion-col>
+        <ion-col size="6">
+          <ion-row>
+            <ion-col size="6">
+              <ion-text color="primary" style="font-weight: bold !important;">
+                {{'Pivate ID' | translate}}: 1231531
+              </ion-text>
+            </ion-col>
+            <ion-col size="6">
+              <ion-checkbox labelPlacement="end">{{'Active' | translate}}</ion-checkbox>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6" style="padding-block: 0;">
+              <app-mat-datepicker2 [(counterNumber)]="CreatedDate"
+                Label="{{'From Date' | translate }}"></app-mat-datepicker2>
+            </ion-col>
+            <ion-col size="6" style="padding-block: 0;">
+              <app-select-autocomplete [tblItems]="all.tblPatient" InputLabel="{{'Branch' | translate}}:"
+                [searchProp]="'NameA'" [searchProp2]="'id'"
+                (childSubmit)="getSelectedUser($event)"></app-select-autocomplete>
+            </ion-col>
+
+            <ion-col size="12" style="padding-block: 0;">
+              <ion-input fill="outline">
+                <div slot="label">
+                  <ion-text color="dark"> &nbsp; &nbsp;<b>{{'Note' | translate}}:</b> </ion-text>
+                </div>
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="12" style="padding-block: 0;">
+              <app-mat-datepicker2 [(counterNumber)]="CreatedDate"
+                Label="{{'Show in Date' | translate }}"></app-mat-datepicker2>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-radio-group [value]="RepeatedDays" (ionChange)="setRepeatedDays($event)" name="auto" >
+                <ion-list-header>
+                  <ion-input [(ngModel)]="RepeatedDays" (ionChange)="setRepeatedDaysRadio()" 
+                  (keyup.enter)="setRepeatedDaysRadio()" (ionBlur)="setRepeatedDaysRadio()"
+                  (keypress)="all.numberOnly($event)" fill="outline" placeholder="0" maxlength="3">
+                    <div slot="label">
+                      <ion-text color="dark"> &nbsp; &nbsp;<b>{{'Repeated Every (x) Days' | translate}}:</b> </ion-text>
+                    </div>
+                  </ion-input>
+                  <!-- <ion-label>{{'Repeated Every (x) Days' | translate}}</ion-label> -->
+                </ion-list-header>
+                <div style="padding-inline-start: 10px;">
+                  <div><ion-radio [value]="0" labelPlacement="end">
+                      {{'None Repeated' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="1" labelPlacement="end">
+                      {{'Every 1 Day [Show in Date]' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="7" labelPlacement="end">
+                      {{'Every 7 Days [Show in Date]' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="30" labelPlacement="end">
+                      {{'Every 30 Days [Show in Date]' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="354" labelPlacement="end">
+                      {{'Every 354 From [Show in Date] For Hijri year' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="356" labelPlacement="end">
+                      {{'Every 365 From [Show in Date] For Meladi year' | translate}}
+                    </ion-radio></div>
+                </div>
+
+              </ion-radio-group>
+            </ion-col>
+
+            <!-- <ion-col size="12" style="padding-block: 0;">
+              <ion-input (keypress)="all.numberOnly($event)" fill="outline" placeholder="0" maxlength="3">
+                <div slot="label">
+                  <ion-text color="dark"> &nbsp; &nbsp;<b>{{'Repeated Every (x) Days' | translate}}:</b> </ion-text>
+                </div>
+              </ion-input>
+            </ion-col> -->
+
+
+            <ion-col size="12" style="padding-block: 0;">
+              <ion-radio-group name="auto" value="tesla">
+                <!-- <ion-list-header> -->
+                <div style="padding: 0 10px 10px 10px;"><ion-label>{{'Important' | translate}}</ion-label></div>
+
+                <!-- </ion-list-header> -->
+                <div style="padding-inline-start: 10px;">
+                  <div><ion-radio [value]="0" labelPlacement="end">
+                      {{'General events' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="1" labelPlacement="end">
+                      {{'Holidays and festivals' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="2" labelPlacement="end">
+                      {{'Marketings alerts' | translate}}
+                    </ion-radio></div>
+                  <div><ion-radio [value]="3" labelPlacement="end">
+                      {{'URGENT ALERT' | translate}}
+                    </ion-radio></div>
+
+                </div>
+
+              </ion-radio-group>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div>
+
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="cancel()" color="danger" expand="block">
+          <ion-icon slot="start" name="close"></ion-icon>
+          {{'Close' | translate}}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="save()" color="success" expand="block">
+          <ion-icon slot="start" name="save"></ion-icon>
+          {{'Save' | translate}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

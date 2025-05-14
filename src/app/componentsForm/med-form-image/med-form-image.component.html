@@ -1,0 +1,161 @@
+<div style="position: relative;">
+  <!-- <img src="{{imageUrl}}" alt="صورة" /> -->
+  <img [src]="imageUrl" alt="صورة" class="img-form" />
+  <!-- <img src="./assets/imgs/test.png" alt="صورة" /> -->
+  <!-- <img src="https://w7.pngwing.com/pngs/114/579/png-transparent-pink-cross-stroke-ink-brush-pen-red-ink-brush-ink-leave-the-material-text.png" alt="صورة" /> -->
+
+  <div #itemDiv *ngFor="let vitem of tblVals" (click)="opemItemForm($event, vitem)" class="area-mouse-over"
+    [ngClass]="{'found-data': checkData(vitem)}" matTooltip="{{vitem.PID}} - {{vitem.Name}}"
+    style="position: absolute; " [ngStyle]="{
+      'width': vitem.Width+'px' , 
+      'height': vitem.Height+'px', 
+      'left': +vitem.X + 'px',
+      'top': +vitem.Y + 'px'
+      }">
+    {{vitem.Name}}
+  </div>
+</div>
+<ion-card>
+  <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+
+
+    <div *ngFor="let Ritem of tblResult;let i = index;">
+      <!-- {{Ritem}} -->
+      <div *ngIf="!IsPrinting">
+        <!-- <ion-input type="text" [(ngModel)]="Ritem.data" style="margin: 0px;border-bottom: solid 1px #ccc;">
+        <ion-button (click)="openExistItemForm(Ritem.data)" slot="end" color="warning" size="small" fill="clear">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button (click)="removeResult(i)" slot="end" color="danger" size="small" fill="clear">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-input> -->
+
+        <ion-item>
+          <ion-input type="text" [(ngModel)]="Ritem.data" style="margin: 0px;border-bottom: solid 1px #ccc;">
+            <ion-button (click)="openExistItemForm(Ritem.data)" slot="end" color="warning" size="small" fill="clear">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+            <ion-button (click)="removeResult(i)" slot="end" color="danger" size="small" fill="clear">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-input>
+
+          <ion-reorder slot="start"></ion-reorder>
+        </ion-item>
+      </div>
+      <div *ngIf="IsPrinting">
+        {{ Ritem.data }}
+      </div>
+    </div>
+  </ion-reorder-group>
+</ion-card>
+
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false" [backdropDismiss]="false" size="auto"
+  class="form-class">
+  <ng-template>
+    <ion-header mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-title> {{FormOpen.PID}} - {{FormOpen.Name}}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <ion-card style="padding: 5px;margin: 3px;">
+        <div>
+          <div *ngFor="let item of FormOpen.FieldAreas">
+
+            <div *ngIf="item.ControlType==1">
+              <ion-row>
+                <ion-col size="2" style="padding-top: 15px;">{{ item['Name'] }}</ion-col>
+                <ion-col size="auto">
+                  <ion-select (ionChange)="getSub($event, item)" [value]="getCItem(item, item.Val1)" interface="popover"
+                    style="border: solid 1px #aaa;
+                      border-radius: 5px;width: 160px;">
+                    <ion-select-option *ngFor="let cItem of item.DATA" [value]="cItem">
+                      {{ cItem.Name}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-col>
+                <ion-col size="auto">
+                  <ion-select (ionChange)="setSub($event, item)" [(ngModel)]="item.Val2" [value]="item.Val2"
+                    interface="popover" style="border: solid 1px #aaa;
+                      border-radius: 5px;width: 160px;">
+                    <ion-select-option *ngFor="let subItem of item.tblSubCombo" [value]="subItem">
+                      {{ subItem }}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+            </div>
+            <div *ngIf="item.ControlType==2">
+              <ion-input type="text" fill="outline" [label]="item.Name+':'" [(ngModel)]="item.Val1"></ion-input>
+            </div>
+            <div *ngIf="item.ControlType==3">
+              <ion-input type="text" fill="outline" [label]="item.Name+':'" [(ngModel)]="item.Val1"
+                (keypress)="all.numberOnly($event)"></ion-input>
+            </div>
+            <div *ngIf="item.ControlType==4">
+              <ion-input type="text" fill="outline" [label]="item.Name+':'" [(ngModel)]="item.Val1"
+                (keypress)="all.isMoney($event)"></ion-input>
+            </div>
+            <div *ngIf="item.ControlType==5">
+              <app-mat-datepicker2 [(counterNumber)]="item.Val1" (counterNumberChange)="ssw($event, item)"
+                [Label]="item.Name+':'"></app-mat-datepicker2>
+            </div>
+            <div *ngIf="item.ControlType==6">
+              <ion-checkbox [(ngModel)]="item.Val1" labelPlacement="end"> {{ item.Name+':' }} </ion-checkbox>
+            </div>
+
+            <div *ngIf="item.ControlType==7" style="border: solid 1px #aaa;border-radius: 5px;">
+              <ion-radio-group name="auto" (ionChange)="radioGroup($event, item)">
+                <ion-label color="primary" style="margin-inline-start: 5px;"> {{ item.Name }} </ion-label>
+                <ion-row class="row-no-padding-block" style="margin-top: -5px;">
+                  <ion-col size="auto" *ngFor="let radio of item.DATA">
+                    <ion-radio [value]="radio"> {{radio}} </ion-radio>
+                  </ion-col>
+                </ion-row>
+              </ion-radio-group>
+            </div>
+
+            <div *ngIf="item.ControlType==8" style="border: solid 1px #aaa;border-radius: 5px;">
+              <ion-label color="primary" style="margin-inline-start: 5px;"> {{ item.Name }} </ion-label>
+              <ion-row class="row-no-padding-block" style="margin-top: -5px;">
+                <ion-col size="auto" *ngFor="let check of item.DATA">
+                  <ion-checkbox (ionChange)="checkboxGroup($event, item)" [value]="check"
+                    [checked]="setCheckList(item, check)" labelPlacement="end">{{check}}
+                  </ion-checkbox>
+                </ion-col>
+              </ion-row>
+            </div>
+          </div>
+        </div>
+      </ion-card>
+
+
+    </ion-content>
+    <ion-footer>
+      <!-- <ion-card>
+        <div *ngFor="let item of FormOpen.FieldAreas">
+          <div *ngIf="item.ControlType==1"> {{item.Val1}}.{{item.Val2}} </div>
+          <div *ngIf="item.ControlType==2"> {{item.DATA}}</div>
+        </div>
+      </ion-card> -->
+      <!-- <ion-toolbar> -->
+      <ion-row class="row-no-padding-block">
+        <ion-col size="6">
+          <ion-button (click)="isOpen = false" color="danger" expand="block" size="small">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Cancel' | translate }}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button (click)="saveForm()" color="success" expand="block" size="small">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <!-- </ion-toolbar> -->
+    </ion-footer>
+  </ng-template>
+</ion-popover>

@@ -1,0 +1,44 @@
+.lbl-info {
+  padding: 4px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.time-attend {
+  ion-item {
+    border-radius: 5px;
+    ion-text {
+      width: 100%;
+      text-align: center !important;
+    }
+  }
+}
+
+.appt-header {
+  ion-col {
+    padding-block: 0;
+  }
+  .lbl-info {
+    padding-block: 0;
+  }
+}
+
+// .patient-input{
+//   ion-col{
+//     padding: 0 !important;
+//   }
+// }
+.sms-modal {
+  --height: 400px;
+
+  // .custom-popover .popover-content {
+  //   width: 800px !important; /* استخدم !important للتأكد من تطبيق النمط */
+  // }
+}
+.sms-template-modal{
+  --height: 500px;
+}
+
+.temp-btn{
+  margin: -11px 0 0 0;
+}

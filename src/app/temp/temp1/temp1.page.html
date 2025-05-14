@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>temp1</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="auto" *ngFor="let column of columns" [style.width.px]="column.width" class="header-cell">
+        <div class="resizable" (mousedown)="onMouseDown($event, column)">
+          {{ column.name }}
+          <div class="resizer"></div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let row of data">
+      <ion-col size="auto" *ngFor="let cell of row" [style.width.px]="cell.width" class="body-cell">
+        {{ cell.value }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>

@@ -1,0 +1,111 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>{{'Schedule Time' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="end" name="close"></ion-icon>
+        {{'Close' | translate }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" color="light">
+  <ion-card>
+    <ion-row>
+      <ion-col size="4">
+        <ion-input (keypress)="all.numberOnly($event)" readonly class="input-underline" value="121312">
+          <div slot="label">
+            <ion-text color="primary"> &nbsp; &nbsp;<b>{{'Doctor' | translate}}:</b> </ion-text>
+            <ion-text color="danger">*</ion-text>
+          </div>
+        </ion-input>
+      </ion-col>
+      <ion-col size="4">
+        <ion-input (keypress)="all.numberOnly($event)" readonly class="input-underline" value="00055">
+          <div slot="label">
+            <ion-text color="primary"><b>{{'Operating Rooms' | translate}}:</b> </ion-text>
+            <ion-text color="danger">*</ion-text>
+          </div>
+        </ion-input>
+      </ion-col>
+      <ion-col size="4">
+        <app-select-autocomplete [tblItems]="all.tblPatient" InputLabel="{{'Branch' | translate}}:"
+          [searchProp]="'NameA'" [searchProp2]="'id'"
+          (childSubmit)="getInvitedPatient($event)"></app-select-autocomplete>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+
+  <div>
+    <ion-segment [(ngModel)]="PageName" style="margin-inline: 10px;" mode="ios" color="primary">
+      <ion-segment-button value="Doctors">
+        <ion-label>Doctors</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Operating-Rooms">
+        <ion-label>Operating Rooms</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Time-Period-Controls">
+        <ion-label>Time Period Controls</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Fast-Week-Schedule">
+        <ion-label>Fast Week Schedule</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+
+    <div [ngSwitch]="PageName">
+      <div *ngSwitchCase="'Doctors'">
+        <ion-card class="ion-text-center date-bar" style="margin-top: 0; border-radius: 0 0 3px 3px;">
+          <ion-row>
+            <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6"> Created From Date</ion-col>
+            <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6"> Created To Date</ion-col>
+            <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6"> Start Date From </ion-col>
+            <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6"> Start Date To</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="3">
+              <div style="box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75); border-radius: 5px;">
+                <app-mat-datepicker [(counterNumber)]="DoctorData.CreatedFromDate"></app-mat-datepicker>
+              </div>
+
+            </ion-col>
+            <ion-col size="3">
+              <div style="box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75); border-radius: 5px;">
+                <app-mat-datepicker [(counterNumber)]="DoctorData.CreatedFromDate"></app-mat-datepicker>
+              </div>
+            </ion-col>
+            <ion-col size="3">
+              <div style="box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75); border-radius: 5px;">
+                <app-mat-datepicker [(counterNumber)]="DoctorData.CreatedFromDate"></app-mat-datepicker>
+              </div>
+            </ion-col>
+            <ion-col size="3">
+              <div style="box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75); border-radius: 5px;">
+                <app-mat-datepicker [(counterNumber)]="DoctorData.CreatedFromDate"></app-mat-datepicker>
+              </div>
+            </ion-col>
+          </ion-row>
+
+
+
+          <ion-card style="height: calc(50vh); overflow-y: auto;">
+            <ion-card-header color="success" style="padding: 3px;">
+              <ion-card-title>{{ 'Doctors' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+    
+              <app-tree-view-selection (selectedCAT)="tblSelectedItem= $event" [tblSelected]="tblSelectedItem"
+                [tblArr]="tblDoctors" [showEdit]="false" [showDelete]="false" [showAddSub]="false" [PropVeiw]="'NameA'"
+                [showProgressBar]="false" [fileIcon]="'doctor'"></app-tree-view-selection>
+    
+            </ion-card-content>
+          </ion-card>
+
+        </ion-card>
+
+      </div>
+    </div>
+  </div>
+
+</ion-content>

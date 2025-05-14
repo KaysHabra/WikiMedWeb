@@ -1,0 +1,1439 @@
+[
+    {
+        "AdditionalHoursForDay": "5"
+    },
+    {
+        "AppointmentDefaultPeriod": "15"
+    },
+    {
+        "AppointmentMinPeriod": "5"
+    },
+    {
+        "DoctorsScheduleByBranch": "True"
+    },
+    {
+        "NewApptRequiredFields": "NameE;NameA;BirthDate;Phon1"
+    },
+    {
+        "PatientFilesByBranch": "True" -
+    },
+    {
+        "PatientFilesByDepartment": "False" -
+    },
+    {
+        "ShowOnlyDefaultBranch": "True" -
+    },
+    {
+        "UseAdditionalHoursForDayInAcc": "True" -
+    },
+    {
+        "UseImproverBlackPoints": "False" -
+    },
+    {
+        "UseWaitingListTechnic": "False"
+    },
+    {
+        "Appointments.ChangeDurationWhenPaste": "False" -
+    },
+    {
+        "AutoUnionTempPatients": "2" -
+    },
+    {
+        "AColor": "16556943"
+    },
+    {
+        "AFontColor": "0"
+    },
+    {
+        "AFontTitleColor": "16777177"
+    },
+    {
+        "ApprovedColor": "10460928"
+    },
+    {
+        "AttendColor": "4259584"
+    },
+    {
+        "AttendEnterColor": "16776960"
+    },
+    {
+        "AttendOutColor": "16744703"
+    },
+    {
+        "BlockAColor": "9803263"
+    },
+    {
+        "BlockColor": "11783167"
+    },
+    {
+        "BusyAreaColor": "8421504"
+    },
+    {
+        "CalendarAutoWidth": "True"
+    },
+    {
+        "CalendarShowDeleted": "False"
+    },
+    {
+        "CalendarShowWalkInAppt": "False"
+    },
+    {
+        "CalendarUseFlashs": "False"
+    },
+    {
+        "ConfirmAnswerColor": "59951"
+    },
+    {
+        "ConfirmAnsweredButNotColor": "2350590"
+    },
+    {
+        "ConfirmNoAnswerColor": "7894527"
+    },
+    {
+        "DeletedColor": "16512"
+    },
+    {
+        "DeleteFontTitleColor": "12632256"
+    },
+    {
+        "DrowBeautyDesign": "True"
+    },
+    {
+        "GridLineWidth": "1"
+    },
+    {
+        "HasMedicalRcordcolor": "12369016"
+    },
+    {
+        "InvoicedColor": "16742911"
+    },
+    {
+        "LangPatient": "English"
+    },
+    {
+        "MostChangColor": "0"
+    },
+    {
+        "MostMoveColor": "0"
+    },
+    {
+        "OFontTitleColor": "14281983"
+    },
+    {
+        "OnCallColor": "14783995"
+    },
+    {
+        "OpenColor": "16764622"
+    },
+    {
+        "OperatingRoomColor": "6993407"
+    },
+    {
+        "RequiredColor": "0"
+    },
+    {
+        "RequiredDoneColor": "33023"
+    },
+    {
+        "SameSlotsForEvryDoctors": "True"
+    },
+    {
+        "SelectedColor": "16776960"
+    },
+    {
+        "ShadowDefaultValue": "-20"
+    },
+    {
+        "Shift1Color": "12058623"
+    },
+    {
+        "Shift2Color": "15138790"
+    },
+    {
+        "Shift3Color": "16777134"
+    },
+    {
+        "ShowBalloonHint": "False"
+    },
+    {
+        "ShowDaysNote": "True"
+    },
+    {
+        "ShowScheduleBalloonHint": "False"
+    },
+    {
+        "TitlesColors": "5"
+    },
+    {
+        "UnAvailableColor": "16777215"
+    },
+    {
+        "VisitTypeClinicProcedureColor": "65535"
+    },
+    {
+        "VisitTypeFirstVisitColor": "65535"
+    },
+    {
+        "VisitTypeFollowUpColor": "65408"
+    },
+    {
+        "VisitTypeProcedureRoomColor": "33023"
+    },
+    {
+        "VisitTypeReturnColor": "16776960"
+    },
+    {
+        "WaitAColor": "65535"
+    },
+    {
+        "WaitFontTitleColor": "13041663"
+    },
+    {
+        "WalkInAColor": "13408151"
+    },
+    {
+        "WalkInFontTitleColor": "460551"
+    },
+    {
+        "SearchEngin.UseNormalSearch": "True"
+    },
+    {
+        "14": "13"
+    },
+    {
+        "15": "15"
+    },
+    {
+        "16": "15"
+    },
+    {
+        "AccountNo1": "22131001" -
+    },
+    {
+        "AccountNo2": "22131001" -
+    },
+    {
+        "AccountStatement_FromDate": "2022-01-01"-
+    },
+    {
+        "AccountStatement_IDAcc": "109243" -
+    },
+    {
+        "AccountStatement_IDBranch": "0"-
+    },
+    {
+        "AccountStatement_IDCostCenter": "0"-
+    },
+    {
+        "AccountStatement_ToDate": "2022-12-31"-
+    },
+    {
+        "ACLevel": "8"-
+    },
+    {
+        "ACount": ""-
+    },
+    {
+        "ADate": "2024-03-30"-
+    },
+    {
+        "ADate1": "2024-01-18"-
+    },
+    {
+        "ADate1>=StartDate": ""-
+    },
+    {
+        "ADate2": "2024-01-18"-
+    },
+    {
+        "AIDBranch": "0"-
+    },
+    {
+        "Amount": ""-
+    },
+    {
+        "BeginDatePeriodForClose": "01/01/2019"-
+    },
+    {
+        "Branch": "2"-
+    },
+    {
+        "BranchLocked_1": "False"-
+    },
+    {
+        "BranchLocked_2": "False"-
+    },
+    {
+        "BranchsFilter": "4;19;20;14;15;16;1;5;2;6;7;8;9;13;17;18;10;11;12;3"-
+    },
+    {
+        "CanOutQuantityInMinus": "0"-
+    },
+    {
+        "Commission": ""-
+    },
+    {
+        "Company": "1"-
+    },
+    {
+        "Co_DateFilter": "0"-
+    },
+    {
+        "Co_DoneFilter": "0"-
+    },
+    {
+        "CreditIsAnIncome": "True"-
+    },
+    {
+        "CreditOnly": "True"-
+    },
+    {
+        "CurrencySupport": "0"-
+    },
+    {
+        "DailyCashier.FromDate": "2024-03-17"-
+    },
+    {
+        "DailyCashier.IDBranch": "0"-
+    },
+    {
+        "DailyCashier.IDUser": "0"-
+    },
+    {
+        "DailyCashier.ToDate": "2024-03-17"-
+    },
+    {
+        "Date1": "2024-01-01"-
+    },
+    {
+        "Date2": "2024-03-31"-
+    },
+    {
+        "DateFrom": "2024-03-12"-
+    },
+    {
+        "DateTo": "2024-03-19"-
+    },
+    {
+        "Debit": ""-
+    },
+    {
+        "DebitOnly": "False"-
+    },
+    {
+        "DefaultFinancialYear": "16"-
+    },
+    {
+        "DefaultIdleTime": "300"-
+    },
+    {
+        "DefaultLanguage": "English"
+    },
+    {
+        "DefaultThemStyle": "Windows"-
+    },
+    {
+        "DefaultUserDB": "ACCOUNTS1"-
+    },
+    {
+        "Default_IDPeriod": "1"-
+    },
+    {
+        "Discount": ""-
+    },
+    {
+        "EmployeeNameA": "Administrator"-
+    },
+    {
+        "EmployeeNameE": "Administrator"-
+    },
+    {
+        "EmployeeSName": "17"-
+    },
+    {
+        "Emp_Tabular": ""-
+    },
+    {
+        "EnableMedicalUserToSellingByMinus": "0"
+    },
+    {
+        "EndDate": "2022-04-13"
+    },
+    {
+        "EndDatePeriodForClose": "31/12/2019"
+    },
+    {
+        "ExDBGridGrid_InsuranceCards": "0\r\n"
+    },
+    {
+        "ExDBGridGrid_InsuranceInvoices": "0"
+    },
+    {
+        "ExDBGridG_AppointmentStatistics": ""
+    },
+    {
+        "ExDBGridG_FinanceList": "UseRowColors=0;MultiLineTitles=0;GridAutoSize=0;GridAutoWidth=0;Column0=AccountNo|93|-1;Column1=NameE|230|-1;Column2=NameA|230|-1;Column3=OpenDebit|84|-1;Column4=OpenCredit|87|-1;Column5=OpenBalance|-1|0;Column6=Debit|113|-1;Column7=Credit|113|-1;Column8="
+    },
+    {
+        "ExDBGridG_InsuranceClaims": ""
+    },
+    {
+        "ExDBGridG_Orders": "UseRowColors=0;MultiLineTitles=0;GridAutoSize=0;GridAutoWidth=0;Column0=BarCode|68|-1;Column1=IDItem|341|-1;Column2=ExpireDate|88|-1;Column3=Price|42|-1;Column4=QuantityIn|107|-1;Column5=IDUnit|51|-1;Column6=UnitConvert|96|-1;Column7=UnitPrice|75|-1;Colum"
+    },
+    {
+        "ExpectedDateTo": "2017-11-30"
+    },
+    {
+        "FDate": "2019-01-01"
+    },
+    {
+        "FilterByDate": "False"
+    },
+    {
+        "FilterBySerial": "True"
+    },
+    {
+        "FinanceLists_AccTree_Selection": ""
+    },
+    {
+        "FinanceList_FilterByInvoicesType": "1;2;3;4"
+    },
+    {
+        "FinanceList_FromDate": "2024-01-01"
+    },
+    {
+        "FinanceList_InvoicesAuditKind": "1"
+    },
+    {
+        "FinanceList_Level": "8"
+    },
+    {
+        "FinanceList_Options": "0;2;3;4;5;6;7"
+    },
+    {
+        "FinanceList_ToDate": "2024-03-29"
+    },
+    {
+        "FinancialYear": "14"
+    },
+    {
+        "FromAge": "1"
+    },
+    {
+        "FromDate": "2024-01-01"
+    },
+    {
+        "Grid_ACItemsFirstPirod_InvVoucher": ""
+    },
+    {
+        "Grid_ACItemsModification_InvVoucher": "UseRowColors=0;MultiLineTitles=0;GridAutoSize=0;GridAutoWidth=0;Column0=BarCode|136|-1;Column1=IDItem|407|-1;Column2=ExpireDate|-1|0;Column3=QuantityIn|112|-1;Column4=QuantityOut|100|-1;Column5=IDUnit|-1|0;Column6=UnitConvert|-1|0;Column7=UnitPrice|75|-1;"
+    },
+    {
+        "Grid_ACJournalFirstPirod_Acc": "UseRowColors=-1;MultiLineTitles=0;GridAutoSize=0;GridAutoWidth=0;Column0=IDAcc|473|-1;Column1=Debit|133|-1;Column2=Credit|116|-1;Column3=IDAccDetail|64|-1;Column4=ID_Dept|100|-1;Column5=IDCostCenter|120|-1;Column6=MaturityDate|64|-1;Column7=Description|64"
+    },
+    {
+        "Grid_ACMedicalRefund_MedicalVoucher": ""
+    },
+    {
+        "Grid_ACPurchaseOrder_InvVoucher": ""
+    },
+    {
+        "Grid_ACReceipt_Acc": "UseRowColors=-1;MultiLineTitles=0;GridAutoSize=0;GridAutoWidth=0;Column0=IDAcc|608|-1;Column1=Debit|-1|0;Column2=Credit|113|-1;Column3=IDAccDetail|-1|0;Column4=IDCostCenter|-1|0;Column5=MaturityDate|-1|0;Column6=Description|575|-1;Column7=IDCurrencyAcc|-1"
+    },
+    {
+        "Grid_ACReceipt_MedicalVoucher": "UseRowColors=0;MultiLineTitles=0;GridAutoSize=0;GridAutoWidth=0;Column0=BarCode|-1|0;Column1=IDItem|536|-1;Column2=Tooth|52|-1;Column3=Quantity|82|-1;Column4=UnitPrice|138|-1;Column5=Discount|102|-1;Column6=DiscountDoctor|138|-1;Column7=CompanyShar|-1|0;C"
+    },
+    {
+        "Grid_ACReturnSaleInvoice_InvVoucher": ""
+    },
+    {
+        "Grid_ACSaleInvoice_InvVoucher": ""
+    },
+    {
+        "Grid_ACTransferInvoice_InvVoucher": "0"
+    },
+    {
+        "Grid_ACTransferOrder_InvVoucher": "0"
+    },
+    {
+        "Grid_CSstatment_InvVoucher": "2017-12-10"
+    },
+    {
+        "Grid_CSStocksMovments_InvVoucher": "1"
+    },
+    {
+        "Grid_InsuranceCards": ""
+    },
+    {
+        "Grid_InsuranceInvoices": ""
+    },
+    {
+        "Grid_Patientstatment": ""
+    },
+    {
+        "Grid_Patientstatment_Medicaljournal": "UseRowColors=0;MultiLineTitles=0;GridAutoSize=0;GridAutoWidth=0;Column0=IDAcc|383|-1;Column1=Debit|94|-1;Column2=Credit|120|-1;Column3=IDItem|297|-1;Column4=IDAgreement|138|-1;Column5=Description|235|-1;Column6=Authorization|-1|0"
+    },
+    {
+        "Grid_Patientstatment_Medicalstatment": ""
+    },
+    {
+        "GrossAmount": ""
+    },
+    {
+        "GroupByBranch": "False"
+    },
+    {
+        "GroupByCategory": "False"
+    },
+    {
+        "GroupByDepartment": "False"
+    },
+    {
+        "GroupByDoctor": "False"
+    },
+    {
+        "GroupByFolder": "False"
+    },
+    {
+        "GroupByPayMethod": "True"
+    },
+    {
+        "GroupByUser": "False"
+    },
+    {
+        "GroupInLists": "False"
+    },
+    {
+        "G_AppointmentStatistics": ""
+    },
+    {
+        "G_ClinicalDiagnosis__DoctorScreen": ""
+    },
+    {
+        "G_InsuranceClaims": ""
+    },
+    {
+        "G_Orders": ""
+    },
+    {
+        "IDAcc": "7"
+    },
+    {
+        "IDAccount": "11"
+    },
+    {
+        "IDBranch": "2"
+    },
+    {
+        "IDBranchs": "7"
+    },
+    {
+        "IDC": "1"
+    },
+    {
+        "IDCategories": ""
+    },
+    {
+        "IDCostCenter": "0"
+    },
+    {
+        "IDCostCenters": ""
+    },
+    {
+        "IDDebartment": "1"
+    },
+    {
+        "IDDoctor": "0"
+    },
+    {
+        "IDDoctorAcc": "72840"
+    },
+    {
+        "IDF": "6"
+    },
+    {
+        "IDFolder": "4"
+    },
+    {
+        "IDFs": ""
+    },
+    {
+        "IDInsuranceAcc": "75607"
+    },
+    {
+        "IDItem": "0"
+    },
+    {
+        "IDItems": ""
+    },
+    {
+        "IDLocalEmployee": "31"
+    },
+    {
+        "IDLocalEmployeeAcc": "0"
+    },
+    {
+        "IDLocalmployee": "0"
+    },
+    {
+        "IDLocalmployeeAcc": "0"
+    },
+    {
+        "IDLocalUser": "17"
+    },
+    {
+        "IDOperatingRoom": "1132"
+    },
+    {
+        "IDP": "7"
+    },
+    {
+        "IDPatientAcc": "145820"
+    },
+    {
+        "IDRec": "14"
+    },
+    {
+        "IDReport": "278"
+    },
+    {
+        "IDRuleMap": "0"
+    },
+    {
+        "IDServicesFolder": "0"
+    },
+    {
+        "IDUser": "17"
+    },
+    {
+        "IDV": "28"
+    },
+    {
+        "IDV1": "1000"
+    },
+    {
+        "IDV2": "1020"
+    },
+    {
+        "IncomeCalculator_FromDate": "3;4"
+    },
+    {
+        "IncomeCalculator_Groups": "1"
+    },
+    {
+        "IncomeCalculator_Options": "2024-03-29"
+    },
+    {
+        "IncomeCalculator_ToDate": "2024-03-29"
+    },
+    {
+        "InventoryTransfeerType": "1"
+    },
+    {
+        "InvoicesType": ""
+    },
+    {
+        "InvVoucherApproval_FromDate": "0"
+    },
+    {
+        "InvVoucherApproval_Status": "2024-01-07"
+    },
+    {
+        "InvVoucherApproval_ToDate": "0"
+    },
+    {
+        "InvVoucherApproval_VType": "English"
+    },
+    {
+        "LastRepInfoReplaceWith": " ftLeft"
+    },
+    {
+        "LastRepInfoReplaceWithItems": "sum\r\n"
+    },
+    {
+        "LastRepInfoSearcherItems": "369\r\n"
+    },
+    {
+        "LastRepOpenSaveID": "268"
+    },
+    {
+        "LastRepOpenSaveReplacedValue": "268"
+    },
+    {
+        "LastRepOpenSaveSearcher": "0"
+    },
+    {
+        "LastRepOpenSaveSearchType": "0"
+    },
+    {
+        "LogoFlip": "False"
+    },
+    {
+        "NeedChange": "True"
+    },
+    {
+        "Net": ""
+    },
+    {
+        "OpenDate": "2023-03-04"
+    },
+    {
+        "OrderByPatients": "True"
+    },
+    {
+        "PAccountNo1": "100000000"
+    },
+    {
+        "PAccountNo1=:PAccountNo2": ""
+    },
+    {
+        "PAccountNo2": "900000000"
+    },
+    {
+        "PatientAttend": "Patient Attend"
+    },
+    {
+        "PatientNameInArabic": "True"
+    },
+    {
+        "PaymentOrderApproval_FromDate": "2021-08-23"
+    },
+    {
+        "PaymentOrderApproval_Status": "0"
+    },
+    {
+        "PaymentOrderApproval_ToDate": "2021-08-23"
+    },
+    {
+        "PayMethod": "4"
+    },
+    {
+        "PriceCategory": "3"
+    },
+    {
+        "ReceiptIsAnIncome": "False"
+    },
+    {
+        "Report108H1354480974": "3"
+    },
+    {
+        "Report147H1354480974": "4"
+    },
+    {
+        "Report147H2722621678": "3"
+    },
+    {
+        "Report198H4062812836": "6"
+    },
+    {
+        "Report291H37657462": "False"
+    },
+    {
+        "Report291H4062812836": "True"
+    },
+    {
+        "Report318H4273629534": "3"
+    },
+    {
+        "Report374H37657462": "False"
+    },
+    {
+        "Report751H37657462": "True"
+    },
+    {
+        "Report804H4062812836": "7"
+    },
+    {
+        "ShowAccountsModify": "False"
+    },
+    {
+        "ShowAccountsWithMovmentsOnly": "False"
+    },
+    {
+        "ShowAllDoctor": "True"
+    },
+    {
+        "ShowAllOperatingRooms": "False"
+    },
+    {
+        "ShowAmericanExpress": "True"
+    },
+    {
+        "ShowBankTransfer": "True"
+    },
+    {
+        "ShowCash": "True"
+    },
+    {
+        "ShowCashCreditInvoices": "False"
+    },
+    {
+        "ShowCashOnDelivery": "True"
+    },
+    {
+        "ShowCheck": "True"
+    },
+    {
+        "ShowCredit": "True"
+    },
+    {
+        "ShowCreditOrDebit": "False"
+    },
+    {
+        "ShowDcharge": "True"
+    },
+    {
+        "ShowDelete": "True"
+    },
+    {
+        "ShowDetails": "True"
+    },
+    {
+        "ShowDifferentAmountOnly": "True"
+    },
+    {
+        "ShowDifrentOnly": "True"
+    },
+    {
+        "ShowEmployeesModify": "False"
+    },
+    {
+        "ShowGiftCard": "True"
+    },
+    {
+        "ShowInstallments": "True"
+    },
+    {
+        "ShowInsurance": "True"
+    },
+    {
+        "ShowItemsModify": "False"
+    },
+    {
+        "ShowLogoBack": "False"
+    },
+    {
+        "ShowMasterCard": "True"
+    },
+    {
+        "ShowModify": "True"
+    },
+    {
+        "ShowOnlyProblems": "True"
+    },
+    {
+        "ShowPaidAdvance": "True"
+    },
+    {
+        "ShowPatientPaied": "False"
+    },
+    {
+        "ShowPatientsModify": "False"
+    },
+    {
+        "ShowPayableCompany": "True"
+    },
+    {
+        "ShowPaymentAndCreditVouchers": "True"
+    },
+    {
+        "ShowPaymentCheckVoucher": "False"
+    },
+    {
+        "ShowPaymentVoucher": "True"
+    },
+    {
+        "ShowReceiptAndDebitVoucher": "False"
+    },
+    {
+        "ShowReceiptVoucher": "True"
+    },
+    {
+        "ShowRefundInvoices": "True"
+    },
+    {
+        "ShowSADAD": "True"
+    },
+    {
+        "ShowServiceInvoices": "True"
+    },
+    {
+        "ShowSPAN": "True"
+    },
+    {
+        "ShowUnderSale": "True"
+    },
+    {
+        "ShowUsedOnly": "True"
+    },
+    {
+        "ShowVisa": "True"
+    },
+    {
+        "ShowVouchersModify": "True"
+    },
+    {
+        "ShowWithoutInvoices": "False"
+    },
+    {
+        "ShowZeroBalances": "False"
+    },
+    {
+        "ShowZeroInvoices": "False"
+    },
+    {
+        "SoftwareTheTopAccForm_ItemMovement": ""
+    },
+    {
+        "StartDate": "2022-04-13"
+    },
+    {
+        "SuppName": "93846"
+    },
+    {
+        "TDate": "2019-01-31"
+    },
+    {
+        "ToAge": "21"
+    },
+    {
+        "ToDate": "2024-02-23"
+    },
+    {
+        "Total": ""
+    },
+    {
+        "Transfered": "1"
+    },
+    {
+        "UseGroupInReports": "True"
+    },
+    {
+        "UseHijriDate": "1"
+    },
+    {
+        "UseTaxDate": "False"
+    },
+    {
+        "UseUserCodes": "False"
+    },
+    {
+        "VisitType": "False"
+    },
+    {
+        "VoucherType": "0"
+    },
+    {
+        "VType": "1400"
+    },
+    {
+        "ZeroAmount": "True"
+    }
+]
+
+
+
+setp2
+
+Call DoctorsList(1,
+"",
+"",
+"0"); -- ,
+0,
+51; 
+-- _____________________
+SELECT ID,IDP,IDC,Datastream FROM employees e where e.ID_Job=7 and e.IDC=1 and not (e.Emp_Status in (2,
+3)); 
+-- _____________________
+Select * from ( select 0 RType,b.IDC,
+10000*b.IDP IDP,
+0 IDF             ,b.IDP IDBranch,
+0 ID_Dept,b.NameA, b.NameE,
+"" SName,
+0 DurationTime,
+0 IDAttendance,b.`Serial` IDSort ,
+0 RoomType,
+0 IDDoctor,
+0 Checked from Branchs b inner join OperatingRooms o on b.idc=o.idc and b.idp=o.idbranch where b.IDC=1 and O.Active=1 union All SELECT 2 RType,O.IDC,O.IDP          ,
+10000*O.IDBranch IDF,O.IDBranch    ,O.ID_Dept,if(Trim(O.NameA)="",O.NameE,O.NameA) NameA, O.NameE,
+"" SName,O.DurationTime, O.IDAttendance,O.IDSort ,O.RoomType,O.IDDoctor ,
+0 Checked FROM OperatingRooms o where O.Active=1 and O.IDC=1 ) a Order by Rtype,if(IDBranch=2,IDBranch,IDBranch+100),IDSort; -- ,
+0,
+51 ; -- [
+    125
+]
+
+
+step3 
+-- _____________________
+Call AppointmentsViewNew1(1,
+17,
+"2025-02-08",
+"2025-02-09 05:00:00",
+"2025-02-08",
+"2",
+"1112",
+"",
+"-WalkIn"); -- ,
+0,
+51 ; -- [
+    125
+]
+-- _____________________
+Select IDBranch, IDP, IDDoctor, IDOperatingRoom, DayNo, ShiftNo, StartDate, EndDate, OpenTime, ClosedTime, State, IsRepeated, IDGroup, RealApp, WaitingApp, Schedule, Description, WaitingCount, OverbookingCount from ScheduleTime s where s.IDC=1 and (  (s.StartDate  between "2025-02-08 05:00:00" and "2025-02-09 05:00:00") or  (s.ClosedTime between "2025-02-08 05:00:00" and "2025-02-09 05:00:00") ) and  ("2"="" or s.IDBranch=0 or Find_In_Set(s.IDBranch,
+"2")>0) Order by s.IDDoctor,s.StartDate,s.State,s.Schedule Desc,s.OpenTime; -- ,
+0,
+51 ; -- [
+    125
+]
+-- _____________________
+select FROM_DAYS(a.d) RepeatedDate,group_concat(distinct Note order by Date(ShowDate) desc SEPARATOR "|") Note, Max(Importance) Importance from ScheduleDailyNote s,(Select 739655 d) a where s.IDC=1 and s.Active=1 and (TO_DAYS(s.ShowDate)=a.d or (a.d-TO_DAYS(ShowDate)) mod EvryDayCount=0) group by d; -- ,
+0,
+51 ; -- [
+    125
+]
+//------------
+[
+    { // real
+        "ID": 1377327,
+        "IDY": 16,
+        "IDP": 3942486,
+        "IDBranch": 2,
+        "IDAgreement": 0,
+        "IDPatient": 300125555,
+        "IDOperatingRoom": 0,
+        "IDDoctor": 1112,
+        "IDTranDoctor": 0,
+        "IDDoctors": "",
+        "IDUser": 17,
+        "ADate": "2025-02-10 09:45:00",
+        "09:45 AM-10:30 AM""AType": 0,
+        "VisitType": 6,
+        "IDProcedure": 0,
+        "Duration": 45,
+        "Description": "",
+        "DefConfirmCount": 0,
+        "ConfirmStatus": "0",
+        "ddd": "",
+        "AttendTime": "00:00:00",
+        "AttendEnter": "00:00:00",
+        "AttendOut": "00:00:00",
+        "Closed": 0,
+        "Attend": 0,
+        "Enter": 0,
+        "AOut": 0,
+        "Deleted": 0,
+        "Block": 0,
+        "NeedConfirm": 1,
+        "MostTimeModifay": 0,
+        "MostDateModifay": 0,
+        "MostDurationModifay": 0,
+        "MostDelete": 0,
+        "MustTimeModifay": 0,
+        "MustDateModifay": 0,
+        "MustDurationModifay": 0,
+        "MustDelete": 0,
+        "IDAnesthetist": 0,
+        "PNameE": "Musef Habra",
+        "PNameA": "مسعف هبرة",
+        "IDAcc": 153138,
+        "Ac_Num": 66412,
+        "ConfirmDate": "2000-01-01",
+        "Description1": "",
+        "Answer": "0",
+        "ServiceCode": "0",
+        "ServiceName": "",
+        "PatientStatus": "Old",
+        "Classification": 0,
+        "MonyStatus": 0,
+        "ApptCount": 0,
+        "FutureAppt": 0,
+        "OperatingRoomSessionCount": 0,
+        "AttendCount": 0,
+        "AttendLate": 0,
+        "NotAttend": 0,
+        "NotAttendAfterConfirm": 0,
+        "BlackPoints": 0,
+        "AttendAndDelayedCount": 0,
+        "LocalCity": 1,
+        "BlackList": 0,
+        "HasMessages": 0,
+        "IsMessageYours": 0,
+        "Balance": 0,
+        "Invoiced": 0,
+        "NetInvoiced": 0,
+        "HasMedicalRcord": 0,
+        "SameDoctor": 1,
+        "IsOnLine": 0,
+        "IsOnCall": 0,
+        "RefCode": 5210338,
+        "Required": 0,
+        "ConfirmCount1": 0,
+        "ConfirmCount": 0
+    },
+    { // wait
+        "ID": 1377328,
+        "IDY": 16,
+        "IDP": 3942487,
+        "IDBranch": 2,
+        "IDAgreement": 0,
+        "IDPatient": 300125555,
+        "IDOperatingRoom": 0,
+        "IDDoctor": 1112,
+        "IDTranDoctor": 0,
+        "IDDoctors": "",
+        "IDUser": 17,
+        "ADate": "2025-02-10 20:00:00",
+        "AType": 1,
+        "VisitType": 6,
+        "IDProcedure": 0,
+        "Duration": 15,
+        "Description": "wwwww",
+        "DefConfirmCount": 0,
+        "ConfirmStatus": "0",
+        "ddd": "",
+        "AttendTime": "00:00:00",
+        "AttendEnter": "00:00:00",
+        "AttendOut": "00:00:00",
+        "Closed": 0,
+        "Attend": 0,
+        "Enter": 0,
+        "AOut": 0,
+        "Deleted": 0,
+        "Block": 0,
+        "NeedConfirm": 0,
+        "MostTimeModifay": 0,
+        "MostDateModifay": 0,
+        "MostDurationModifay": 0,
+        "MostDelete": 0,
+        "MustTimeModifay": 0,
+        "MustDateModifay": 0,
+        "MustDurationModifay": 0,
+        "MustDelete": 0,
+        "IDAnesthetist": 0,
+        "PNameE": "Musef Habra",
+        "PNameA": "مسعف هبرة",
+        "IDAcc": 153138,
+        "Ac_Num": 66412,
+        "ConfirmDate": "2000-01-01",
+        "Description1": "",
+        "Answer": "0",
+        "ServiceCode": "0",
+        "ServiceName": "",
+        "PatientStatus": "Old",
+        "Classification": 0,
+        "MonyStatus": 0,
+        "ApptCount": 0,
+        "FutureAppt": 0,
+        "OperatingRoomSessionCount": 0,
+        "AttendCount": 0,
+        "AttendLate": 0,
+        "NotAttend": 0,
+        "NotAttendAfterConfirm": 0,
+        "BlackPoints": 0,
+        "AttendAndDelayedCount": 0,
+        "LocalCity": 1,
+        "BlackList": 0,
+        "HasMessages": 0,
+        "IsMessageYours": 0,
+        "Balance": 0,
+        "Invoiced": 0,
+        "NetInvoiced": 0,
+        "HasMedicalRcord": 0,
+        "SameDoctor": 1,
+        "IsOnLine": 0,
+        "IsOnCall": 0,
+        "RefCode": 5210953,
+        "Required": 0,
+        "ConfirmCount1": 0,
+        "ConfirmCount": 0
+    }
+]
+
+
+
+[
+    {
+        "IDBranch": 2,
+        "IDP": 681035,
+        "IDDoctor": 1010,
+        "IDOperatingRoom": 0,
+        "DayNo": 7,
+        "ShiftNo": 1, // color
+        "StartDate": "2025-02-08",
+        "EndDate": "2028-01-01",
+        "OpenTime": "14:00:00",
+        "ClosedTime": "2025-02-08 21:00:00",
+        "State": 1, // 
+        "IsRepeated": 1,
+        "IDGroup": 126394,
+        "RealApp": 1,
+        "WaitingApp": 1,
+        "Schedule": 1,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 690715,
+        "IDDoctor": 1112,
+        "IDOperatingRoom": 0,
+        "DayNo": 7,
+        "ShiftNo": 1,
+        "StartDate": "2025-02-08",
+        "EndDate": "2025-03-12",
+        "OpenTime": "09:00:00",
+        "ClosedTime": "2025-02-08 22:00:00",
+        "State": 1,
+        "IsRepeated": 1,
+        "IDGroup": 128085,
+        "RealApp": 1,
+        "WaitingApp": 0,
+        "Schedule": 1,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 688613,
+        "IDDoctor": 1112,
+        "IDOperatingRoom": 0,
+        "DayNo": 7,
+        "ShiftNo": 1,
+        "StartDate": "2025-02-08",
+        "EndDate": "2026-01-01",
+        "OpenTime": "10:00:00",
+        "ClosedTime": "2025-02-08 12:30:00",
+        "State": 1,
+        "IsRepeated": 1,
+        "IDGroup": 126799,
+        "RealApp": 1,
+        "WaitingApp": 1,
+        "Schedule": 1,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 690716,
+        "IDDoctor": 1112,
+        "IDOperatingRoom": 0,
+        "DayNo": 1,
+        "ShiftNo": 1,
+        "StartDate": "2025-02-09",
+        "EndDate": "2025-03-12",
+        "OpenTime": "09:00:00",
+        "ClosedTime": "2025-02-09 22:00:00",
+        "State": 1,
+        "IsRepeated": 1,
+        "IDGroup": 128085,
+        "RealApp": 1,
+        "WaitingApp": 0,
+        "Schedule": 1,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 688156,
+        "IDDoctor": 1112,
+        "IDOperatingRoom": 0,
+        "DayNo": 1,
+        "ShiftNo": 1,
+        "StartDate": "2025-02-09",
+        "EndDate": "2026-01-01",
+        "OpenTime": "18:00:00",
+        "ClosedTime": "2025-02-09 20:30:00",
+        "State": 1,
+        "IsRepeated": 1,
+        "IDGroup": 126800,
+        "RealApp": 1,
+        "WaitingApp": 1,
+        "Schedule": 1,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 694926,
+        "IDDoctor": 1303,
+        "IDOperatingRoom": 0,
+        "DayNo": 7,
+        "ShiftNo": 1,
+        "StartDate": "2025-02-08",
+        "EndDate": "2025-06-15",
+        "OpenTime": "13:00:00",
+        "ClosedTime": "2025-02-08 16:00:00",
+        "State": 1,
+        "IsRepeated": 1,
+        "IDGroup": 128574,
+        "RealApp": 1,
+        "WaitingApp": 1,
+        "Schedule": 1,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 695118,
+        "IDDoctor": 1303,
+        "IDOperatingRoom": 0,
+        "DayNo": 1,
+        "ShiftNo": -1,
+        "StartDate": "2025-02-09",
+        "EndDate": "2025-02-09",
+        "OpenTime": "13:00:00",
+        "ClosedTime": "2025-02-09 14:30:00",
+        "State": 0, // block
+        "IsRepeated": 0,
+        "IDGroup": 128590,
+        "RealApp": 1,
+        "WaitingApp": 1,
+        "Schedule": 0,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 694785,
+        "IDDoctor": 1303,
+        "IDOperatingRoom": 0,
+        "DayNo": 1,
+        "ShiftNo": 1,
+        "StartDate": "2025-02-09",
+        "EndDate": "2025-06-15",
+        "OpenTime": "13:00:00",
+        "ClosedTime": "2025-02-09 16:00:00",
+        "State": 1,
+        "IsRepeated": 1,
+        "IDGroup": 128568,
+        "RealApp": 1,
+        "WaitingApp": 1,
+        "Schedule": 1,
+        "Description": "",
+        "WaitingCount": 0,
+        "OverbookingCount": 1
+    },
+    {
+        "IDBranch": 2,
+        "IDP": 695117,
+        "IDDoctor": 1303,
+        "IDOperatingRoom": 0,
+        "DayNo": 1,
+        "ShiftNo": -2, // extra time
+        "StartDate": "2025-02-09",
+        "EndDate": "2025-02-09",
+        "OpenTime": "16:00:00",
+        "ClosedTime": "2025-02-09 17:15:00",
+        "State": 1,
+        "IsRepeated": 0,
+        "IDGroup": 128589,
+        "RealApp": 1,
+        "WaitingApp": 1,
+        "Schedule": 0,
+        "Description": "",
+        "WaitingCount": 20,
+        "OverbookingCount": 1
+    }
+]
+
+
+{
+    "Q0Error": 0,
+    "Q0": [],
+    "Q1Error": "table not found",
+    "Q1": [],
+    "Q2Error": 0,
+    "Q2": [
+        {
+            "IDBranch": 2,
+            "IDP": 690720,
+            "IDDoctor": 1112,
+            "IDOperatingRoom": 0,
+            "DayNo": 5,
+            "ShiftNo": 1,
+            "StartDate": "2025-02-13",
+            "EndDate": "2025-03-12",
+            "OpenTime": "09:00:00",
+            "ClosedTime": "2025-02-1322: 00: 00",
+            "State": 1,
+            "IsRepeated": 1,
+            "IDGroup": 128085,
+            "RealApp": 1,
+            "WaitingApp": 0,
+            "Schedule": 1,
+            "Description": "",
+            "WaitingCount": 0,
+            "OverbookingCount": 1
+        },
+    ],
+    
+}
+
+
+{
+    "ErrorNumber": 0,
+    "Q0": [],
+    "Q1": [
+        {
+            "IDBranch": 2,
+            "IDP": 690720,
+            "IDDoctor": 1112,
+            "IDOperatingRoom": 0,
+            "DayNo": 5,
+            "ShiftNo": 1,
+            "StartDate": "2025-02-13",
+            "EndDate": "2025-03-12",
+            "OpenTime": "09:00:00",
+            "ClosedTime": "2025-02-1322: 00: 00",
+            "State": 1,
+            "IsRepeated": 1,
+            "IDGroup": 128085,
+            "RealApp": 1,
+            "WaitingApp": 0,
+            "Schedule": 1,
+            "Description": "",
+            "WaitingCount": 0,
+            "OverbookingCount": 1
+        },
+        {
+            "IDBranch": 2,
+            "IDP": 688521,
+            "IDDoctor": 1112,
+            "IDOperatingRoom": 0,
+            "DayNo": 5,
+            "ShiftNo": 1,
+            "StartDate": "2025-02-13",
+            "EndDate": "2026-01-01",
+            "OpenTime": "10: 00: 00",
+            "ClosedTime": "2025-02-1312: 30: 00",
+            "State": 1,
+            "IsRepeated": 1,
+            "IDGroup": 126799,
+            "RealApp": 1,
+            "WaitingApp": 1,
+            "Schedule": 1,
+            "Description": "",
+            "WaitingCount": 0,
+            "OverbookingCount": 1
+        },
+        {
+            "IDBranch": 2,
+            "IDP": 682841,
+            "IDDoctor": 1177,
+            "IDOperatingRoom": 0,
+            "DayNo": 5,
+            "ShiftNo": 1,
+            "StartDate": "2025-02-13",
+            "EndDate": "2030-01-01",
+            "OpenTime": "13: 00: 00",
+            "ClosedTime":"2025-02-1321: 00: 00","State":1,"IsRepeated":1,"IDGroup":126894,"RealApp":1,"WaitingApp":1,"Schedule":1,"Description":"","WaitingCount":0,"OverbookingCount":1},{"IDBranch":2,"IDP":694879,"IDDoctor":1303,"IDOperatingRoom":0,"DayNo":5,"ShiftNo":1,"StartDate":"2025-02-13","EndDate":"2025-06-15","OpenTime":"13: 00: 00","ClosedTime":"2025-02-13
+16: 00: 00","State":1,"IsRepeated":1,"IDGroup":128572,"RealApp":1,"WaitingApp":1,"Schedule":1,"Description":"","WaitingCount":0,"OverbookingCount":1},{"IDBranch":2,"IDP":694903,"IDDoctor":1303,"IDOperatingRoom":0,"DayNo":6,"ShiftNo":1,"StartDate":"2025-02-14","EndDate":"2025-06-15","OpenTime":"13: 00: 00","ClosedTime":"2025-02-14
+16: 00: 00","State":1,"IsRepeated":1,"IDGroup":128573,"RealApp":1,"WaitingApp":1,"Schedule":1,"Description":"","WaitingCount":0,"OverbookingCount":1}]}

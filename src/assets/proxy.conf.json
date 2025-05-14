@@ -1,0 +1,8 @@
+{
+  "/": {
+    "target": "http://wikimed.selfip.com:64384",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

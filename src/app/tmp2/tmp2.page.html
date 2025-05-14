@@ -1,0 +1,21 @@
+<ion-content [fullscreen]="true" color="light">
+  <ion-card>
+    <ion-item>
+      <ion-label position="floating">Source</ion-label>
+      <ion-textarea [(ngModel)]="HtmlStr" rows="10"></ion-textarea>
+    </ion-item>
+  </ion-card>
+  
+
+  <ion-button (click)="HtmlRes=extractTranslations(HtmlStr)" expand="block"  shape="round">
+    getWords
+  </ion-button>
+
+  <ion-card>
+    <ion-item>
+      <ion-label position="floating">Result</ion-label>
+      <ion-textarea [(ngModel)]="HtmlRes" rows="15"></ion-textarea>
+    </ion-item>
+  </ion-card>
+  
+</ion-content>

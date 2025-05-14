@@ -1,0 +1,28 @@
+
+<!-- <div *ngIf="!IsPrinting">
+  <ion-checkbox [(ngModel)]="item.ReportVal" labelPlacement="end"> {{item['Name'+Lang]}} </ion-checkbox>
+</div> -->
+
+
+
+<!-- <div class="checkbox-wrapper">
+  <input *ngIf="item.ReportVal" type="checkbox" checked id="checkbox-{{item.ReportVal}}">
+  <input *ngIf="!item.ReportVal" type="checkbox" id="checkbox-{{item.ReportVal}}">
+  <label for="checkbox-{{item.ReportVal}}">
+    {{ item['Name' + Lang] }}  
+  </label>
+</div> -->
+
+
+
+<div class="checkbox-group" style="margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+  
+  <div class="checkbox-options">
+    <label class="checkbox-option"> 
+      <input *ngIf="Item.ReportVal" type="checkbox" checked (change)="export()">
+      <input *ngIf="!Item.ReportVal" type="checkbox" (change)="export()">
+      <span class="custom-checkbox"></span>
+      <span class="option-label"> {{ Item['Name' + Lang] }} </span>
+    </label>
+  </div>
+</div>

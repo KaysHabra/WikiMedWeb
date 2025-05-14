@@ -1,0 +1,73 @@
+
+<ion-item style="position: relative;border-radius: 5px;" lines="none" [disabled]="disabled">
+<ion-button id="date-menu-trigger" size="small" 
+    style="position: absolute; right: 55px;top: -2px; z-index: 9999;min-height: 10px;height: 16px;">
+    <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+  </ion-button>
+  <ion-popover trigger="date-menu-trigger" triggerAction="click">
+    <ng-template>
+      <ion-content>
+        <ion-item button (click)="today()">
+          <ion-label>{{'Today' | translate}}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getMonthDate('first')">
+          <ion-label>{{'First day of current month' | translate }}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getMonthDate('last')">
+          <ion-label>{{'Last day of current month' | translate}}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getWeekdayDate(0)">
+          <ion-label>{{'First day of current week' | translate}}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getWeekdayDate(1)">
+          <ion-label>{{'Last day of current week' | translate}}</ion-label>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+
+
+  <ion-label *ngIf="Label && Label.length>0" style="min-width: 40%;">{{Label | translate}}</ion-label>
+  <!-- <input 
+    datePickerFormat="YYYY-MM-DD" 
+    (dateChange)="export($event)" 
+    [(ngModel)]="counterNumber" 
+    class="date-input no-focus-border"
+    type="text"
+    placeholder="dd/mm/yyyy"
+    maxlength="10"
+    (input)="onDateInput($event)"
+    (focus)="onDateFocus()"
+    (blur)="onDateBlur()"
+  > -->
+
+  <input
+    datePickerFormat="YYYY-MM-DD"
+    (dateChange)="export($event)"
+    [(ngModel)]="counterNumber"
+    class="date-input no-focus-border"
+    type="text"
+    placeholder="yyyy-MM-dd"
+    maxlength="10"
+    (input)="onDateInput($event)"
+    (focus)="onDateFocus()"
+    (blur)="onDateBlur()"
+  />
+
+  <input style="position: absolute;position: absolute;
+    top: 9px;
+    width: 1px;"
+    matInput 
+    [matDatepicker]="picker"
+    (dateChange)="export($event)" 
+    [(ngModel)]="counterNumber" 
+    class="no-focus-border"
+    type="text"
+    placeholder="dd/mm/yyyy"
+    maxlength="10"
+  >
+
+    
+  <mat-datepicker #picker></mat-datepicker>
+  <ion-icon slot="end" name="calendar" (click)="picker.open()" color="primary"></ion-icon>
+</ion-item>

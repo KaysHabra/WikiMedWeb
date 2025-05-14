@@ -1,0 +1,113 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'Available Appointments' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="end" name="close"></ion-icon>
+        {{ 'Close' | translate }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <div style="height: 100%; overflow-y: auto;">
+    <div>
+      <ion-card class="card-limit-border header" style="margin: 4px; height: 85px;">
+        <ion-row>
+          <ion-col size="4.5"> {{'Doctor' | translate }}:
+            <ion-text color="primary">
+              {{ getDoctor() }}
+            </ion-text>
+          </ion-col>
+          <ion-col size="4.5">{{'Operating Room' | translate}}:
+            <ion-text color="primary">
+              {{ getRoom() }}
+            </ion-text>
+          </ion-col>
+          <ion-col size="3" style="padding-block: 0;">
+            <!-- {{'Duration' | translate}}:
+            <ion-text color="primary">
+              {{ Duration }}
+            </ion-text> -->
+
+            <ion-input [(ngModel)]="Duration" (ionBlur)="roundToNearestMultipleOf5()"
+              label="{{'Duration' | translate}}:" type="text" placeholder="Min"
+              style="    min-height: 34px !important;margin: 0;"></ion-input>
+          </ion-col>
+          <ion-col size="10" style="padding-block: 0;">
+            <app-mat-datepicker2 [(counterNumber)]="SearchDate" [Label]="'From Date'"></app-mat-datepicker2>
+          </ion-col>
+          <ion-col size="2" style="padding-block: 0;">
+            <ion-button (click)="getNextAppt()">
+              <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+
+
+    <ion-segment [value]="AType" (ionChange)="appTypeChanged($event)" mode="ios">
+      <ion-segment-button [value]="0">
+        <ion-label>{{ 'Next Available' | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [value]="1">
+        <ion-label>{{ 'Waiting Next Available' | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-grid class="grid-class-input">
+      <ion-row class="table-header">
+        <ion-col size="1.5">{{'Branch' | translate}}</ion-col>
+        <ion-col size="1.5">{{'DayName' | translate}}</ion-col>
+        <ion-col size="2.5"> {{'AppDate' | translate}}</ion-col>
+        <ion-col size="1.5">{{'DayNameA' | translate}}</ion-col>
+        <ion-col size="2"> {{'AppDateH' | translate}}</ion-col>
+        <ion-col size="2"> {{'AppTime' | translate}}</ion-col>
+        <ion-col size="1">{{'Duration' | translate}}</ion-col>
+      </ion-row>
+    </ion-grid>
+    <div style="height: calc(100% - 185px); overflow-y: auto;">
+      <ion-grid class="grid-class-input">
+        <ion-row class="table-row" *ngFor="let item of tblNextAppt" (dblclick)="get(item)">
+          <ion-col size="1.5">{{ item.IDBranch }}</ion-col>
+          <ion-col size="1.5">{{ getDayName(item.DayNo).E }}</ion-col>
+          <ion-col size="2.5">{{ all.getDateFromDatetime(item.AppDate) }}</ion-col>
+          <ion-col size="1.5">{{ getDayName(item.DayNo).A }}</ion-col>
+          <ion-col size="2">{{ item.AppDateH }}</ion-col>
+          <ion-col size="2" style="padding: 0;">
+            <ion-button (click)="get(item)" size="small" expand="block" fill="outline" shape="round"
+              style="margin: 0;">
+              {{ formatTime(item.AppTime) }}
+            </ion-button>
+          </ion-col>
+          <ion-col size="1">{{ item.Duration }}</ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+        <ion-button *ngIf="tblNextAppt.length>0" (click)="getNext()" expand="full" size="small" fill="outline">
+          {{'Next' | translate}}
+          <ion-icon slot="end" [name]="this.all.LangLetter=='A' ?'chevron-back':'chevron-forward'"></ion-icon>
+        </ion-button>
+    </div>
+  </div>
+
+
+</ion-content>
+<!-- <ion-footer>
+  <ion-row>
+    <ion-col size="6">
+      <ion-button (click)="close()" color="danger" expand="block">
+        <ion-icon slot="start" name="close"></ion-icon>
+        Cancel
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button (click)="get()" color="success" expand="block">
+        <ion-icon slot="start" name="save"></ion-icon>
+        Save
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer> -->

@@ -1,0 +1,36 @@
+<div *ngIf="!IsPrinting" style="margin: 5px;">
+  <ion-input *ngIf="item?.Visible && item.FieldDataType=='Text'" 
+  fill="outline"
+  type="text" 
+  label="{{item['Name'+Lang]}}:"
+  [maxlength]="item?.FieldDataSize>0? item?.FieldDataSize: -1"
+  [(ngModel)]="item.Report"
+  (ionChange)="export()"
+></ion-input>
+
+<ion-input *ngIf="item?.Visible && item.FieldDataType=='Int'" 
+  fill="outline"
+  inputmode="decimal"
+  label="{{item['Name'+Lang]}}:"
+  [maxlength]="item?.FieldDataSize>0? item?.FieldDataSize: -1"
+  [(ngModel)]="item.Report"
+  (keypress)="numberOnly($event)"
+  (ionChange)="export()"
+></ion-input>
+
+<ion-input *ngIf="item?.Visible && item.FieldDataType=='Float'" 
+  fill="outline"
+  inputmode="decimal"
+  label="{{item['Name'+Lang]}}:"
+  [maxlength]="item?.FieldDataSize>0? item?.FieldDataSize: -1"
+  [(ngModel)]="item.Report"
+  (keypress)="isMoney($event)"
+  (ionChange)="export()"
+></ion-input>
+
+</div>
+
+
+<div *ngIf="IsPrinting" style="margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+ <span *ngIf="item['Name'+Lang].length>0">{{item['Name'+Lang]}}:</span>   &nbsp; {{item.Report}}
+</div>

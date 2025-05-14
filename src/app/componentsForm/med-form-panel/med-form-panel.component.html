@@ -1,0 +1,185 @@
+<div>
+
+  <!-- <table style="width: 100%;">
+    <tr *ngFor="let row of tblRows" style="width: 100%;">
+      <td *ngFor="let item of row.tblItems" [ngStyle]="{'width': item['Width']}">
+        <div *ngIf="item.ItemType=='Title'" style="background :#f3f6ff;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px; text-align: center;">
+          {{ item.Label }}
+        </div>
+
+        <div *ngIf="item.ItemType=='Text'" >
+
+          <ion-input *ngIf="!IsPrinting"
+            fill="outline"
+            type="text" 
+            label="{{ item.Label }}:"
+            [(ngModel)]="item.Value"
+          ></ion-input>
+
+          <div *ngIf="IsPrinting" style="border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px;">
+            <span *ngIf="item.Label.length>0">{{item.Label}}:</span>   &nbsp; {{item.Value}}
+           </div>
+
+        </div>
+
+      </td>
+    </tr>
+  </table> -->
+
+
+
+  <!-- [ngStyle]="{'width': item['Width']}" -->
+  <div class="table-container">
+    <div *ngFor="let row of tblRows" class="table-row">
+      <div *ngFor="let item of row.tblItems" class="table-cell" [ngStyle]="{'width': item['Width']}">
+        <ng-container [ngSwitch]="item.ItemType">
+          <div *ngSwitchCase="'Title'"
+            style="background :#f3f6ff;border: solid 1px #aaa; padding: 5px 10px; text-align: center;">
+            {{ item.Label }}
+          </div>
+
+
+          <div *ngSwitchCase="'Combo'">
+            <ion-item style="border: solid 1px #aaa; border-radius: 5px;height: 45px;">
+              <ion-select label="{{ item.NoCaption? '': item.Label }}:" 
+                (ionChange)="resultReady()" value="peperoni" interface="popover">
+                <ion-select-option *ngFor="let op of item.Options" [value]="op.Val">{{op.Name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px;min-height: 40px;">
+              <span *ngIf="item.Label.length>0 && !item.NoCaption">{{item.Label}}</span> &nbsp; {{ item.Value }}
+            </div>
+          </div>
+
+
+          <div *ngSwitchCase="'Text'">
+            <ion-input *ngIf="!IsPrinting" (ionChange)="resultReady()" 
+              fill="outline" type="text" label="{{ item.NoCaption? '': item.Label }}"
+              [(ngModel)]="item.Value"></ion-input>
+
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px;min-height: 40px;">
+              <span *ngIf="item.Label.length>0 && !item.NoCaption">{{item.Label}}</span> &nbsp; {{item.Value}}
+            </div>
+          </div>
+
+          <!-- <div *ngSwitchCase="'NoCaptionText'">
+            <ion-input *ngIf="!IsPrinting" fill="outline" type="text" [(ngModel)]="item.Value"></ion-input>
+
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px;min-height: 40px;">
+              &nbsp; {{item.Value}}
+            </div>
+          </div> -->
+
+          <div *ngSwitchCase="'Check'">
+            <div class="checkbox-options">
+              <label class="checkbox-option">
+                <input *ngIf="item.Value" type="checkbox" checked (change)="resultReady()">
+                <input *ngIf="!item.Value" type="checkbox" (change)="resultReady()">
+                <span class="custom-checkbox"></span>
+                <span class="option-label"> {{ item.NoCaption? '': item.Label }} </span>
+              </label>
+            </div>
+          </div>
+
+
+
+          
+
+
+          <div *ngSwitchCase="'Date'">
+            <div style="border: solid 1px #aaa; border-radius: 5px;">
+              <app-mat-datepicker2 [(counterNumber)]="item.Value" 
+                Label="{{item.NoCaption? '': item.Label}}"
+                (counterNumberChange)="resultReady();"
+              ></app-mat-datepicker2>
+            </div>
+
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px;min-height: 40px;">
+              <span *ngIf="item.Label?.length>0 && !item.NoCaption">{{item.Label}}</span> &nbsp;
+              <span> {{item.Value}}</span>
+            </div>
+          </div>
+
+          <!-- <div *ngSwitchCase="'NoCaptionDate'">
+            <div style="border: solid 1px #aaa; border-radius: 5px;">
+              <app-mat-datepicker2 [(counterNumber)]="item.Value"></app-mat-datepicker2>
+            </div>
+
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px;min-height: 40px;">
+              <span> {{item.Value}}</span>
+            </div>
+          </div> -->
+
+
+          <div *ngSwitchCase="'DateTime'">
+            <div *ngIf="!IsPrinting" style="border: solid 1px #aaa; border-radius: 5px;">
+              <app-mat-datepicker2 [(counterNumber)]="item.Date" (counterNumberChange)="resultReady();"></app-mat-datepicker2>
+              <div style="padding-inline-start: 15px;"> 
+                <app-time-input [(ngModel)]="item.Time" (getData)="resultReady();" [isBtnNow]="true"></app-time-input> 
+              </div>
+            </div>
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px; min-height: 40px;">
+              {{ item.Date }} {{ convertTo12HourFormat(item.Time) }}
+            </div>
+          </div>
+
+
+
+          <div *ngSwitchCase="'Time'">
+            <div *ngIf="!IsPrinting" style="border: solid 1px #aaa; border-radius: 5px;">
+              <div style="padding-inline-start: 15px;"> 
+                <app-time-input [(ngModel)]="item.Time" 
+                  (getData)="resultReady();"
+                  Label="{{item.NoCaption? '': item.Label}}" [isBtnNow]="true"></app-time-input> 
+              </div>
+            </div>
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px; min-height: 40px;">
+              {{ convertTo12HourFormat(item.Time) }}
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'Memo'">
+            <ion-textarea *ngIf="!IsPrinting" fill="outline" type="text" [(ngModel)]="item.Value"
+              [rows]="item.Rows" label="{{ item.NoCaption? '': item.Label }}:"
+              (ionChange)="resultReady();"></ion-textarea>
+
+            <div *ngIf="IsPrinting" style="border: solid 1px #aaa; padding: 5px 10px;">
+              <div style="white-space: pre-wrap;min-height: 40px;">
+                <span *ngIf="item.Label?.length>0 && !item.NoCaption">{{item.Label}}</span>{{ item.Value }}
+              </div>
+            </div>
+          </div>
+
+
+          <div *ngSwitchCase="'RadioList'">
+            <div class="radio-group">
+              <div class="radio-header" *ngIf="item.Label.length>0 && !item.NoCaption">
+                {{ item.Label }}
+              </div>
+
+              <div class="radio-options">
+                <label class="radio-option" *ngFor="let op of item.Options" >
+                  <input *ngIf="item.Value==op.Val" type="radio" name="reportVal" [(ngModel)]="item.Value"
+                    [value]="op.Val" checked (change)="resultReady()"/>
+                  <input *ngIf="!(item.Value==op.Val)" type="radio" name="reportVal" [(ngModel)]="item.Value"
+                    [value]="op.Val" (change)="resultReady()"/>
+                  <span class="custom-radio"></span>
+                  <span class="option-label">{{ op.Name }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchDefault>WWwwwwwwww {{item.ItemType}}</div>
+
+        </ng-container>
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

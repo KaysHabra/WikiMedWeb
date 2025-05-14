@@ -1,0 +1,27 @@
+#calendar {
+  max-width: 1100px;
+  margin: 40px auto;
+}
+
+// .event-class1{
+//   background-color: #f7f7f7;
+// }
+
+.tooltip {
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.days-view{
+  ion-button{
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+}
+
+

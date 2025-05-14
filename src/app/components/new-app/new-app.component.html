@@ -1,0 +1,644 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [color]="Appointments.Deleted==0 ? 'primary': 'medium'">
+    <ion-title>
+      <ion-icon *ngIf="IsOnCall==1" name="call" color="warning"></ion-icon>
+      <ion-icon *ngIf="IsWalk==1" name="walk" color="warning"></ion-icon>
+      &nbsp;<small>{{'The Appointment' | translate}}</small> &nbsp;
+      <!-- <ion-text color="danger"> -->
+      [{{datetimeService.formatDateTimeAmPm(StartDate)}}]
+      <!-- </ion-text> -->
+
+    </ion-title>
+    <ion-buttons slot="end" *ngIf="Appointments.IDP>0">
+      <!-- <ion-button>
+        <ion-icon slot="icon-only" name="link"></ion-icon>
+      </ion-button> -->
+
+
+      <ion-button id="menu-trigger">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+
+
+      <ion-popover trigger="menu-trigger" triggerAction="click">
+        <ng-template>
+          <ion-content>
+            <ion-item (click)="meet()" button>
+              <ion-label>{{ 'Meet' | translate }}</ion-label>
+              <ion-icon slot="end" src="./assets/icons/meet.svg" color="primary"></ion-icon>
+            </ion-item>
+            <ion-item (click)="sendSmsModal()" button>
+              <ion-label>{{ 'Send SMS' | translate }}</ion-label>
+              <!-- <ion-icon slot="end" src="./assets/icons/sms.svg" color="primary"></ion-icon> -->
+              <ion-icon slot="end" name="chatbox" color="primary"></ion-icon>
+            </ion-item>
+            <ion-item (click)="copyConfirmLink()" button>
+              <ion-label>{{ 'Confirm Link' | translate }}</ion-label>
+              <ion-icon slot="end" name="cloud" color="primary"></ion-icon>
+            </ion-item>
+            <ion-item (click)="recoverAppt()" button *ngIf="Appointments.Deleted==1">
+              <ion-label>{{ 'Recover' | translate }}</ion-label>
+              <ion-icon slot="end" name="reload" color="danger"></ion-icon>
+            </ion-item>
+            <ion-item (click)="delAppt()" button *ngIf="Appointments.Deleted==0">
+              <ion-label>{{ 'Delete' | translate }}</ion-label>
+              <ion-icon slot="end" name="trash" color="danger"></ion-icon>
+            </ion-item>
+
+            <!-- <ion-button *ngIf="Appointments.Deleted==0" (click)="copyConfirmLink()" fill="outline" expand="block">
+              {{ 'Confirm Link' | translate }}
+              <ion-icon slot="end" name="cloud"></ion-icon>
+            </ion-button>
+
+            <ion-button *ngIf="Appointments.Deleted==1" (click)="recoverAppt()" color="danger" fill="solid" expand="block">
+              {{ 'Recover' | translate }}
+              <ion-icon slot="end" name="reload"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="Appointments.Deleted==0" (click)="delAppt()" color="danger" fill="solid" expand="block">
+              {{ 'Delete' | translate }}
+              <ion-icon slot="end" name="trash"></ion-icon>
+            </ion-button> -->
+          </ion-content>
+        </ng-template>
+      </ion-popover>
+
+
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" [color]="Appointments.Deleted==0 ? 'light': 'medium'">
+  <div style="height: 100%; overflow-y: auto;overflow-x: clip;">
+    <ion-card class="appt-header card-limit-border" style="margin: 5px;">
+      <ion-row>
+        <ion-col size="6" style="border-inline-end: solid 1px #ddd;">
+          <div class="lbl-info">{{'Doctor' | translate}}:
+            <ion-text color="primary">
+              {{ getDoctor()['Name'+all.LangLetter] }}
+            </ion-text>
+          </div>
+          <div class="lbl-info" style="line-height: 1.5;">
+            <div> <ion-text color="warning"> <u>{{'Serial Numbers' | translate}}</u> </ion-text></div>
+            <!-- <div class="lbl-info">{{'Patient ID' | translate}}:
+              <ion-text color="primary">
+                1231513s
+              </ion-text>
+            </div> -->
+            <div class="lbl-info">{{'Branch' | translate}}:
+              <ion-text color="primary">
+                {{ getBranchName() }}
+              </ion-text>
+            </div>
+            <div class="lbl-info">{{'Appointment Type' | translate}}:
+              <ion-text color="primary">
+                <span [ngSwitch]="AType">
+                  <span *ngSwitchCase="1">{{ 'Wait' | translate }}</span>
+                  <span *ngSwitchCase="3">{{ 'WalkIn' | translate }}</span>
+                  <span *ngSwitchCase="4">{{ 'OnLine' | translate }}</span>
+                  <span *ngSwitchDefault>{{ 'Real' | translate }}</span>
+                </span>
+                <!-- {{ (AType==0? 'Real': 'Wait') | translate }} -->
+              </ion-text>
+            </div>
+
+
+
+
+
+
+
+          </div>
+        </ion-col>
+
+        <ion-col size="6" class="ion-text-center">
+          <ion-row>
+            <ion-col size="6">
+              <div style="background: #cfdeee;border-radius: 3px; color: rgb(36, 36, 36);margin-top: 3px;">
+                <small>{{'Created User' | translate}}</small>
+              </div>
+              <div style="height: 20px; font-size: 12px;"> {{ Appointments.CreatedDate }} </div>
+            </ion-col>
+            <ion-col size="6">
+              <div style="background: #cfdeee;border-radius: 3px; color: rgb(36, 36, 36);margin-top: 3px;">
+                <small>{{'Last Confirm User' | translate}}</small>
+              </div>
+              <div style="height: 20px; font-size: 12px;"> {{Appointments.ConfirmUser}} </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <div style="background: #cfdeee;border-radius: 3px; color: rgb(36, 36, 36);">
+                <small>{{'Last Modify User' | translate}}</small>
+              </div>
+              <div style="height: 20px; font-size: 12px;"> {{ Appointments.LastModifyDate }} </div>
+            </ion-col>
+            <ion-col size="6">
+              <div style="background: #cfdeee;border-radius: 3px; color: rgb(36, 36, 36);">
+                <small>{{'Deleted User' | translate}}</small>
+              </div>
+              <div style="height: 20px; font-size: 12px;"> {{ Appointments.DeleteUser }} </div>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row style="background: var(--ion-color-warning);
+              color: black;
+              border-radius: 5px;">
+        <!-- <ion-col size="auto" style="padding: 5px;margin-bottom: -20px;">
+                <ion-text color="primary"> {{'Patient' | translate}}: </ion-text>
+              </ion-col> -->
+        <ion-col>
+          <!-- <app-gpt-autocomplete [(ngModel)]="Patient" [disabled]="!IsNew"
+              InputLabel="{{'Patient' | translate}}:"></app-gpt-autocomplete> -->
+
+          <app-patient-select-auto [(ngModel)]="Patient" [disabled]="!IsNew"
+            InputLabel="{{'Patient' | translate}}:"></app-patient-select-auto>
+        </ion-col>
+        <ion-col size="auto" style="padding-top: 3px;">
+          <ion-button (click)="newPatient()" [disabled]="!IsNew" size="small">
+            <ion-icon slot="icon-only" name="add"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+    <!-- <ion-card style="margin: 5px; padding: 15px 10px 10px 10px;">
+      <ion-checkbox [(ngModel)]="DoctorApproved" labelPlacement="end">{{ 'Doctor Approved' | translate }}</ion-checkbox>
+    </ion-card>
+
+    <ion-card class="card-limit-border" style="margin: 5px;">
+      <ion-row>
+        <ion-col style="padding: 0;">
+          <div style="padding-inline-start: 7px;">
+            <app-select-autocomplete [tblItems]="all.tblPatient" InputLabel="{{'Patient' | translate}}:"
+              [searchProp]="'NameA'" [searchProp2]="'id'"
+              (childSubmit)="getInvitedPatient($event)"></app-select-autocomplete>
+          </div>
+        </ion-col>
+        <ion-col size="auto" style="padding: 0;">
+          <ion-button (click)="newPatient()">
+            <ion-icon slot="icon-only" name="add"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card> -->
+
+    <!-- <ion-row>
+      <ion-col size="12" style="padding: 0;">
+        <ion-card class="card-limit-border" style="margin: 5px;">
+          <ion-row>
+            <ion-col style="padding: 0;">
+              <div style="padding-inline-start: 7px;">
+                <app-gpt-autocomplete [(ngModel)]="Patient" [disabled]="!IsNew"></app-gpt-autocomplete>
+
+              </div>
+            </ion-col>
+            <ion-col size="auto" style="padding: 0;">
+              <ion-button (click)="newPatient()" [disabled]="!IsNew">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+      </ion-col>
+    </ion-row> -->
+
+
+    <ion-row>
+      <ion-col size="7" style="padding-top: 0;">
+        <ion-card class="card-limit-border" style="margin: 0;">
+          <ion-card-content style="padding: 0;">
+
+
+            <div style="padding-inline-start: 7px;">
+              <app-select-autocomplete [tblItems]="tblOR" InputLabel="{{'O.R.' | translate }}"
+                [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'" [(ngModel)]="Appointments.IDOperatingRoom"
+                [ResProp]="'IDP'"></app-select-autocomplete>
+            </div>
+            <div *ngIf="tblBedRoom.length>0" style="padding-inline-start: 7px;">
+              <app-select-autocomplete [tblItems]="tblBedRoom" InputLabel="{{'BedRoom' | translate }}"
+                [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'"
+                [(ngModel)]="BedRoom"></app-select-autocomplete>
+            </div>
+
+            <div style="padding-inline-start: 7px;">
+              <app-select-autocomplete [tblItems]="tblAnesthetist" InputLabel="{{'Anesthetist' | translate}}:"
+                [searchProp]="'Name'+all.LangLetter" [searchProp2]="'ID'"
+                [(ngModel)]="Anesthetist"></app-select-autocomplete>
+            </div>
+
+            <div style="padding-inline-start: 7px;">
+              <app-select-autocomplete [tblItems]="tblOfferPkg" InputLabel="{{'Offer/Pkg' | translate}}:"
+                [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'"
+                [(ngModel)]="OfferPkg"></app-select-autocomplete>
+            </div>
+
+            <ion-input (keypress)="all.numberOnly($event)" [(ngModel)]="Duration"
+              style="margin: 0;border-bottom: solid 1px #dedede;">
+              <div slot="label">
+                <ion-text> &nbsp; &nbsp;{{'Duration' | translate}}: </ion-text>
+                <ion-text color="danger">*</ion-text>
+              </div>
+            </ion-input>
+
+
+
+          </ion-card-content>
+        </ion-card>
+
+
+      </ion-col>
+      <ion-col size="5" style="padding-top: 0">
+
+        <ion-card style="margin: 0; padding-block: 7px;">
+          <ion-card-header style="padding-block: 7px;">
+            <ion-card-subtitle>
+              <ion-text color="dark"><b>{{'Visit Type' | translate}}</b></ion-text>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content style="padding-block: 0;">
+            <ion-radio-group name="auto" [(ngModel)]="VisitType">
+              <div><ion-radio [value]="0" labelPlacement="end">{{'Visit Type' | translate}}</ion-radio></div>
+
+              <div><ion-radio [value]="1" labelPlacement="end">{{'Follow Up' | translate}}</ion-radio></div>
+              <div><ion-radio [value]="2" labelPlacement="end">{{'Return' | translate}}</ion-radio></div>
+              <div><ion-radio [value]="3" labelPlacement="end">{{'Procedure Room' | translate}}</ion-radio></div>
+              <div><ion-radio [value]="4" labelPlacement="end">{{'Clinic Procedure' | translate}}</ion-radio></div>
+            </ion-radio-group>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+
+    <ion-card class="card-limit-border" style="margin: 5px;">
+      <ion-card-content style="padding: 0;">
+        <ion-textarea [(ngModel)]="Description" style="margin: 0;" rows="1" style="border-bottom: solid 1px #ddd;">
+          <div slot="label"><ion-text> &nbsp; &nbsp;{{'Description' | translate}}: </ion-text></div>
+        </ion-textarea>
+
+        <ion-card-subtitle>
+          <ion-row>
+            <ion-col>
+              <app-select-autocomplete [tblItems]="tblService" InputLabel="{{'Service' | translate}}:"
+                [searchProp]="'Name'+all.LangLetter" [searchProp2]="'IDP'" [(ngModel)]="SelectedService"
+                [reverseLabel]="true"></app-select-autocomplete>
+            </ion-col>
+            <ion-col size="auto">
+              <ion-button size="small" (click)="addService()">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="auto">
+              <ion-button size="small" color="danger" (click)="removeAllService()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-subtitle>
+        <ion-row *ngFor="let item of tblSelService">
+          <ion-col size="3">{{ item.PartNo }}</ion-col>
+          <ion-col size="6">{{ item['Name'+all.LangLetter] }}</ion-col>
+          <ion-col size="2">{{ item.IDP }}</ion-col>
+          <ion-col size="1" class="ion-text-end">
+            <ion-icon button (click)="removeService(item)" name="close" color="danger" size="large"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="!IsNew" class="card-limit-border time-attend" style="margin: 10px 5px 5px 5px;">
+      <ion-card-content style="padding: 0;">
+        <ion-row>
+          <ion-col size="2.1" style="border-inline-end: solid 1px #dedede;">
+            <ion-button (click)="restAllAttend()" [disabled]="IsNew || Appointments.Attend==0" color="danger"
+              expand="block" size="small" style="height: 70px;">
+              {{'Reset All' | translate}}
+              <ion-icon slot="end" name="refresh"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <!-- <ion-col size="0.5"></ion-col> -->
+          <ion-col size="3.3" class="ion-text-center">
+            <!-- <ion-button (click)="setAttendedTimeNow()" style="margin-top: 0;" 
+            [disabled]="IsNew || Appointments.Attend>=1" color="primary"
+              shape="round" fill="clear" size="small" fill="outline"> {{'Set Now' | translate}}
+              <ion-icon slot="end" name="stopwatch"></ion-icon>
+            </ion-button> -->
+
+            <app-time-input [Label]="'Attend Time:'" [(ngModel)]="AttendTime"
+              [disabled]="Appointments.Attend>=1"></app-time-input>
+            <ion-button (click)="setAttendedTime()" [disabled]="Appointments.Attend>=1" color="primary" expand="block"
+              size="small" shape="round">
+              {{'Now Attend Time' | translate}}
+            </ion-button>
+          </ion-col>
+
+          <ion-col size="3.3" class="ion-text-center">
+            <!-- <ion-button (click)="setAttendedEnterNow()" style="margin-top: 0;" 
+              [disabled]="IsNew || Appointments.Enter==1" color="warning"
+              shape="round" fill="clear" size="small" fill="outline">
+              {{'Set Now' | translate}}
+              <ion-icon slot="end" name="stopwatch"></ion-icon>
+            </ion-button> -->
+            <app-time-input [Label]="'Attend Enter:'" [(ngModel)]="AttendEnter"
+              [disabled]="Appointments.Attend==0 || Appointments.Enter==1"></app-time-input>
+
+            <ion-button (click)="setAttendedEnter()" [disabled]="Appointments.Attend==0 || Appointments.Enter==1"
+              color="warning" expand="block" size="small" shape="round">
+              {{'Now Enter Time' | translate}}
+            </ion-button>
+          </ion-col>
+
+          <ion-col size="3.3" class="ion-text-center">
+            <!-- <ion-button (click)="setAttendedOutNow()" style="margin-top: 0;" 
+            [disabled]="IsNew || Appointments.AOut==1" color="warning"
+              shape="round" fill="clear" size="small" fill="outline">
+              {{'Set Now' | translate}}
+              <ion-icon slot="end" name="stopwatch"></ion-icon>
+            </ion-button> -->
+
+            <app-time-input [Label]="'Attend Out:'" [(ngModel)]="AttendOut"
+              [disabled]="Appointments.Attend==0 || Appointments.Enter==0 || Appointments.AOut==1"></app-time-input>
+
+            <ion-button (click)="setAttendedOut()"
+              [disabled]="Appointments.Attend==0 || Appointments.Enter==0 || Appointments.AOut==1" color="warning"
+              expand="block" size="small" shape="round">
+              {{'Now Out Time' | translate}}
+            </ion-button>
+            <!-- <ion-item [disabled]="IsNew || Appointments.Attend==0 || Appointments.AttendOut != '00:00:00'" button="true" id="attend-out-time" color="warning">
+              <ion-text>{{ AttendOut }}</ion-text>
+            </ion-item>
+            <ion-popover trigger="attend-out-time" show-backdrop="false">
+              <ng-template>
+                <ion-datetime presentation="time" showDefaultButtons="true" #popovertime locale="en-UA" hour-cycle="h12"
+                  (ionChange)="AttendOut = formatTime(popovertime.value)"></ion-datetime>
+              </ng-template>
+            </ion-popover> -->
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="cancel()" color="danger" expand="block">
+          <ion-icon slot="start" name="close"></ion-icon>
+          {{'Close' | translate}}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="save()" color="success" expand="block">
+          <ion-icon slot="start" name="save"></ion-icon>
+          {{'Save' | translate}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+
+
+
+
+<ion-modal [isOpen]="isSmsModalOpen" (didDismiss)="isSmsModalOpen=false;" class="sms-modal">
+  <ng-template style="border: solid">
+    <ion-header mode="ios">
+      <ion-toolbar color="primary">
+        <ion-title>{{'Send SMS Message' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isSmsModalOpen=false;" color="danger">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <ion-card>
+        <ion-card-header class="ion-text-center">
+          <ion-card-title>
+            {{ tblPatientSmsData[0]["Name"+all.LangLetter] }} {{ tblPatientSmsData[0].FileNo }}
+          </ion-card-title>
+          <ion-card-subtitle>{{'Mobile No' | translate}}: {{ tblPatientSmsData[0].Phon1 }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row>
+            <ion-col size="11">
+              <ion-select [(ngModel)]="SelectedSms" label="{{'SMS Template' | translate }}:"
+                style="border: solid 2px #aaa; border-radius: 5px; ">
+                <ion-select-option *ngFor="let item of tblTextTemplate" [value]="item">
+                  <!-- {{ item.TextTemp}} -->
+                  {{ replacePlaceholders(item.TextTemp, SmsTempVar) }}
+                </ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="1">
+              <ion-button (click)="editSms()">
+                <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <div style="line-height: 1.2;" *ngIf="SelectedSms">
+            {{ replacePlaceholders(SelectedSms.TextTemp, SmsTempVar) }}
+          </div>
+
+
+        </ion-card-content>
+      </ion-card>
+    </ion-content>
+    <ion-footer>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button (click)="isSmsModalOpen=false;" color="danger" expand="block">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Close' | translate}}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button (click)="sendSMS()" color="success" expand="block">
+            <ion-icon slot="start" name="send"></ion-icon>
+            {{'Send' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+
+
+<ion-modal [isOpen]="isSmsTempModal" (didDismiss)="isSmsTempModal=false;" class="sms-template-modal">
+  <ng-template style="border: solid">
+    <ion-header mode="ios">
+      <ion-toolbar color="warning">
+        <ion-buttons slot="start">
+          <ion-button (click)="nextTemp(1)" [disabled]="SmsTempIndex==0" matTooltip="{{'First' | translate}}"
+            color="primary">
+            <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'play-skip-forward' : 'play-skip-back'"></ion-icon>
+          </ion-button>
+          <ion-button (click)="nextTemp(2)" [disabled]="SmsTempIndex==0" matTooltip="{{'Previous' | translate}}"
+            color="primary">
+            <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'caret-forward' : 'caret-back'"></ion-icon>
+          </ion-button>
+          <ion-button (click)="nextTemp(3)" [disabled]="SmsTempIndex==this.tblTextTemplate.length-1"
+            matTooltip="{{'Next' | translate}}" color="primary">
+            <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'caret-back' : 'caret-forward'"></ion-icon>
+          </ion-button>
+          <ion-button (click)="nextTemp(4)" [disabled]="SmsTempIndex==this.tblTextTemplate.length-1"
+            matTooltip="{{'Last' | translate}}" color="primary">
+            <ion-icon slot="icon-only" [name]="all.LangLetter=='A'? 'play-skip-back' : 'play-skip-forward'"></ion-icon>
+          </ion-button>
+
+          <ion-button (click)="newSmsTemp()" fill="outline" color="primary">
+            <ion-icon slot="icon-only" name="add"></ion-icon>
+          </ion-button>
+
+          <ion-button (click)="delSmsTemp()" fill="outline" color="danger">
+            <ion-icon slot="icon-only" name="add"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+
+        <ion-title>{{'SMS Template' | translate }}</ion-title>
+        <ion-buttons slot="end">
+
+
+
+          <ion-button color="danger">
+            <ion-icon slot="icon-only" name="logo-youtube"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <ion-card>
+        <ion-row>
+          <ion-col size="5">
+            <ion-input [(ngModel)]="SmsTemplate.ID" label="Public ID:" inputmode="decimal" fill="outline"
+              (keypress)="all.isPositiveNumberEntering($event)"></ion-input>
+            <ion-input [(ngModel)]="SmsTemplate.Group" label="Group:" fill="outline"></ion-input>
+            <ion-input [(ngModel)]="SmsTemplate.NameE" label="NameE:" fill="outline"></ion-input>
+            <ion-input [(ngModel)]="SmsTemplate.NameA" label="NameA:" fill="outline"></ion-input>
+          </ion-col>
+          <ion-col size="7">
+            <div style="box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset; 
+              max-height: 200px;overflow-y: auto; line-height: 1.2;border-radius: 5px;background: #eee;padding:10px">
+              <h5 style="text-align: center;border-bottom: solid 1px;">Parameter Help and Examples</h5>
+              <p>
+                <ion-button (click)="SmsTemplate.TextTemp = SmsTemplate.TextTemp + '%ADate'" fill="clear" size="small"
+                  class="temp-btn">
+                  %ADate
+                </ion-button>= السبت 09:30 م 11-6-2011
+              </p>
+              <p> <ion-button (click)="SmsTemplate.TextTemp = SmsTemplate.TextTemp + '%ADate'" fill="clear" size="small"
+                  class="temp-btn">
+                  %ATime
+                </ion-button>= 09:30 م </p>
+              <p> <ion-button (click)="SmsTemplate.TextTemp = SmsTemplate.TextTemp + '%ADate'" fill="clear" size="small"
+                  class="temp-btn">
+                  %AType
+                </ion-button> = مؤكد / Confirm - إنتظار / Waiting - حالي / Walk In </p>
+              <p> %NameA or %NameE = Arabic or English of Full Patient Name </p>
+              <p> %PFirstNameA or %PFirstNameE = Arabic or English of First Patient Name </p>
+              <p> %PLastNameA or %PLastNameE = Arabic or English of Last Patient Name </p>
+              <p> %DName = Arabic or English of Doctor Name </p>
+              <p> %SName = Short Number of Doctor </p>
+              <p> %OName = Arabic or English of Operating Room </p>
+              <p> %User = Log on User name </p> **
+              <p> %Now = Now Date and time</p>
+              <p> %DateTime = Now Date and time</p> **
+              <p> %Time = Now Time</p>
+              <p> %Date = Now Date</p>
+              <p> %DayName = Now Day Name</p>
+              <p> %Phone1 , %Phone2 , %Phone3 = Patient telephones</p>
+              <p> %FileNo = Patient File No</p>
+              <p> %IDPatient = ID Number for patient to use it in database by devlopers</p>
+              <p> %IDAppointment = ID Number for appointment to use it in database by devlopers</p>
+              <p> %AddConfirmingWebPage = Add Confirming Web Page to let patient confirm by him self</p>
+
+            </div>
+          </ion-col>
+
+          <ion-col size="12">
+            <ion-textarea [(ngModel)]="SmsTemplate.TextTemp" label="Text Temp:" rows="5" fill="outline"
+              labelPlacement="stacked"></ion-textarea>
+            <ion-text color="danger">
+              Arabic SMS, Chars=128 Remain chars = -58
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-content>
+    <ion-footer>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button (click)="isSmsTempModal=false;" color="danger" expand="block">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Close' | translate}}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button (click)="sendSMS()" color="success" expand="block">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+
+
+
+
+<!-- Meet -->
+ <ion-modal [isOpen]="isMeetModalOpen" (didDismiss)="isMeetModalOpen=false;" class="sms-modal">
+  <ng-template style="border: solid">
+    <ion-header mode="ios">
+      <ion-toolbar color="primary">
+        <ion-title>{{'Send SMS Message' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isMeetModalOpen=false;" color="danger">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="light">
+      <ion-card>
+        <ion-card-header class="ion-text-center">
+          <ion-card-title>
+            {{'Application Meeting Session'}}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-textarea label="{{'Join Url' | translate}}:" [(ngModel)]="MeetData.Join_Url" rows="3" labelPlacement="stacked" fill="outline"></ion-textarea>
+          <ion-input label="{{'Host Email' | translate}}:" [(ngModel)]="MeetData.Host_Email" style="margin-block: 5px;" type="text" fill="outline"></ion-input>
+          <ion-textarea label="{{'Description' | translate}}:" [(ngModel)]="MeetData.Description" rows="3" labelPlacement="stacked" fill="outline"></ion-textarea>
+        </ion-card-content>
+      </ion-card>
+    </ion-content>
+    <ion-footer>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button (click)="isMeetModalOpen=false;" color="danger" expand="block">
+            <ion-icon slot="start" name="close"></ion-icon>
+            {{'Close' | translate}}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button (click)="sendSMS()" color="success" expand="block">
+            <ion-icon slot="start" name="save"></ion-icon>
+            {{'Save' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

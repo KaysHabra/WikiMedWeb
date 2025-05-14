@@ -1,0 +1,130 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" style="background: #f6e58d7c;">
+    <ion-button (click)="getPatients()" expand="block" fill="clear" shape="round">
+      getParient
+    </ion-button>
+
+    <ion-searchbar placeholder="Filter Pizza" [(ngModel)]="TestSearch" type="decimal" (ionInput)="onSearchChange($event)" [debounce]="250" showCancelButton="always"></ion-searchbar>
+    <ion-list>
+      <ion-item>
+        <ion-label>Name</ion-label>
+      </ion-item>
+      <ion-item *ngFor="let item of tblfilterPatient">
+        <ion-label>{{item.NameA}} - {{item.NameE}} </ion-label>
+      </ion-item>
+    </ion-list>
+
+
+  <div style="max-height: 100%;">
+    <div [innerHTML]="rtf_html">
+
+    </div>
+
+
+
+    <ion-row>
+      <ion-col size-lg="2" size-md="3">
+        <div>
+          <ion-button (click)="getEventByID()" size="small" shape="round">
+            getEventByID
+          </ion-button>
+          <ion-button (click)="reRender()" size="small" shape="round">
+            reRender
+          </ion-button>
+
+          <ion-row class="days-view">
+            <ion-col size="1.71" style="padding: 0;">
+              <ion-button (click)="viewDays(1)" fill="clear" >
+                1
+              </ion-button>
+            </ion-col>
+            <ion-col size="1.71" style="padding: 0;">
+              <ion-button (click)="viewDays(2)" fill="clear" >
+                2
+              </ion-button>
+            </ion-col>
+            <ion-col size="1.71" style="padding: 0;">
+              <ion-button (click)="viewDays(3)" fill="clear" >
+                3
+              </ion-button>
+            </ion-col>
+            <ion-col size="1.71" style="padding: 0;">
+              <ion-button (click)="viewDays(7)" fill="clear" >
+                7
+              </ion-button>
+            </ion-col>
+            <ion-col size="1.71" style="padding: 0;">
+              <ion-button (click)="viewDays(14)" fill="clear" >
+                14
+              </ion-button>
+            </ion-col>
+            <ion-col size="1.71" style="padding: 0;">
+              <ion-button (click)="viewDays(28)" fill="clear" >
+                28
+              </ion-button>
+            </ion-col>
+            <ion-col size="1.71" style="padding: 0; background: #eee;">
+              <ion-input inputmode="decimal" [(ngModel)]="ViewDayCount" (keypress)="numberOnly($event)"
+              class="ion-text-center"></ion-input>
+            </ion-col>
+          </ion-row>
+        </div>
+
+        <ion-datetime presentation="date" (ionChange)="setDate()" [(ngModel)]="CurrentDate"></ion-datetime>
+      </ion-col>
+      <ion-col size-lg="10" size-md="9">
+        <div  id='calendar' style="width: 100%; max-width: 100%; margin-top: 0;"></div>
+      </ion-col>
+    </ion-row>
+  </div>
+
+
+  <div id="context-menu" class="context-menu">
+    <ul class="menu-slot" >
+      <li (click)="newApp()">New Appointment</li>
+      <li >On Call Booking</li>
+      <li > Open Patient File </li>
+      <li > Confirm Appointment </li>
+      <li > ChargeSlip </li>
+      <li > Create Invoice </li>
+      <li  class="submenu"> Schedules 
+        <ul class="submenu-items">
+          <li>خدمة 1</li>
+          <li>خدمة 2</li>
+          <li>خدمة 3</li>
+        </ul>
+      </li>
+      <li > </li>
+    </ul>
+  </div>
+  
+
+  <!-- <ul class="context-menu" id="contextMenu">
+    <li> New Appointment </li>
+    <li> On Call Booking </li>
+    <li> Open Patient File </li>
+    <li> Confirm Appointment </li>
+    <li> ChargeSlip </li>
+    <li> Create Invoice </li>
+    <li class="submenu">
+      Schedules  > 
+      <ul class="submenu-items">
+        <li>إجراء فرعي 1</li>
+        <li>إجراء فرعي 2</li>
+      </ul>
+    </li>
+    <li>إغلاق</li>
+  </ul> -->
+
+
+</ion-content>

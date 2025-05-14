@@ -1,0 +1,22 @@
+<!-- <div class="time-input-container">
+  <input type="time" (change)="onTimeChange($event)">
+</div> -->
+
+<div class="time-input-container" style="position: relative;">
+  <!-- <ion-button  size="small" 
+    style="position: absolute; left: 89px;top: -11px; z-index: 9999;min-height: 10px;height: 16px;">
+    <ion-icon slot="icon-only" name="time"></ion-icon>
+  </ion-button> -->
+  
+
+
+  <mat-form-field [appearance]="appearance" >
+    <mat-label *ngIf="Label.length>0">{{Label}}</mat-label>
+    <input type="time" matInput [(ngModel)]="TimeStr" (change)="setTime();" [disabled]="disabled"/>
+  </mat-form-field>
+
+
+  <ion-button *ngIf="IsBtnNow" (click)="setTimeNow()" size="small" style="margin-top: -13px;">
+    <ion-icon slot="icon-only" name="time"></ion-icon>
+  </ion-button>
+</div>

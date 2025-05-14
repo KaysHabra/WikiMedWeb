@@ -1,0 +1,27 @@
+<div class="table-container">
+  <ion-grid class="grid-class">
+    <ion-row class="table-header">
+      <ion-col (click)="tblTempSort= getSortedIndices(tblTemp, 'ID', 'asc')">
+          ID
+          <ion-icon *ngIf="LSort.sortBy=='ID' && LSort.order=='desc'" slot="end" src="./assets/icons/down-arrow.svg"></ion-icon>
+          <ion-icon *ngIf="LSort.sortBy=='ID' && LSort.order=='asc'" slot="end" src="./assets/icons/up-arrow.svg"></ion-icon>
+      </ion-col>
+      <ion-col (click)="tblTempSort=getSortedIndices(tblTemp, 'Name', 'asc')">
+        {{'Name' | translate }}
+        <ion-icon *ngIf="LSort.sortBy=='Name' && LSort.order=='desc'" src="./assets/icons/down-arrow.svg"></ion-icon>
+        <ion-icon *ngIf="LSort.sortBy=='Name' && LSort.order=='asc'" src="./assets/icons/up-arrow.svg"></ion-icon>
+      </ion-col>
+      <ion-col (click)="tblTempSort=getSortedIndices(tblTemp, 'BirthDay', 'desc', true)">
+        {{'BirthDay' | translate }}
+        <ion-icon *ngIf="LSort.sortBy=='BirthDay' && LSort.order=='desc'" src="./assets/icons/down-arrow.svg"></ion-icon>
+        <ion-icon *ngIf="LSort.sortBy=='BirthDay' && LSort.order=='asc'" src="./assets/icons/up-arrow.svg"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let i of tblTempSort" class="table-row">
+      <ion-col >{{tblTemp[i].ID}}</ion-col>
+      <ion-col >{{tblTemp[i].Name}}</ion-col>
+      <ion-col >{{tblTemp[i].BirthDay}}</ion-col>
+    </ion-row> 
+  </ion-grid>
+  
+</div>

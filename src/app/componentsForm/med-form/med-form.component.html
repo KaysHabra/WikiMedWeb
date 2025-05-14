@@ -1,0 +1,150 @@
+<!-- <ion-button (click)="printForm()" expand="block" shape="round">
+  printForm
+  <ion-icon slot="end" name="print"></ion-icon>
+</ion-button> -->
+<!-- <app-time-input></app-time-input>
+<app-time-picker></app-time-picker> -->
+<div style="height: calc(100vh - 194px); overflow-y: auto; padding: 10px; border-radius: 5px; background: #fff;">
+  <!-- <ion-card style="padding: 10px;margin: 0;"> -->
+  <div id="print-form">
+
+
+    <!-- <div>
+      <app-med-form-image [IsPrinting]="IsPrinting" (ResultSubmit)="getImageResult($event);" 
+        [tblResult]="[]"></app-med-form-image>
+    </div> -->
+
+    <div *ngFor="let item of tblFormItems; let i=index;">
+      <!-- --** {{ item.ID }} **--
+        IDForm{{item.IDForm }} |
+        IDNature:{{item.IDNature }} |
+        Visible:{{item.Visible }} |
+        NameE:{{item.NameE }} |
+        NameA:{{item.NameA }} |
+  
+        FieldDataSize:{{item.FieldDataSize }} |
+        FieldIsRequired:{{item.FieldIsRequired }} |
+        CharsInLine:{{item.CharsInLine }} |
+        LinesInHeight:{{item.LinesInHeight }} |
+        DefaultColor:{{item.DefaultColor }} |
+        FieldDataType:{{item.FieldDataType }} |
+        ListValues:{{item.ListValues }} |
+        ReportVal:{{ item.ReportVal }} -->
+      <!-- ReportVal:{{ item.Report }} -->
+
+
+      <div style="display: flex;">
+        <div style="width: 25px;" 
+          *ngIf="item.FieldDataType!='Panel' 
+            && item.FieldDataType!='Label'
+            && item.FieldDataType!='Image'">
+          {{i+1}}:
+
+        </div>
+        <div [ngStyle]="{'width': item.FieldDataType=='Panel' 
+          || item.FieldDataType=='Label'
+          || item.FieldDataType=='Image'? '100%':'calc(100% - 25px)'}">
+
+
+          <div>FieldDataType:{{item.FieldDataType }}</div>
+
+          <div *ngIf="item.FieldDataType=='Archives' && item.Visible">
+            <app-med-form-archives [IsPrinting]="IsPrinting" [Lang]="'E'" [item]="item"></app-med-form-archives>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='Panel' && item.Visible">
+            <app-med-form-panel [IsPrinting]="IsPrinting" [Lang]="'E'" [item]="item"
+              (getData)="getPanel($event, item)"></app-med-form-panel>
+          </div>
+
+
+          <div *ngIf="item.FieldDataType=='Image' && item.Visible">
+            <app-med-form-image [IsPrinting]="IsPrinting" (ResultSubmit)="getImageResult($event, item);"
+              [Report]="item.Report"></app-med-form-image>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='Label' && item.Visible"
+            style="background :#f3f6ff;margin: 5px;border: solid 1px #aaa; border-radius: 3px;padding: 5px 10px; text-align: center;">
+            {{item['Name'+all.LangLetter]}}
+          </div>
+
+          <div *ngIf="item.FieldDataType=='Text' || item.FieldDataType=='Int' || item.FieldDataType=='Float'">
+            <app-med-form-text [item]="item" [IsPrinting]="IsPrinting"
+              (getData)="getText($event, item)"></app-med-form-text>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='Date' || item.FieldDataType=='Time'">
+            <app-med-form-date [item]="item" [IsPrinting]="IsPrinting"
+              (getData)="getDateOrTime($event, item)"></app-med-form-date>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='Check' && item.Visible">
+            <!-- {{ item.Report }} -->
+            <app-med-form-check [item]="item" [IsPrinting]="IsPrinting"
+              (getData)="getCheck($event, item)"></app-med-form-check>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='RadioList' && item.Visible">
+            <app-med-form-radio-list [item]="item" [IsPrinting]="IsPrinting"
+              (getData)="getRadioList($event, item)"></app-med-form-radio-list>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='CheckList' && item.Visible">
+            <app-med-form-check-list [item]="item" [IsPrinting]="IsPrinting"
+              (getData)="getCheckList($event, item)"></app-med-form-check-list>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='Combo' && item.Visible">
+            <app-med-form-combo [item]="item" [IsPrinting]="IsPrinting"
+              (getData)="getCombo($event, item)"></app-med-form-combo>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='Doc' && item.Visible">
+            <app-med-form-doc [item]="item" [IsPrinting]="IsPrinting"
+              (getData)="getDoc($event, item)"></app-med-form-doc>
+          </div>
+
+          <div *ngIf="item.FieldDataType=='ICD10' && item.Visible">
+            <app-med-form-icd10 [item]="item" [tblItem]="tblDiagnosis" (getData)="getICD10($event, item)"
+              [IsPrinting]="IsPrinting" SearchProp="Diagnosis" SearchProp2="Code" ResProp='ID'></app-med-form-icd10>
+          </div>
+
+          <!-- <div *ngIf="item.FieldDataType=='Calc' && item.Visible">
+            <app-med-form-calc [item]="item" [IsPrinting]="IsPrinting" [tblItems]="FormRows"></app-med-form-calc>
+          </div> -->
+        </div>
+      </div>
+
+
+      <!-- <div *ngIf="item.FieldDataType=='Text'">
+          <app-time-input [(ngModel)]="item.ReportVal" Label="{{item['Name'+all.LangLetter]}}:"></app-time-input>
+        </div> -->
+
+
+      <!-- <ion-input *ngIf="item.FieldDataType=='Text'" 
+          [type]="item.FieldDataType=='Text'? 'text': 'text'"
+          [maxlength]="item.FieldDataSize>0? item.FieldDataSize: ''"
+          
+        ></ion-input> -->
+    </div>
+
+  </div>
+  <!-- </ion-card> -->
+</div>
+
+<ion-footer>
+  <ion-row>
+    <!-- <ion-col size="6">
+      <ion-button expand="block" color="danger">
+        <ion-icon slot="start" name="close"></ion-icon>
+        {{'Cancel' | translate }}
+      </ion-button>
+    </ion-col> -->
+    <ion-col size="12">
+      <ion-button (click)="save()" expand="block" color="success">
+        <ion-icon slot="start" name="save"></ion-icon>
+        {{'Save' | translate }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

@@ -1,0 +1,36 @@
+# version: '3.8'
+
+# services:
+#   ionwikimedweb:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: ionwikimedweb-container
+#     ports:
+#       - "8100:8100"
+#     volumes:
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#     environment:
+#       - NODE_ENV=development
+#     restart: unless-stopped
+
+
+# version: '3.8'
+# services:
+#   ionwikimedweb:
+#     image: kays2025/ionwikimedweb:latest
+#     ports:
+#       - "8100:8100"
+#     restart: unless-stopped
+
+
+version: '3.8'
+services:
+  ionwikimedweb:
+    image: kays2025/ionwikimedweb:latest
+    ports:
+      - "8100:8100"
+    command: ionic serve --external --host=0.0.0.0
+    environment:
+      - NODE_ENV=development

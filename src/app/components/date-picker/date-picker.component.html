@@ -1,0 +1,41 @@
+<div class="date-picker-container">
+  <ion-button id="date-menu-trigger" size="small" 
+    style="position: absolute; right: 0;top: -10px; z-index: 9999;min-height: 10px;height: 16px;">
+    <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+  </ion-button>
+  <ion-popover trigger="date-menu-trigger" triggerAction="click">
+    <ng-template>
+      <ion-content>
+        <ion-item button (click)="today()">
+          <ion-label>{{'Today' | translate}}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getMonthDate('first')">
+          <ion-label>{{'First day of current month' | translate }}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getMonthDate('last')">
+          <ion-label>{{'Last day of current month' | translate}}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getWeekdayDate(0)">
+          <ion-label>{{'First day of current week' | translate}}</ion-label>
+        </ion-item>
+        <ion-item button (click)="getWeekdayDate(1)">
+          <ion-label>{{'Last day of current week' | translate}}</ion-label>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+
+
+
+
+  <ion-input #dateInput type="text" [(ngModel)]="dateValue" (keyup)="onInputChange($event)" placeholder="yyyy-mm-dd">
+    <div *ngIf="Label && Label.length>0" slot="label">
+      <ion-text [color]="LabelColor"> &nbsp; {{Label}}</ion-text>
+    </div>
+  </ion-input>
+
+  <ion-icon *ngIf="IsCalendar" name="calendar-outline" class="calendar-icon" (click)="openCalendar()"></ion-icon>
+
+  <ion-datetime *ngIf="showCalendar" [presentation]="'date'" [value]="dateValue" (ionChange)="onDateSelected($event)">
+  </ion-datetime>
+</div>
