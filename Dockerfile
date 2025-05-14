@@ -1,20 +1,20 @@
+# استخدم صورة node الرسمية
 FROM node:18
 
-# تثبيت Ionic CLI
-RUN npm install -g @ionic/cli
-
-# تحديد مجلد العمل
+# إعداد مجلد العمل داخل الحاوية
 WORKDIR /app
 
-# نسخ الملفات الخاصة بالمكتبات فقط
-COPY package*.json ./
-RUN npm install
-
-# نسخ باقي المشروع
+# نسخ ملفات المشروع
 COPY . .
 
-# فتح المنفذ المطلوب
+# تثبيت Ionic و Angular CLI
+RUN npm install -g @angular/cli @ionic/cli
+
+# تثبيت الحزم
+RUN npm install
+
+# فتح البورت المناسب
 EXPOSE 8100
 
-# تشغيل السيرفر مباشرة داخل Docker
-CMD ["ionic", "serve", "--external", "--no-open", "--host=0.0.0.0"]
+# أمر التشغيل
+CMD ["ionic", "serve", "--host=0.0.0.0", "--port=8100"]

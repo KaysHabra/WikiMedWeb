@@ -4,3 +4,5 @@ node_modules
 dist
 .angular
 .vscode
+.gitignore
+Dockerfile
